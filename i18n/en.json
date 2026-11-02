@@ -1,0 +1,3 @@
+{
+  "waiAria_report_note": "One result per WAI-ARIA 1.2 author requirement, from the rules that check it, judged by WAI-ARIA's own wording. A requirement no rule failed is a question, not a pass: the rules check what the markup states, not everything the requirement covers."
+}

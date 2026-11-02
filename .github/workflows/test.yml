@@ -1,0 +1,33 @@
+name: Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [22.x, 24.x, 26.x]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+      - run: npm ci
+      # Until core 1.15 is published: the pack needs its rule map's
+      # outcome 'fail', so the tests run against core's main branch.
+      - env:
+          CORE_REF: main
+        run: |
+          git clone --depth 1 --branch "$CORE_REF" https://github.com/SureA11y/core.git ../core
+          (cd ../core && npm ci --ignore-scripts)
+          rm -rf node_modules/@surea11y/core
+          ln -s "$PWD/../core" node_modules/@surea11y/core
+      - run: npm test
