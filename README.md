@@ -8,6 +8,30 @@ const waiAria = require('@surea11y/pack-wai-aria');
 runDomRulesInPage(url, null, { packs: [waiAria], profile: 'wai-aria-1.2' });
 ```
 
+## With WCAG, or another standard
+
+A scan can judge the page by WAI-ARIA and by WCAG, or by another pack's standard, at once (core 1.15): each profile judges it as it would alone, and the result reads as one profile with the rules of all.
+
+```js
+const result = runDomRulesInPage(url, null, {
+  packs: [waiAria],
+  profile: ['wcag22-aa', 'wai-aria-1.2']
+});
+
+// <div role="group" aria-checked="true">: an attribute the role doesn't
+// support, a question for WCAG 4.1.2 and a failure of WAI-ARIA.
+const check = result.checksResults.find((c) => c.ruleId === 'aria-allowed-attr');
+check.verdicts;     // { 'wcag22-aa': 'cantTell', 'wai-aria-1.2': 'fail' }
+check.outcome;      // 'fail', the worst of them, which SARIF and JUnit gate on
+check.checkOutcome; // 'cantTell', the rule's own, which WCAG's criteria read
+
+result.profiles['wai-aria-1.2'].rulesResults; // this standard's results, by id
+```
+
+A rule both profiles run is one check with a verdict from each, as above. Names are the exception: under this profile they are checked by the pack's variant of core's rule, `wai-aria-role-name-present`, which covers every role WAI-ARIA requires a name for. So an unnamed `role="grid"` is two checks, as two rules always are: core's `aria-role-name-present` (`{ 'wcag22-aa': 'cantTell' }`) and the variant (`{ 'wai-aria-1.2': 'fail' }`).
+
+With `@surea11y/pack-en301549`, `profile: ['en301549-v4.1.1', 'wai-aria-1.2']` judges the page by EN 301 549 and WAI-ARIA. Core's [`OUTPUT_SCHEMA.md`](https://github.com/SureA11y/core/blob/main/docs/OUTPUT_SCHEMA.md#several-profiles) has the whole result, and what SARIF, JUnit, EARL, the HTML report and baselines do with it.
+
 ## Why a standard of its own
 
 Core's ARIA rules are WCAG rules. A WCAG scan reports every WAI-ARIA violation they find, as a WCAG failure or as a question for a person. The two can differ: an unnamed `role="grid"` breaks WAI-ARIA's "Accessible Name Required" for certain, but whether it fails WCAG 4.1.2 depends on what the page shows, so WCAG asks. This pack reads the same findings by WAI-ARIA, where the grid fails.
