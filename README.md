@@ -34,6 +34,10 @@ Each is a result, `wai-aria-1.2-<requirement>`:
 
 `rule-map.js` lists, for each of core's 30 rules that check a WAI-ARIA requirement, what each of its reason codes means under WAI-ARIA, from the specification's wording: `outcome: 'fail'` for a MUST, `outcome: 'cantTell'` for a SHOULD or what script decides, and `requirements: []` for a code WAI-ARIA states no author requirement for. Every code is placed; a test fails when core adds one the map doesn't.
 
+## What it covers
+
+[`docs/COVERAGE.md`](docs/COVERAGE.md) lists every WAI-ARIA 1.2 author requirement a rule can check from the markup, one case per role, state or property, and what the profile makes of each: a failure, a question, or nothing yet. `npm run inventory` builds it again from the Recommendation's own role tables ([`scripts/data/wai-aria-1.2.json`](scripts/data/wai-aria-1.2.json), read by `scripts/extract-spec.js`) and the core it runs with.
+
 ## Development
 
 ```sh

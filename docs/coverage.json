@@ -1,0 +1,4489 @@
+[
+  {
+    "requirement": "name-required",
+    "module": "WAI-ARIA 1.2",
+    "role": "alertdialog",
+    "case": "no accessible name",
+    "status": "fail",
+    "failsUnder": [
+      "name-required"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "dialog-name-present"
+    ]
+  },
+  {
+    "requirement": "name-required",
+    "module": "WAI-ARIA 1.2",
+    "role": "application",
+    "case": "no accessible name",
+    "status": "missed",
+    "failsUnder": [],
+    "asksUnder": [],
+    "reportedBy": []
+  },
+  {
+    "requirement": "name-required",
+    "module": "WAI-ARIA 1.2",
+    "role": "button",
+    "case": "no accessible name",
+    "status": "fail",
+    "failsUnder": [
+      "name-required"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "button-name-present"
+    ]
+  },
+  {
+    "requirement": "name-required",
+    "module": "WAI-ARIA 1.2",
+    "role": "checkbox",
+    "case": "no accessible name",
+    "status": "fail",
+    "failsUnder": [
+      "name-required"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "binary-control-name-present"
+    ]
+  },
+  {
+    "requirement": "name-required",
+    "module": "WAI-ARIA 1.2",
+    "role": "columnheader",
+    "case": "no accessible name",
+    "status": "missed",
+    "failsUnder": [],
+    "asksUnder": [],
+    "reportedBy": []
+  },
+  {
+    "requirement": "name-required",
+    "module": "WAI-ARIA 1.2",
+    "role": "combobox",
+    "case": "no accessible name",
+    "status": "fail",
+    "failsUnder": [
+      "name-required"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "combobox-name-present"
+    ]
+  },
+  {
+    "requirement": "name-required",
+    "module": "WAI-ARIA 1.2",
+    "role": "dialog",
+    "case": "no accessible name",
+    "status": "fail",
+    "failsUnder": [
+      "name-required"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "dialog-name-present"
+    ]
+  },
+  {
+    "requirement": "name-required",
+    "module": "WAI-ARIA 1.2",
+    "role": "grid",
+    "case": "no accessible name",
+    "status": "fail",
+    "failsUnder": [
+      "name-required"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-role-name-present"
+    ]
+  },
+  {
+    "requirement": "name-required",
+    "module": "WAI-ARIA 1.2",
+    "role": "heading",
+    "case": "no accessible name",
+    "status": "missed",
+    "failsUnder": [],
+    "asksUnder": [],
+    "reportedBy": []
+  },
+  {
+    "requirement": "name-required",
+    "module": "WAI-ARIA 1.2",
+    "role": "img",
+    "case": "no accessible name",
+    "status": "fail",
+    "failsUnder": [
+      "name-required"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "role-img-text-alternative-present"
+    ]
+  },
+  {
+    "requirement": "name-required",
+    "module": "WAI-ARIA 1.2",
+    "role": "link",
+    "case": "no accessible name",
+    "status": "fail",
+    "failsUnder": [
+      "name-required"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "link-name-present"
+    ]
+  },
+  {
+    "requirement": "name-required",
+    "module": "WAI-ARIA 1.2",
+    "role": "listbox",
+    "case": "no accessible name",
+    "status": "fail",
+    "failsUnder": [
+      "name-required"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "listbox-name-present"
+    ]
+  },
+  {
+    "requirement": "name-required",
+    "module": "WAI-ARIA 1.2",
+    "role": "marquee",
+    "case": "no accessible name",
+    "status": "missed",
+    "failsUnder": [],
+    "asksUnder": [],
+    "reportedBy": []
+  },
+  {
+    "requirement": "name-required",
+    "module": "WAI-ARIA 1.2",
+    "role": "meter",
+    "case": "no accessible name",
+    "status": "fail",
+    "failsUnder": [
+      "name-required"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-role-name-present",
+      "meter-name-present"
+    ]
+  },
+  {
+    "requirement": "name-required",
+    "module": "WAI-ARIA 1.2",
+    "role": "menuitem",
+    "case": "no accessible name",
+    "status": "fail",
+    "failsUnder": [
+      "name-required"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "menuitem-name-present"
+    ]
+  },
+  {
+    "requirement": "name-required",
+    "module": "WAI-ARIA 1.2",
+    "role": "menuitemcheckbox",
+    "case": "no accessible name",
+    "status": "fail",
+    "failsUnder": [
+      "name-required"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "menuitem-name-present"
+    ]
+  },
+  {
+    "requirement": "name-required",
+    "module": "WAI-ARIA 1.2",
+    "role": "menuitemradio",
+    "case": "no accessible name",
+    "status": "fail",
+    "failsUnder": [
+      "name-required",
+      "required-states"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-attr",
+      "menuitem-name-present"
+    ]
+  },
+  {
+    "requirement": "name-required",
+    "module": "WAI-ARIA 1.2",
+    "role": "option",
+    "case": "no accessible name",
+    "status": "fail",
+    "failsUnder": [
+      "name-required"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "option-name-present"
+    ]
+  },
+  {
+    "requirement": "name-required",
+    "module": "WAI-ARIA 1.2",
+    "role": "progressbar",
+    "case": "no accessible name",
+    "status": "fail",
+    "failsUnder": [
+      "name-required"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-role-name-present",
+      "progressbar-name-present"
+    ]
+  },
+  {
+    "requirement": "name-required",
+    "module": "WAI-ARIA 1.2",
+    "role": "radio",
+    "case": "no accessible name",
+    "status": "fail",
+    "failsUnder": [
+      "name-required"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "binary-control-name-present"
+    ]
+  },
+  {
+    "requirement": "name-required",
+    "module": "WAI-ARIA 1.2",
+    "role": "radiogroup",
+    "case": "no accessible name",
+    "status": "fail",
+    "failsUnder": [
+      "name-required"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-role-name-present"
+    ]
+  },
+  {
+    "requirement": "name-required",
+    "module": "WAI-ARIA 1.2",
+    "role": "region",
+    "case": "no accessible name",
+    "status": "fail",
+    "failsUnder": [
+      "name-required"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "landmark-role-name-present"
+    ]
+  },
+  {
+    "requirement": "name-required",
+    "module": "WAI-ARIA 1.2",
+    "role": "rowheader",
+    "case": "no accessible name",
+    "status": "missed",
+    "failsUnder": [],
+    "asksUnder": [],
+    "reportedBy": []
+  },
+  {
+    "requirement": "name-required",
+    "module": "WAI-ARIA 1.2",
+    "role": "searchbox",
+    "case": "no accessible name",
+    "status": "fail",
+    "failsUnder": [
+      "name-required"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "searchbox-name-present"
+    ]
+  },
+  {
+    "requirement": "name-required",
+    "module": "WAI-ARIA 1.2",
+    "role": "slider",
+    "case": "no accessible name",
+    "status": "fail",
+    "failsUnder": [
+      "name-required"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "slider-name-present"
+    ]
+  },
+  {
+    "requirement": "name-required",
+    "module": "WAI-ARIA 1.2",
+    "role": "spinbutton",
+    "case": "no accessible name",
+    "status": "fail",
+    "failsUnder": [
+      "name-required"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "spinbutton-name-present"
+    ]
+  },
+  {
+    "requirement": "name-required",
+    "module": "WAI-ARIA 1.2",
+    "role": "switch",
+    "case": "no accessible name",
+    "status": "fail",
+    "failsUnder": [
+      "name-required"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "binary-control-name-present"
+    ]
+  },
+  {
+    "requirement": "name-required",
+    "module": "WAI-ARIA 1.2",
+    "role": "table",
+    "case": "no accessible name",
+    "status": "missed",
+    "failsUnder": [],
+    "asksUnder": [],
+    "reportedBy": []
+  },
+  {
+    "requirement": "name-required",
+    "module": "WAI-ARIA 1.2",
+    "role": "tabpanel",
+    "case": "no accessible name",
+    "status": "missed",
+    "failsUnder": [],
+    "asksUnder": [],
+    "reportedBy": []
+  },
+  {
+    "requirement": "name-required",
+    "module": "WAI-ARIA 1.2",
+    "role": "textbox",
+    "case": "no accessible name",
+    "status": "fail",
+    "failsUnder": [
+      "name-required"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "textbox-name-present"
+    ]
+  },
+  {
+    "requirement": "name-required",
+    "module": "WAI-ARIA 1.2",
+    "role": "tooltip",
+    "case": "no accessible name",
+    "status": "fail",
+    "failsUnder": [
+      "name-required"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "tooltip-name-present"
+    ]
+  },
+  {
+    "requirement": "name-required",
+    "module": "WAI-ARIA 1.2",
+    "role": "tree",
+    "case": "no accessible name",
+    "status": "fail",
+    "failsUnder": [
+      "name-required"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-role-name-present"
+    ]
+  },
+  {
+    "requirement": "name-required",
+    "module": "WAI-ARIA 1.2",
+    "role": "treegrid",
+    "case": "no accessible name",
+    "status": "missed",
+    "failsUnder": [],
+    "asksUnder": [],
+    "reportedBy": []
+  },
+  {
+    "requirement": "name-required",
+    "module": "WAI-ARIA 1.2",
+    "role": "treeitem",
+    "case": "no accessible name",
+    "status": "fail",
+    "failsUnder": [
+      "name-required"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "treeitem-name-present"
+    ]
+  },
+  {
+    "requirement": "name-required",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-backlink",
+    "case": "no accessible name",
+    "status": "missed",
+    "failsUnder": [],
+    "asksUnder": [],
+    "reportedBy": []
+  },
+  {
+    "requirement": "name-required",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-biblioentry",
+    "case": "no accessible name",
+    "status": "missed",
+    "failsUnder": [],
+    "asksUnder": [],
+    "reportedBy": []
+  },
+  {
+    "requirement": "name-required",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-biblioref",
+    "case": "no accessible name",
+    "status": "missed",
+    "failsUnder": [],
+    "asksUnder": [],
+    "reportedBy": []
+  },
+  {
+    "requirement": "name-required",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-glossref",
+    "case": "no accessible name",
+    "status": "missed",
+    "failsUnder": [],
+    "asksUnder": [],
+    "reportedBy": []
+  },
+  {
+    "requirement": "name-required",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-noteref",
+    "case": "no accessible name",
+    "status": "missed",
+    "failsUnder": [],
+    "asksUnder": [],
+    "reportedBy": []
+  },
+  {
+    "requirement": "name-required",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-pagebreak",
+    "case": "no accessible name",
+    "status": "missed",
+    "failsUnder": [],
+    "asksUnder": [],
+    "reportedBy": []
+  },
+  {
+    "requirement": "name-required",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-part",
+    "case": "no accessible name",
+    "status": "missed",
+    "failsUnder": [],
+    "asksUnder": [],
+    "reportedBy": []
+  },
+  {
+    "requirement": "name-required",
+    "module": "Graphics-ARIA 1.0",
+    "role": "graphics-document",
+    "case": "no accessible name",
+    "status": "fail",
+    "failsUnder": [
+      "name-required"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "role-img-text-alternative-present"
+    ]
+  },
+  {
+    "requirement": "name-required",
+    "module": "Graphics-ARIA 1.0",
+    "role": "graphics-symbol",
+    "case": "no accessible name",
+    "status": "fail",
+    "failsUnder": [
+      "name-required"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "role-img-text-alternative-present"
+    ]
+  },
+  {
+    "requirement": "roles",
+    "module": "WAI-ARIA 1.2",
+    "role": "command",
+    "case": "abstract role used",
+    "status": "fail",
+    "failsUnder": [
+      "roles"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-roles-valid"
+    ]
+  },
+  {
+    "requirement": "roles",
+    "module": "WAI-ARIA 1.2",
+    "role": "composite",
+    "case": "abstract role used",
+    "status": "fail",
+    "failsUnder": [
+      "roles"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-roles-valid"
+    ]
+  },
+  {
+    "requirement": "roles",
+    "module": "WAI-ARIA 1.2",
+    "role": "input",
+    "case": "abstract role used",
+    "status": "fail",
+    "failsUnder": [
+      "roles"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-roles-valid"
+    ]
+  },
+  {
+    "requirement": "roles",
+    "module": "WAI-ARIA 1.2",
+    "role": "landmark",
+    "case": "abstract role used",
+    "status": "fail",
+    "failsUnder": [
+      "roles"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-roles-valid"
+    ]
+  },
+  {
+    "requirement": "roles",
+    "module": "WAI-ARIA 1.2",
+    "role": "range",
+    "case": "abstract role used",
+    "status": "fail",
+    "failsUnder": [
+      "roles"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-roles-valid"
+    ]
+  },
+  {
+    "requirement": "roles",
+    "module": "WAI-ARIA 1.2",
+    "role": "roletype",
+    "case": "abstract role used",
+    "status": "fail",
+    "failsUnder": [
+      "roles"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-roles-valid"
+    ]
+  },
+  {
+    "requirement": "roles",
+    "module": "WAI-ARIA 1.2",
+    "role": "section",
+    "case": "abstract role used",
+    "status": "fail",
+    "failsUnder": [
+      "roles"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-roles-valid"
+    ]
+  },
+  {
+    "requirement": "roles",
+    "module": "WAI-ARIA 1.2",
+    "role": "sectionhead",
+    "case": "abstract role used",
+    "status": "fail",
+    "failsUnder": [
+      "roles"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-roles-valid"
+    ]
+  },
+  {
+    "requirement": "roles",
+    "module": "WAI-ARIA 1.2",
+    "role": "select",
+    "case": "abstract role used",
+    "status": "fail",
+    "failsUnder": [
+      "roles"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-roles-valid"
+    ]
+  },
+  {
+    "requirement": "roles",
+    "module": "WAI-ARIA 1.2",
+    "role": "structure",
+    "case": "abstract role used",
+    "status": "fail",
+    "failsUnder": [
+      "roles"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-roles-valid"
+    ]
+  },
+  {
+    "requirement": "roles",
+    "module": "WAI-ARIA 1.2",
+    "role": "widget",
+    "case": "abstract role used",
+    "status": "fail",
+    "failsUnder": [
+      "roles"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-roles-valid"
+    ]
+  },
+  {
+    "requirement": "roles",
+    "module": "WAI-ARIA 1.2",
+    "role": "window",
+    "case": "abstract role used",
+    "status": "fail",
+    "failsUnder": [
+      "roles"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-roles-valid"
+    ]
+  },
+  {
+    "requirement": "roles",
+    "module": "WAI-ARIA 1.2",
+    "role": "directory",
+    "case": "deprecated role used",
+    "status": "question",
+    "failsUnder": [],
+    "asksUnder": [
+      "roles"
+    ],
+    "reportedBy": [
+      "aria-deprecated-role"
+    ],
+    "note": "Deprecated in 1.2: authors SHOULD NOT use it, a question at most."
+  },
+  {
+    "requirement": "required-states",
+    "module": "WAI-ARIA 1.2",
+    "role": "checkbox",
+    "case": "no aria-checked",
+    "status": "fail",
+    "failsUnder": [
+      "required-states"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-attr"
+    ]
+  },
+  {
+    "requirement": "required-states",
+    "module": "WAI-ARIA 1.2",
+    "role": "combobox",
+    "case": "no aria-controls",
+    "status": "fail",
+    "failsUnder": [
+      "required-states"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-attr"
+    ]
+  },
+  {
+    "requirement": "required-states",
+    "module": "WAI-ARIA 1.2",
+    "role": "combobox",
+    "case": "no aria-expanded",
+    "status": "wcag only",
+    "failsUnder": [],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-attr"
+    ]
+  },
+  {
+    "requirement": "required-states",
+    "module": "WAI-ARIA 1.2",
+    "role": "heading",
+    "case": "no aria-level",
+    "status": "wcag only",
+    "failsUnder": [],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-attr"
+    ]
+  },
+  {
+    "requirement": "required-states",
+    "module": "WAI-ARIA 1.2",
+    "role": "meter",
+    "case": "no aria-valuenow",
+    "status": "fail",
+    "failsUnder": [
+      "required-states"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-attr"
+    ]
+  },
+  {
+    "requirement": "required-states",
+    "module": "WAI-ARIA 1.2",
+    "role": "menuitemcheckbox",
+    "case": "no aria-checked",
+    "status": "fail",
+    "failsUnder": [
+      "required-states"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-attr"
+    ]
+  },
+  {
+    "requirement": "required-states",
+    "module": "WAI-ARIA 1.2",
+    "role": "option",
+    "case": "no aria-selected",
+    "status": "missed",
+    "failsUnder": [],
+    "asksUnder": [],
+    "reportedBy": [],
+    "note": "1.2 gives it a default (false): no failure."
+  },
+  {
+    "requirement": "required-states",
+    "module": "WAI-ARIA 1.2",
+    "role": "radio",
+    "case": "no aria-checked",
+    "status": "fail",
+    "failsUnder": [
+      "required-states"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-attr"
+    ]
+  },
+  {
+    "requirement": "required-states",
+    "module": "WAI-ARIA 1.2",
+    "role": "scrollbar",
+    "case": "no aria-controls",
+    "status": "missed",
+    "failsUnder": [],
+    "asksUnder": [],
+    "reportedBy": []
+  },
+  {
+    "requirement": "required-states",
+    "module": "WAI-ARIA 1.2",
+    "role": "scrollbar",
+    "case": "no aria-valuenow",
+    "status": "fail",
+    "failsUnder": [
+      "required-states"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-attr"
+    ]
+  },
+  {
+    "requirement": "required-states",
+    "module": "WAI-ARIA 1.2",
+    "role": "separator",
+    "case": "no aria-valuenow (focusable)",
+    "status": "fail",
+    "failsUnder": [
+      "required-states"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-attr"
+    ]
+  },
+  {
+    "requirement": "required-states",
+    "module": "WAI-ARIA 1.2",
+    "role": "slider",
+    "case": "no aria-valuenow",
+    "status": "fail",
+    "failsUnder": [
+      "required-states"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-attr"
+    ]
+  },
+  {
+    "requirement": "required-states",
+    "module": "WAI-ARIA 1.2",
+    "role": "switch",
+    "case": "no aria-checked",
+    "status": "fail",
+    "failsUnder": [
+      "required-states"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "alert",
+    "case": "aria-disabled deprecated on the role",
+    "status": "question",
+    "failsUnder": [],
+    "asksUnder": [
+      "supported-attributes"
+    ],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ],
+    "note": "Deprecated on this role in 1.2: authors SHOULD NOT use it, a question at most."
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "alert",
+    "case": "aria-errormessage deprecated on the role",
+    "status": "question",
+    "failsUnder": [],
+    "asksUnder": [
+      "attribute-values",
+      "supported-attributes"
+    ],
+    "reportedBy": [
+      "aria-allowed-attr",
+      "aria-conditional-attr"
+    ],
+    "note": "Deprecated on this role in 1.2: authors SHOULD NOT use it, a question at most."
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "alert",
+    "case": "aria-haspopup deprecated on the role",
+    "status": "question",
+    "failsUnder": [],
+    "asksUnder": [
+      "supported-attributes"
+    ],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ],
+    "note": "Deprecated on this role in 1.2: authors SHOULD NOT use it, a question at most."
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "alert",
+    "case": "aria-invalid deprecated on the role",
+    "status": "question",
+    "failsUnder": [],
+    "asksUnder": [
+      "supported-attributes"
+    ],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ],
+    "note": "Deprecated on this role in 1.2: authors SHOULD NOT use it, a question at most."
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "alert",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "alertdialog",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "application",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "article",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "banner",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "blockquote",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "button",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "caption",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "cell",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "checkbox",
+    "case": "aria-selected not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "code",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "columnheader",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "combobox",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "complementary",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "contentinfo",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "definition",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "deletion",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "dialog",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "directory",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [
+      "roles"
+    ],
+    "reportedBy": [
+      "aria-allowed-attr",
+      "aria-deprecated-role"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "document",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "emphasis",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "feed",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "figure",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "form",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "name-required",
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr",
+      "landmark-role-name-present"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "generic",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [
+      "roles"
+    ],
+    "reportedBy": [
+      "aria-allowed-attr",
+      "aria-deprecated-role"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "grid",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "gridcell",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "group",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "heading",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "img",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "insertion",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "link",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "list",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "listbox",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "listitem",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [
+      "roles"
+    ],
+    "reportedBy": [
+      "aria-allowed-attr",
+      "aria-deprecated-role"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "log",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "main",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "marquee",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "math",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "meter",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "menu",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "menubar",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "menuitem",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "menuitemcheckbox",
+    "case": "aria-selected not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "menuitemradio",
+    "case": "aria-selected not supported",
+    "status": "fail",
+    "failsUnder": [
+      "required-states",
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr",
+      "aria-required-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "navigation",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "none",
+    "case": "aria-checked not supported",
+    "status": "missed",
+    "failsUnder": [],
+    "asksUnder": [],
+    "reportedBy": []
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "note",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "option",
+    "case": "aria-expanded not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "paragraph",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "presentation",
+    "case": "aria-checked not supported",
+    "status": "missed",
+    "failsUnder": [],
+    "asksUnder": [],
+    "reportedBy": []
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "progressbar",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "radio",
+    "case": "aria-selected not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "radiogroup",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "region",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "row",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "rowgroup",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "rowheader",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "scrollbar",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "search",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "searchbox",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "separator",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "slider",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "spinbutton",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "status",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "strong",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "subscript",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "superscript",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "switch",
+    "case": "aria-selected not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "tab",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "table",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "tablist",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "tabpanel",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "term",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "textbox",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "time",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "timer",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "toolbar",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "tooltip",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "tree",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "treegrid",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "treeitem",
+    "case": "aria-valuenow not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-abstract",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-acknowledgments",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-afterword",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-appendix",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-backlink",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-biblioentry",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-bibliography",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-biblioref",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-chapter",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-colophon",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-conclusion",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-cover",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-credit",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-credits",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-dedication",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-endnote",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-endnotes",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-epigraph",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-epilogue",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-errata",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-example",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-footnote",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-foreword",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-glossary",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-glossref",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-index",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-introduction",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-noteref",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-notice",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-pagebreak",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-pagefooter",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-pageheader",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-pagelist",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-part",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-preface",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-prologue",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-pullquote",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-qna",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-subtitle",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-tip",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-toc",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "Graphics-ARIA 1.0",
+    "role": "graphics-document",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "Graphics-ARIA 1.0",
+    "role": "graphics-object",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "supported-attributes",
+    "module": "Graphics-ARIA 1.0",
+    "role": "graphics-symbol",
+    "case": "aria-checked not supported",
+    "status": "fail",
+    "failsUnder": [
+      "supported-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-allowed-attr"
+    ]
+  },
+  {
+    "requirement": "prohibited-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "caption",
+    "case": "aria-label prohibited",
+    "status": "fail",
+    "failsUnder": [
+      "prohibited-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-prohibited-attr"
+    ]
+  },
+  {
+    "requirement": "prohibited-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "caption",
+    "case": "aria-labelledby prohibited",
+    "status": "fail",
+    "failsUnder": [
+      "prohibited-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-prohibited-attr"
+    ]
+  },
+  {
+    "requirement": "prohibited-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "code",
+    "case": "aria-label prohibited",
+    "status": "fail",
+    "failsUnder": [
+      "prohibited-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-prohibited-attr"
+    ]
+  },
+  {
+    "requirement": "prohibited-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "code",
+    "case": "aria-labelledby prohibited",
+    "status": "fail",
+    "failsUnder": [
+      "prohibited-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-prohibited-attr"
+    ]
+  },
+  {
+    "requirement": "prohibited-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "deletion",
+    "case": "aria-label prohibited",
+    "status": "fail",
+    "failsUnder": [
+      "prohibited-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-prohibited-attr"
+    ]
+  },
+  {
+    "requirement": "prohibited-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "deletion",
+    "case": "aria-labelledby prohibited",
+    "status": "fail",
+    "failsUnder": [
+      "prohibited-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-prohibited-attr"
+    ]
+  },
+  {
+    "requirement": "prohibited-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "emphasis",
+    "case": "aria-label prohibited",
+    "status": "fail",
+    "failsUnder": [
+      "prohibited-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-prohibited-attr"
+    ]
+  },
+  {
+    "requirement": "prohibited-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "emphasis",
+    "case": "aria-labelledby prohibited",
+    "status": "fail",
+    "failsUnder": [
+      "prohibited-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-prohibited-attr"
+    ]
+  },
+  {
+    "requirement": "prohibited-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "generic",
+    "case": "aria-label prohibited",
+    "status": "fail",
+    "failsUnder": [
+      "prohibited-attributes"
+    ],
+    "asksUnder": [
+      "roles"
+    ],
+    "reportedBy": [
+      "aria-deprecated-role",
+      "aria-prohibited-attr"
+    ]
+  },
+  {
+    "requirement": "prohibited-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "generic",
+    "case": "aria-labelledby prohibited",
+    "status": "fail",
+    "failsUnder": [
+      "prohibited-attributes"
+    ],
+    "asksUnder": [
+      "roles"
+    ],
+    "reportedBy": [
+      "aria-deprecated-role",
+      "aria-prohibited-attr"
+    ]
+  },
+  {
+    "requirement": "prohibited-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "generic",
+    "case": "aria-roledescription prohibited",
+    "status": "fail",
+    "failsUnder": [
+      "prohibited-attributes"
+    ],
+    "asksUnder": [
+      "roles"
+    ],
+    "reportedBy": [
+      "aria-deprecated-role",
+      "aria-prohibited-attr"
+    ]
+  },
+  {
+    "requirement": "prohibited-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "insertion",
+    "case": "aria-label prohibited",
+    "status": "fail",
+    "failsUnder": [
+      "prohibited-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-prohibited-attr"
+    ]
+  },
+  {
+    "requirement": "prohibited-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "insertion",
+    "case": "aria-labelledby prohibited",
+    "status": "fail",
+    "failsUnder": [
+      "prohibited-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-prohibited-attr"
+    ]
+  },
+  {
+    "requirement": "prohibited-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "paragraph",
+    "case": "aria-label prohibited",
+    "status": "fail",
+    "failsUnder": [
+      "prohibited-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-prohibited-attr"
+    ]
+  },
+  {
+    "requirement": "prohibited-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "paragraph",
+    "case": "aria-labelledby prohibited",
+    "status": "fail",
+    "failsUnder": [
+      "prohibited-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-prohibited-attr"
+    ]
+  },
+  {
+    "requirement": "prohibited-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "presentation",
+    "case": "aria-label prohibited",
+    "status": "fail",
+    "failsUnder": [
+      "prohibited-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-prohibited-attr"
+    ]
+  },
+  {
+    "requirement": "prohibited-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "presentation",
+    "case": "aria-labelledby prohibited",
+    "status": "fail",
+    "failsUnder": [
+      "prohibited-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-prohibited-attr"
+    ]
+  },
+  {
+    "requirement": "prohibited-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "strong",
+    "case": "aria-label prohibited",
+    "status": "fail",
+    "failsUnder": [
+      "prohibited-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-prohibited-attr"
+    ]
+  },
+  {
+    "requirement": "prohibited-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "strong",
+    "case": "aria-labelledby prohibited",
+    "status": "fail",
+    "failsUnder": [
+      "prohibited-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-prohibited-attr"
+    ]
+  },
+  {
+    "requirement": "prohibited-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "subscript",
+    "case": "aria-label prohibited",
+    "status": "fail",
+    "failsUnder": [
+      "prohibited-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-prohibited-attr"
+    ]
+  },
+  {
+    "requirement": "prohibited-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "subscript",
+    "case": "aria-labelledby prohibited",
+    "status": "fail",
+    "failsUnder": [
+      "prohibited-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-prohibited-attr"
+    ]
+  },
+  {
+    "requirement": "prohibited-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "superscript",
+    "case": "aria-label prohibited",
+    "status": "fail",
+    "failsUnder": [
+      "prohibited-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-prohibited-attr"
+    ]
+  },
+  {
+    "requirement": "prohibited-attributes",
+    "module": "WAI-ARIA 1.2",
+    "role": "superscript",
+    "case": "aria-labelledby prohibited",
+    "status": "fail",
+    "failsUnder": [
+      "prohibited-attributes"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-prohibited-attr"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "application",
+    "case": "aria-activedescendant=\"nowhere\" (id)",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "group",
+    "case": "aria-atomic=\"bogus\" (boolean)",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "combobox",
+    "case": "aria-autocomplete=\"bogus\" (token)",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "group",
+    "case": "aria-busy=\"bogus\" (boolean)",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "checkbox",
+    "case": "aria-checked=\"bogus\" (tristate)",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "grid",
+    "case": "aria-colcount=\"one\" (integer)",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "cell",
+    "case": "aria-colindex=\"one\" (integer)",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "cell",
+    "case": "aria-colspan=\"one\" (integer)",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "group",
+    "case": "aria-controls=\"nowhere\" (idlist)",
+    "status": "question",
+    "failsUnder": [],
+    "asksUnder": [
+      "attribute-values"
+    ],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "group",
+    "case": "aria-current=\"bogus\" (token)",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "group",
+    "case": "aria-describedby=\"nowhere\" (idlist)",
+    "status": "question",
+    "failsUnder": [],
+    "asksUnder": [
+      "attribute-values"
+    ],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "group",
+    "case": "aria-details=\"nowhere\" (id)",
+    "status": "question",
+    "failsUnder": [],
+    "asksUnder": [
+      "attribute-values"
+    ],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "alert",
+    "case": "aria-disabled=\"bogus\" (boolean)",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [
+      "supported-attributes"
+    ],
+    "reportedBy": [
+      "aria-allowed-attr",
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "group",
+    "case": "aria-dropeffect=\"bogus\" (tokenlist)",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "alert",
+    "case": "aria-errormessage=\"nowhere\" (id)",
+    "status": "question",
+    "failsUnder": [],
+    "asksUnder": [
+      "attribute-values",
+      "supported-attributes"
+    ],
+    "reportedBy": [
+      "aria-allowed-attr",
+      "aria-conditional-attr"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "application",
+    "case": "aria-expanded=\"bogus\" (boolean)",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "group",
+    "case": "aria-flowto=\"nowhere\" (idlist)",
+    "status": "question",
+    "failsUnder": [],
+    "asksUnder": [
+      "attribute-values"
+    ],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "group",
+    "case": "aria-grabbed=\"bogus\" (boolean)",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "alert",
+    "case": "aria-haspopup=\"bogus\" (token)",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [
+      "supported-attributes"
+    ],
+    "reportedBy": [
+      "aria-allowed-attr",
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "group",
+    "case": "aria-hidden=\"bogus\" (boolean)",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "alert",
+    "case": "aria-invalid=\"bogus\" (token)",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [
+      "supported-attributes"
+    ],
+    "reportedBy": [
+      "aria-allowed-attr",
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "group",
+    "case": "aria-labelledby=\"nowhere\" (idlist)",
+    "status": "question",
+    "failsUnder": [],
+    "asksUnder": [
+      "attribute-values"
+    ],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "heading",
+    "case": "aria-level=\"one\" (integer)",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "group",
+    "case": "aria-live=\"bogus\" (token)",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "alertdialog",
+    "case": "aria-modal=\"bogus\" (boolean)",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "searchbox",
+    "case": "aria-multiline=\"bogus\" (boolean)",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "grid",
+    "case": "aria-multiselectable=\"bogus\" (boolean)",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "listbox",
+    "case": "aria-orientation=\"bogus\" (token)",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "group",
+    "case": "aria-owns=\"nowhere\" (idlist)",
+    "status": "question",
+    "failsUnder": [],
+    "asksUnder": [
+      "attribute-values"
+    ],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "article",
+    "case": "aria-posinset=\"one\" (integer)",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "button",
+    "case": "aria-pressed=\"bogus\" (tristate)",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "checkbox",
+    "case": "aria-readonly=\"bogus\" (boolean)",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "group",
+    "case": "aria-relevant=\"bogus\" (tokenlist)",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "checkbox",
+    "case": "aria-required=\"bogus\" (boolean)",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "grid",
+    "case": "aria-rowcount=\"one\" (integer)",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "cell",
+    "case": "aria-rowindex=\"one\" (integer)",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "cell",
+    "case": "aria-rowspan=\"one\" (integer)",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "columnheader",
+    "case": "aria-selected=\"bogus\" (boolean)",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "article",
+    "case": "aria-setsize=\"one\" (integer)",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "columnheader",
+    "case": "aria-sort=\"bogus\" (token)",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "meter",
+    "case": "aria-valuemax=\"one\" (number)",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "meter",
+    "case": "aria-valuemin=\"one\" (number)",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "meter",
+    "case": "aria-valuenow=\"one\" (number)",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "slider",
+    "case": "aria-valuenow above aria-valuemax",
+    "status": "question",
+    "failsUnder": [],
+    "asksUnder": [
+      "attribute-values"
+    ],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "slider",
+    "case": "aria-valuemin above aria-valuemax",
+    "status": "question",
+    "failsUnder": [],
+    "asksUnder": [
+      "attribute-values"
+    ],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "heading",
+    "case": "aria-level 0",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "option",
+    "case": "aria-posinset above aria-setsize",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "option",
+    "case": "aria-posinset 0",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "row",
+    "case": "aria-rowindex 0",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "gridcell",
+    "case": "aria-colindex 0",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "gridcell",
+    "case": "aria-colspan 0",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "gridcell",
+    "case": "aria-rowspan below 0",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "listbox",
+    "case": "aria-activedescendant names an element it does not own",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "textbox",
+    "case": "aria-errormessage without aria-invalid",
+    "status": "question",
+    "failsUnder": [],
+    "asksUnder": [
+      "attribute-values"
+    ],
+    "reportedBy": [
+      "aria-conditional-attr"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "group",
+    "case": "aria-labelledby names no element",
+    "status": "question",
+    "failsUnder": [],
+    "asksUnder": [
+      "attribute-values"
+    ],
+    "reportedBy": [
+      "aria-valid-attr-value"
+    ]
+  },
+  {
+    "requirement": "owned-elements",
+    "module": "WAI-ARIA 1.2",
+    "role": "feed",
+    "case": "owns none of its required roles",
+    "status": "missed",
+    "failsUnder": [],
+    "asksUnder": [],
+    "reportedBy": []
+  },
+  {
+    "requirement": "owned-elements",
+    "module": "WAI-ARIA 1.2",
+    "role": "feed",
+    "case": "owns a button",
+    "status": "missed",
+    "failsUnder": [],
+    "asksUnder": [],
+    "reportedBy": []
+  },
+  {
+    "requirement": "owned-elements",
+    "module": "WAI-ARIA 1.2",
+    "role": "grid",
+    "case": "owns none of its required roles",
+    "status": "fail",
+    "failsUnder": [
+      "owned-elements"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-children"
+    ]
+  },
+  {
+    "requirement": "owned-elements",
+    "module": "WAI-ARIA 1.2",
+    "role": "grid",
+    "case": "owns a button",
+    "status": "fail",
+    "failsUnder": [
+      "owned-elements"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-children"
+    ]
+  },
+  {
+    "requirement": "owned-elements",
+    "module": "WAI-ARIA 1.2",
+    "role": "list",
+    "case": "owns none of its required roles",
+    "status": "fail",
+    "failsUnder": [
+      "owned-elements"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-children"
+    ]
+  },
+  {
+    "requirement": "owned-elements",
+    "module": "WAI-ARIA 1.2",
+    "role": "list",
+    "case": "owns a button",
+    "status": "fail",
+    "failsUnder": [
+      "owned-elements"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-children"
+    ]
+  },
+  {
+    "requirement": "owned-elements",
+    "module": "WAI-ARIA 1.2",
+    "role": "listbox",
+    "case": "owns none of its required roles",
+    "status": "fail",
+    "failsUnder": [
+      "owned-elements"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-children"
+    ]
+  },
+  {
+    "requirement": "owned-elements",
+    "module": "WAI-ARIA 1.2",
+    "role": "listbox",
+    "case": "owns a button",
+    "status": "fail",
+    "failsUnder": [
+      "owned-elements"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-children"
+    ]
+  },
+  {
+    "requirement": "owned-elements",
+    "module": "WAI-ARIA 1.2",
+    "role": "menu",
+    "case": "owns none of its required roles",
+    "status": "fail",
+    "failsUnder": [
+      "owned-elements"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-children"
+    ]
+  },
+  {
+    "requirement": "owned-elements",
+    "module": "WAI-ARIA 1.2",
+    "role": "menu",
+    "case": "owns a button",
+    "status": "fail",
+    "failsUnder": [
+      "owned-elements"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-children"
+    ]
+  },
+  {
+    "requirement": "owned-elements",
+    "module": "WAI-ARIA 1.2",
+    "role": "menubar",
+    "case": "owns none of its required roles",
+    "status": "fail",
+    "failsUnder": [
+      "owned-elements"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-children"
+    ]
+  },
+  {
+    "requirement": "owned-elements",
+    "module": "WAI-ARIA 1.2",
+    "role": "menubar",
+    "case": "owns a button",
+    "status": "fail",
+    "failsUnder": [
+      "owned-elements"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-children"
+    ]
+  },
+  {
+    "requirement": "owned-elements",
+    "module": "WAI-ARIA 1.2",
+    "role": "radiogroup",
+    "case": "owns none of its required roles",
+    "status": "fail",
+    "failsUnder": [
+      "owned-elements"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-children"
+    ]
+  },
+  {
+    "requirement": "owned-elements",
+    "module": "WAI-ARIA 1.2",
+    "role": "radiogroup",
+    "case": "owns a button",
+    "status": "fail",
+    "failsUnder": [
+      "owned-elements"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-children"
+    ]
+  },
+  {
+    "requirement": "owned-elements",
+    "module": "WAI-ARIA 1.2",
+    "role": "row",
+    "case": "owns none of its required roles",
+    "status": "fail",
+    "failsUnder": [
+      "owned-elements"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-children"
+    ]
+  },
+  {
+    "requirement": "owned-elements",
+    "module": "WAI-ARIA 1.2",
+    "role": "row",
+    "case": "owns a button",
+    "status": "fail",
+    "failsUnder": [
+      "owned-elements"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-children"
+    ]
+  },
+  {
+    "requirement": "owned-elements",
+    "module": "WAI-ARIA 1.2",
+    "role": "rowgroup",
+    "case": "owns none of its required roles",
+    "status": "fail",
+    "failsUnder": [
+      "owned-elements"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-children"
+    ]
+  },
+  {
+    "requirement": "owned-elements",
+    "module": "WAI-ARIA 1.2",
+    "role": "rowgroup",
+    "case": "owns a button",
+    "status": "fail",
+    "failsUnder": [
+      "owned-elements"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-children"
+    ]
+  },
+  {
+    "requirement": "owned-elements",
+    "module": "WAI-ARIA 1.2",
+    "role": "table",
+    "case": "owns none of its required roles",
+    "status": "fail",
+    "failsUnder": [
+      "owned-elements"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-children"
+    ]
+  },
+  {
+    "requirement": "owned-elements",
+    "module": "WAI-ARIA 1.2",
+    "role": "table",
+    "case": "owns a button",
+    "status": "fail",
+    "failsUnder": [
+      "owned-elements"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-children"
+    ]
+  },
+  {
+    "requirement": "owned-elements",
+    "module": "WAI-ARIA 1.2",
+    "role": "tablist",
+    "case": "owns none of its required roles",
+    "status": "fail",
+    "failsUnder": [
+      "owned-elements"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-children"
+    ]
+  },
+  {
+    "requirement": "owned-elements",
+    "module": "WAI-ARIA 1.2",
+    "role": "tablist",
+    "case": "owns a button",
+    "status": "fail",
+    "failsUnder": [
+      "owned-elements"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-children"
+    ]
+  },
+  {
+    "requirement": "owned-elements",
+    "module": "WAI-ARIA 1.2",
+    "role": "tree",
+    "case": "owns none of its required roles",
+    "status": "fail",
+    "failsUnder": [
+      "owned-elements"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-children"
+    ]
+  },
+  {
+    "requirement": "owned-elements",
+    "module": "WAI-ARIA 1.2",
+    "role": "tree",
+    "case": "owns a button",
+    "status": "fail",
+    "failsUnder": [
+      "owned-elements"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-children"
+    ]
+  },
+  {
+    "requirement": "owned-elements",
+    "module": "WAI-ARIA 1.2",
+    "role": "treegrid",
+    "case": "owns none of its required roles",
+    "status": "fail",
+    "failsUnder": [
+      "owned-elements"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-children"
+    ]
+  },
+  {
+    "requirement": "owned-elements",
+    "module": "WAI-ARIA 1.2",
+    "role": "treegrid",
+    "case": "owns a button",
+    "status": "fail",
+    "failsUnder": [
+      "owned-elements"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-children"
+    ]
+  },
+  {
+    "requirement": "owned-elements",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-bibliography",
+    "case": "owns none of its required roles",
+    "status": "missed",
+    "failsUnder": [],
+    "asksUnder": [],
+    "reportedBy": []
+  },
+  {
+    "requirement": "owned-elements",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-bibliography",
+    "case": "owns a button",
+    "status": "missed",
+    "failsUnder": [],
+    "asksUnder": [],
+    "reportedBy": []
+  },
+  {
+    "requirement": "owned-elements",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-endnotes",
+    "case": "owns none of its required roles",
+    "status": "missed",
+    "failsUnder": [],
+    "asksUnder": [],
+    "reportedBy": []
+  },
+  {
+    "requirement": "owned-elements",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-endnotes",
+    "case": "owns a button",
+    "status": "missed",
+    "failsUnder": [],
+    "asksUnder": [],
+    "reportedBy": []
+  },
+  {
+    "requirement": "owned-elements",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-glossary",
+    "case": "owns none of its required roles",
+    "status": "missed",
+    "failsUnder": [],
+    "asksUnder": [],
+    "reportedBy": []
+  },
+  {
+    "requirement": "owned-elements",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-glossary",
+    "case": "owns a button",
+    "status": "missed",
+    "failsUnder": [],
+    "asksUnder": [],
+    "reportedBy": []
+  },
+  {
+    "requirement": "owned-elements",
+    "module": "WAI-ARIA 1.2",
+    "role": "option",
+    "case": "owned twice (aria-owns)",
+    "status": "fail",
+    "failsUnder": [
+      "owned-elements"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-owns-valid"
+    ]
+  },
+  {
+    "requirement": "context-roles",
+    "module": "WAI-ARIA 1.2",
+    "role": "caption",
+    "case": "outside its required context",
+    "status": "missed",
+    "failsUnder": [],
+    "asksUnder": [],
+    "reportedBy": []
+  },
+  {
+    "requirement": "context-roles",
+    "module": "WAI-ARIA 1.2",
+    "role": "cell",
+    "case": "outside its required context",
+    "status": "fail",
+    "failsUnder": [
+      "context-roles"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-parent"
+    ]
+  },
+  {
+    "requirement": "context-roles",
+    "module": "WAI-ARIA 1.2",
+    "role": "columnheader",
+    "case": "outside its required context",
+    "status": "fail",
+    "failsUnder": [
+      "context-roles"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-parent"
+    ]
+  },
+  {
+    "requirement": "context-roles",
+    "module": "WAI-ARIA 1.2",
+    "role": "gridcell",
+    "case": "outside its required context",
+    "status": "fail",
+    "failsUnder": [
+      "context-roles"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-parent"
+    ]
+  },
+  {
+    "requirement": "context-roles",
+    "module": "WAI-ARIA 1.2",
+    "role": "listitem",
+    "case": "outside its required context",
+    "status": "fail",
+    "failsUnder": [
+      "context-roles"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-parent"
+    ]
+  },
+  {
+    "requirement": "context-roles",
+    "module": "WAI-ARIA 1.2",
+    "role": "menuitem",
+    "case": "outside its required context",
+    "status": "fail",
+    "failsUnder": [
+      "context-roles"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-parent"
+    ]
+  },
+  {
+    "requirement": "context-roles",
+    "module": "WAI-ARIA 1.2",
+    "role": "menuitemcheckbox",
+    "case": "outside its required context",
+    "status": "fail",
+    "failsUnder": [
+      "context-roles"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-parent"
+    ]
+  },
+  {
+    "requirement": "context-roles",
+    "module": "WAI-ARIA 1.2",
+    "role": "menuitemradio",
+    "case": "outside its required context",
+    "status": "fail",
+    "failsUnder": [
+      "context-roles",
+      "required-states"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-attr",
+      "aria-required-parent"
+    ]
+  },
+  {
+    "requirement": "context-roles",
+    "module": "WAI-ARIA 1.2",
+    "role": "option",
+    "case": "outside its required context",
+    "status": "fail",
+    "failsUnder": [
+      "context-roles"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-parent"
+    ]
+  },
+  {
+    "requirement": "context-roles",
+    "module": "WAI-ARIA 1.2",
+    "role": "row",
+    "case": "outside its required context",
+    "status": "fail",
+    "failsUnder": [
+      "context-roles"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-parent"
+    ]
+  },
+  {
+    "requirement": "context-roles",
+    "module": "WAI-ARIA 1.2",
+    "role": "rowgroup",
+    "case": "outside its required context",
+    "status": "fail",
+    "failsUnder": [
+      "context-roles"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-parent"
+    ]
+  },
+  {
+    "requirement": "context-roles",
+    "module": "WAI-ARIA 1.2",
+    "role": "rowheader",
+    "case": "outside its required context",
+    "status": "fail",
+    "failsUnder": [
+      "context-roles"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-parent"
+    ]
+  },
+  {
+    "requirement": "context-roles",
+    "module": "WAI-ARIA 1.2",
+    "role": "tab",
+    "case": "outside its required context",
+    "status": "fail",
+    "failsUnder": [
+      "context-roles"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-parent"
+    ]
+  },
+  {
+    "requirement": "context-roles",
+    "module": "WAI-ARIA 1.2",
+    "role": "treeitem",
+    "case": "outside its required context",
+    "status": "fail",
+    "failsUnder": [
+      "context-roles"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "aria-required-parent"
+    ]
+  },
+  {
+    "requirement": "context-roles",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-biblioentry",
+    "case": "outside its required context",
+    "status": "missed",
+    "failsUnder": [],
+    "asksUnder": [],
+    "reportedBy": []
+  },
+  {
+    "requirement": "context-roles",
+    "module": "DPUB-ARIA 1.1",
+    "role": "doc-endnote",
+    "case": "outside its required context",
+    "status": "missed",
+    "failsUnder": [],
+    "asksUnder": [],
+    "reportedBy": []
+  }
+]
