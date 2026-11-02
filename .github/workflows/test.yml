@@ -23,10 +23,9 @@ jobs:
       - run: npm ci
       # Until core 1.15 is published: the pack needs its rule map's
       # outcome 'fail' and aria-role-name-present's roles setting, so the
-      # tests run against core's source. CORE_REF is wai-aria-name-roles until
-      # SureA11y/core#348 is merged, then main.
+      # tests run against core's main branch.
       - env:
-          CORE_REF: wai-aria-name-roles
+          CORE_REF: main
         run: |
           git clone --depth 1 --branch "$CORE_REF" https://github.com/SureA11y/core.git ../core
           (cd ../core && npm ci --ignore-scripts)
