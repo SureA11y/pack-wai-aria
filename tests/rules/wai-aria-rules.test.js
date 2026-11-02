@@ -160,3 +160,39 @@ test("core's empty-heading and a heading with no level count under WAI-ARIA", ()
   assert.equal(check.outcome, "cantTell");
   assert.equal(requirement(noLevel, "required-states"), "cantTell");
 });
+
+test("wai-aria-feed-articles: a native element with a role of its own is owned, a generic one looked through", () => {
+  for (const child of [
+    "<h2>News</h2>",
+    "<p>Intro</p>",
+    "<ul><li>x</li></ul>",
+  ]) {
+    assertRule(
+      run(
+        "wai-aria-feed-articles",
+        `<div role="feed" aria-label="n">${child}<article>a</article></div>`,
+      ),
+      "wai-aria-feed-articles",
+      "fail",
+    );
+  }
+  assertRule(
+    run(
+      "wai-aria-feed-articles",
+      '<div role="feed" aria-label="n"><div><span>x</span><article>a</article></div><my-item><article>b</article></my-item></div>',
+    ),
+    "wai-aria-feed-articles",
+    "pass",
+  );
+});
+
+test("wai-aria-presentational-attributes: an element hidden from assistive technology is left alone", () => {
+  assertRule(
+    run(
+      "wai-aria-presentational-attributes",
+      '<div aria-hidden="true"><div role="presentation" aria-pressed="true">x</div></div>',
+    ),
+    "wai-aria-presentational-attributes",
+    "notApplicable",
+  );
+});
