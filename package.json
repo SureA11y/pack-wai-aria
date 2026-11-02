@@ -44,7 +44,7 @@
   },
   "scripts": {
     "lint": "eslint .",
-    "test": "npm run lint && node --test tests/*.test.js",
+    "test": "npm run lint && node --test \"tests/**/*.test.js\"",
     "inventory": "node scripts/inventory.js"
   },
   "peerDependencies": {

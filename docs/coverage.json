@@ -18,10 +18,14 @@
     "module": "WAI-ARIA 1.2",
     "role": "application",
     "case": "no accessible name",
-    "status": "missed",
-    "failsUnder": [],
+    "status": "fail",
+    "failsUnder": [
+      "name-required"
+    ],
     "asksUnder": [],
-    "reportedBy": []
+    "reportedBy": [
+      "wai-aria-role-name-present"
+    ]
   },
   {
     "requirement": "name-required",
@@ -56,10 +60,14 @@
     "module": "WAI-ARIA 1.2",
     "role": "columnheader",
     "case": "no accessible name",
-    "status": "missed",
+    "status": "question",
     "failsUnder": [],
-    "asksUnder": [],
-    "reportedBy": []
+    "asksUnder": [
+      "name-required"
+    ],
+    "reportedBy": [
+      "empty-table-header"
+    ]
   },
   {
     "requirement": "name-required",
@@ -100,7 +108,7 @@
     ],
     "asksUnder": [],
     "reportedBy": [
-      "aria-role-name-present"
+      "wai-aria-role-name-present"
     ]
   },
   {
@@ -108,10 +116,14 @@
     "module": "WAI-ARIA 1.2",
     "role": "heading",
     "case": "no accessible name",
-    "status": "missed",
-    "failsUnder": [],
+    "status": "fail",
+    "failsUnder": [
+      "name-required"
+    ],
     "asksUnder": [],
-    "reportedBy": []
+    "reportedBy": [
+      "empty-heading"
+    ]
   },
   {
     "requirement": "name-required",
@@ -160,10 +172,14 @@
     "module": "WAI-ARIA 1.2",
     "role": "marquee",
     "case": "no accessible name",
-    "status": "missed",
-    "failsUnder": [],
+    "status": "fail",
+    "failsUnder": [
+      "name-required"
+    ],
     "asksUnder": [],
-    "reportedBy": []
+    "reportedBy": [
+      "wai-aria-role-name-present"
+    ]
   },
   {
     "requirement": "name-required",
@@ -176,8 +192,8 @@
     ],
     "asksUnder": [],
     "reportedBy": [
-      "aria-role-name-present",
-      "meter-name-present"
+      "meter-name-present",
+      "wai-aria-role-name-present"
     ]
   },
   {
@@ -249,8 +265,8 @@
     ],
     "asksUnder": [],
     "reportedBy": [
-      "aria-role-name-present",
-      "progressbar-name-present"
+      "progressbar-name-present",
+      "wai-aria-role-name-present"
     ]
   },
   {
@@ -278,7 +294,7 @@
     ],
     "asksUnder": [],
     "reportedBy": [
-      "aria-role-name-present"
+      "wai-aria-role-name-present"
     ]
   },
   {
@@ -300,10 +316,14 @@
     "module": "WAI-ARIA 1.2",
     "role": "rowheader",
     "case": "no accessible name",
-    "status": "missed",
+    "status": "question",
     "failsUnder": [],
-    "asksUnder": [],
-    "reportedBy": []
+    "asksUnder": [
+      "name-required"
+    ],
+    "reportedBy": [
+      "empty-table-header"
+    ]
   },
   {
     "requirement": "name-required",
@@ -366,20 +386,28 @@
     "module": "WAI-ARIA 1.2",
     "role": "table",
     "case": "no accessible name",
-    "status": "missed",
-    "failsUnder": [],
+    "status": "fail",
+    "failsUnder": [
+      "name-required"
+    ],
     "asksUnder": [],
-    "reportedBy": []
+    "reportedBy": [
+      "wai-aria-role-name-present"
+    ]
   },
   {
     "requirement": "name-required",
     "module": "WAI-ARIA 1.2",
     "role": "tabpanel",
     "case": "no accessible name",
-    "status": "missed",
-    "failsUnder": [],
+    "status": "fail",
+    "failsUnder": [
+      "name-required"
+    ],
     "asksUnder": [],
-    "reportedBy": []
+    "reportedBy": [
+      "wai-aria-role-name-present"
+    ]
   },
   {
     "requirement": "name-required",
@@ -420,7 +448,7 @@
     ],
     "asksUnder": [],
     "reportedBy": [
-      "aria-role-name-present"
+      "wai-aria-role-name-present"
     ]
   },
   {
@@ -428,10 +456,14 @@
     "module": "WAI-ARIA 1.2",
     "role": "treegrid",
     "case": "no accessible name",
-    "status": "missed",
-    "failsUnder": [],
+    "status": "fail",
+    "failsUnder": [
+      "name-required"
+    ],
     "asksUnder": [],
-    "reportedBy": []
+    "reportedBy": [
+      "wai-aria-role-name-present"
+    ]
   },
   {
     "requirement": "name-required",
@@ -761,9 +793,11 @@
     "module": "WAI-ARIA 1.2",
     "role": "combobox",
     "case": "no aria-expanded",
-    "status": "wcag only",
+    "status": "question",
     "failsUnder": [],
-    "asksUnder": [],
+    "asksUnder": [
+      "required-states"
+    ],
     "reportedBy": [
       "aria-required-attr"
     ]
@@ -773,9 +807,11 @@
     "module": "WAI-ARIA 1.2",
     "role": "heading",
     "case": "no aria-level",
-    "status": "wcag only",
+    "status": "question",
     "failsUnder": [],
-    "asksUnder": [],
+    "asksUnder": [
+      "required-states"
+    ],
     "reportedBy": [
       "aria-required-attr"
     ]
@@ -813,7 +849,7 @@
     "module": "WAI-ARIA 1.2",
     "role": "option",
     "case": "no aria-selected",
-    "status": "missed",
+    "status": "not required",
     "failsUnder": [],
     "asksUnder": [],
     "reportedBy": [],
@@ -838,10 +874,14 @@
     "module": "WAI-ARIA 1.2",
     "role": "scrollbar",
     "case": "no aria-controls",
-    "status": "missed",
-    "failsUnder": [],
+    "status": "fail",
+    "failsUnder": [
+      "required-states"
+    ],
     "asksUnder": [],
-    "reportedBy": []
+    "reportedBy": [
+      "wai-aria-scrollbar-controls"
+    ]
   },
   {
     "requirement": "required-states",
@@ -1126,7 +1166,8 @@
     ],
     "asksUnder": [],
     "reportedBy": [
-      "aria-allowed-attr"
+      "aria-allowed-attr",
+      "empty-table-header"
     ]
   },
   {
@@ -1623,10 +1664,14 @@
     "module": "WAI-ARIA 1.2",
     "role": "none",
     "case": "aria-checked not supported",
-    "status": "missed",
+    "status": "question",
     "failsUnder": [],
-    "asksUnder": [],
-    "reportedBy": []
+    "asksUnder": [
+      "supported-attributes"
+    ],
+    "reportedBy": [
+      "wai-aria-presentational-attributes"
+    ]
   },
   {
     "requirement": "supported-attributes",
@@ -1675,10 +1720,14 @@
     "module": "WAI-ARIA 1.2",
     "role": "presentation",
     "case": "aria-checked not supported",
-    "status": "missed",
+    "status": "question",
     "failsUnder": [],
-    "asksUnder": [],
-    "reportedBy": []
+    "asksUnder": [
+      "supported-attributes"
+    ],
+    "reportedBy": [
+      "wai-aria-presentational-attributes"
+    ]
   },
   {
     "requirement": "supported-attributes",
@@ -1775,7 +1824,8 @@
     ],
     "asksUnder": [],
     "reportedBy": [
-      "aria-allowed-attr"
+      "aria-allowed-attr",
+      "empty-table-header"
     ]
   },
   {
@@ -3601,7 +3651,8 @@
     ],
     "asksUnder": [],
     "reportedBy": [
-      "aria-valid-attr-value"
+      "aria-valid-attr-value",
+      "empty-table-header"
     ]
   },
   {
@@ -3629,7 +3680,8 @@
     ],
     "asksUnder": [],
     "reportedBy": [
-      "aria-valid-attr-value"
+      "aria-valid-attr-value",
+      "empty-table-header"
     ]
   },
   {
@@ -3847,20 +3899,28 @@
     "module": "WAI-ARIA 1.2",
     "role": "feed",
     "case": "owns none of its required roles",
-    "status": "missed",
-    "failsUnder": [],
+    "status": "fail",
+    "failsUnder": [
+      "owned-elements"
+    ],
     "asksUnder": [],
-    "reportedBy": []
+    "reportedBy": [
+      "wai-aria-feed-articles"
+    ]
   },
   {
     "requirement": "owned-elements",
     "module": "WAI-ARIA 1.2",
     "role": "feed",
     "case": "owns a button",
-    "status": "missed",
-    "failsUnder": [],
+    "status": "fail",
+    "failsUnder": [
+      "owned-elements"
+    ],
     "asksUnder": [],
-    "reportedBy": []
+    "reportedBy": [
+      "wai-aria-feed-articles"
+    ]
   },
   {
     "requirement": "owned-elements",
@@ -4277,10 +4337,14 @@
     "module": "WAI-ARIA 1.2",
     "role": "caption",
     "case": "outside its required context",
-    "status": "missed",
+    "status": "question",
     "failsUnder": [],
-    "asksUnder": [],
-    "reportedBy": []
+    "asksUnder": [
+      "context-roles"
+    ],
+    "reportedBy": [
+      "wai-aria-caption-context"
+    ]
   },
   {
     "requirement": "context-roles",
@@ -4307,7 +4371,8 @@
     ],
     "asksUnder": [],
     "reportedBy": [
-      "aria-required-parent"
+      "aria-required-parent",
+      "empty-table-header"
     ]
   },
   {
@@ -4435,7 +4500,8 @@
     ],
     "asksUnder": [],
     "reportedBy": [
-      "aria-required-parent"
+      "aria-required-parent",
+      "empty-table-header"
     ]
   },
   {

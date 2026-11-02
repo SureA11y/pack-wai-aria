@@ -1,3 +1,23 @@
 {
-  "waiAria_report_note": "One result per WAI-ARIA 1.2 author requirement, from the rules that check it, judged by WAI-ARIA's own wording. A requirement no rule failed is a question, not a pass: the rules check what the markup states, not everything the requirement covers."
+  "waiAria_report_note": "One result per WAI-ARIA 1.2 author requirement, from the rules that check it, judged by WAI-ARIA's own wording. A requirement no rule failed is a question, not a pass: the rules check what the markup states, not everything the requirement covers.",
+  "waiAriaRoleNamePresent_title": "Roles that require an accessible name have one",
+  "waiAriaRoleNamePresent_description": "Checks that every element whose role WAI-ARIA requires an accessible name for, and names from the author only, has one.",
+  "waiAriaScrollbarControls_title": "A scrollbar says what it scrolls",
+  "waiAriaScrollbarControls_description": "Checks that each scrollbar has aria-controls, which WAI-ARIA requires of the role.",
+  "waiAriaScrollbarControls_summary_fail": "This scrollbar does not say what it scrolls.",
+  "waiAriaScrollbarControls_hint_fail": "Add aria-controls with the id of the content it scrolls.",
+  "waiAriaFeedArticles_title": "A feed owns articles, and only articles",
+  "waiAriaFeedArticles_description": "Checks that each feed owns at least one article and nothing of another role.",
+  "waiAriaFeedArticles_summary_fail_missing": "This feed owns no article.",
+  "waiAriaFeedArticles_hint_fail_missing": "Put each item of the feed in an <article>, or give it role=\"article\".",
+  "waiAriaFeedArticles_summary_fail_child": "A feed owns this element, which is not an article.",
+  "waiAriaFeedArticles_hint_fail_child": "Move it out of the feed, or put it inside one of its articles.",
+  "waiAriaCaptionContext_title": "A caption is in a figure or a table",
+  "waiAriaCaptionContext_description": "Checks that each element with role caption is a direct child of a figure, table, grid or treegrid.",
+  "waiAriaCaptionContext_summary_cantTell": "This caption is not in a figure or a table.",
+  "waiAriaCaptionContext_hint_cantTell": "Make it a direct child of the figure or table it describes, and name that element by it with aria-labelledby.",
+  "waiAriaPresentationalAttributes_title": "A presentational element carries no state it cannot have",
+  "waiAriaPresentationalAttributes_description": "Checks that elements with role none or presentation carry no aria-* attribute but the global ones.",
+  "waiAriaPresentationalAttributes_summary_cantTell": "This element's role hides it, but it has {{attributes}}.",
+  "waiAriaPresentationalAttributes_hint_cantTell": "Give it the role the attribute belongs to, or remove the attribute."
 }

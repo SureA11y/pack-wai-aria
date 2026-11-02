@@ -237,14 +237,17 @@ function statusOf(requirement, j) {
 }
 
 const cases = [];
-function add(requirement, role, label, body, note) {
+function add(requirement, role, label, body, note, opts = {}) {
   const j = judge(body);
+  const status = statusOf(requirement, j);
   cases.push({
     requirement,
     module: role ? moduleOf(role) : 'WAI-ARIA 1.2',
     role: role || null,
     case: label,
-    status: statusOf(requirement, j),
+    // A case the specification doesn't make an author error (a required
+    // state with a default) that nothing reports is as it should be.
+    status: opts.notRequired && status === 'missed' ? 'not required' : status,
     failsUnder: j.fails,
     asksUnder: j.asks,
     reportedBy: j.rules,
@@ -272,7 +275,7 @@ for (const role of concrete) {
     // A separator needs a value only when it can be focused, as a splitter.
     const focusable = role === 'separator' ? { tabindex: '0' } : {};
     add('required-states', role, `no ${p}${role === 'separator' ? ' (focusable)' : ''}`, build(role, { omitProp: p, attrs: focusable }),
-      implicit ? `1.2 gives it a default (${implicit}): no failure.` : undefined);
+      implicit ? `1.2 gives it a default (${implicit}): no failure.` : undefined, { notRequired: !!implicit });
   }
 }
 
@@ -352,7 +355,7 @@ for (const role of concrete.filter((r) => requiredContextOf(r).length)) {
 // The output.
 const order = ['name-required', 'roles', 'required-states', 'supported-attributes', 'prohibited-attributes', 'attribute-values', 'owned-elements', 'context-roles'];
 const { REQUIREMENTS } = require('../requirements');
-const STATUS = ['fail', 'question', 'wcag only', 'missed'];
+const STATUS = ['fail', 'question', 'wcag only', 'missed', 'not required'];
 
 if (process.argv.includes('--json')) {
   process.stdout.write(JSON.stringify(cases, null, 2) + '\n');
@@ -371,13 +374,14 @@ lines.push('- **fail**: a finding on the element fails the requirement.');
 lines.push('- **question**: a finding on the element is a question for the requirement, or fails another of the profile\'s requirements.');
 lines.push("- **wcag only**: only a rule the profile doesn't map reports it.");
 lines.push('- **missed**: nothing reports it.');
+lines.push("- **not required**: nothing reports it, and rightly: the specification gives the state a default, so leaving it out is no author error.");
 lines.push('');
 lines.push("WAI-ARIA 1.2's roles, states and properties are the Recommendation's own tables ([`scripts/data/wai-aria-1.2.json`](../scripts/data/wai-aria-1.2.json)). The DPUB-ARIA and Graphics-ARIA roles come from `aria-query`, and are listed apart: they are modules of their own, not WAI-ARIA 1.2.");
 lines.push('');
 lines.push('## Summary');
 lines.push('');
-lines.push('| Requirement | Cases | fail | question | wcag only | missed |');
-lines.push('| --- | --- | --- | --- | --- | --- |');
+lines.push('| Requirement | Cases | fail | question | wcag only | missed | not required |');
+lines.push('| --- | --- | --- | --- | --- | --- | --- |');
 const core = cases.filter((c) => c.module === 'WAI-ARIA 1.2');
 for (const r of order) {
   const list = core.filter((c) => c.requirement === r);
