@@ -76,7 +76,9 @@ function runInPage(ctx) {
     .filter((el) =>
       ["none", "presentation"].includes(helpers.aria.getExplicitRole(el)),
     )
-    .filter((el) => !helpers.isPresentationalRoleIgnored(el));
+    .filter((el) => !helpers.isPresentationalRoleIgnored(el))
+    // Hidden from assistive technology, its attributes reach no one.
+    .filter((el) => helpers.isIncludedInAccessibilityTree(el, ctx));
   if (!nodes.length) {
     return {
       ruleId: rule.ruleId,
