@@ -1,0 +1,162 @@
+"use strict";
+
+// The pack's own rules, each on what it fails or asks about and what it
+// leaves alone, and how the profile reads them.
+
+const test = require("node:test");
+const assert = require("node:assert/strict");
+const { runa11yCoreOnHtml, assertRule } = require("@surea11y/core/testing");
+const pack = require("../..");
+
+const page = (body) =>
+  `<!doctype html><html lang="en"><head><title>t</title></head><body><main><span id="ref">Content</span>${body}</main></body></html>`;
+const run = (rule, body) =>
+  runa11yCoreOnHtml(page(body), {
+    engineOptions: { packs: [pack] },
+    runOnly: [rule],
+  });
+const profile = (body) =>
+  runa11yCoreOnHtml(page(body), {
+    engineOptions: { packs: [pack], profile: "wai-aria-1.2" },
+  });
+const requirement = (result, id) =>
+  result.rulesResults.find((r) => r.ruleId === `wai-aria-1.2-${id}`).outcome;
+
+test("wai-aria-role-name-present: an unnamed table, tabpanel or treegrid fails WAI-ARIA", () => {
+  for (const body of [
+    '<div role="table"><div role="row"><div role="cell">1</div></div></div>',
+    '<div role="tabpanel">Panel</div>',
+    '<div role="treegrid"><div role="row"><div role="gridcell">1</div></div></div>',
+  ]) {
+    assertRule(
+      run("wai-aria-role-name-present", body),
+      "wai-aria-role-name-present",
+      "cantTell",
+    );
+    assert.equal(requirement(profile(body), "name-required"), "fail", body);
+  }
+});
+
+test("wai-aria-role-name-present: a native table with no role is left to WCAG", () => {
+  assertRule(
+    run("wai-aria-role-name-present", "<table><tr><td>1</td></tr></table>"),
+    "wai-aria-role-name-present",
+    "notApplicable",
+  );
+});
+
+test("wai-aria-scrollbar-controls: a scrollbar with no aria-controls fails", () => {
+  assertRule(
+    run(
+      "wai-aria-scrollbar-controls",
+      '<div role="scrollbar" aria-valuenow="5"></div>',
+    ),
+    "wai-aria-scrollbar-controls",
+    "fail",
+    { minOccurrences: 1, maxOccurrences: 1 },
+  );
+  assertRule(
+    run(
+      "wai-aria-scrollbar-controls",
+      '<div role="scrollbar" aria-valuenow="5" aria-controls="ref"></div>',
+    ),
+    "wai-aria-scrollbar-controls",
+    "pass",
+  );
+  assert.equal(
+    requirement(
+      profile('<div role="scrollbar" aria-valuenow="5"></div>'),
+      "required-states",
+    ),
+    "fail",
+  );
+});
+
+test("wai-aria-feed-articles: a feed must own articles, and only articles", () => {
+  assertRule(
+    run("wai-aria-feed-articles", '<div role="feed"></div>'),
+    "wai-aria-feed-articles",
+    "fail",
+    {
+      minOccurrences: 1,
+      maxOccurrences: 1,
+    },
+  );
+  assertRule(
+    run(
+      "wai-aria-feed-articles",
+      '<div role="feed"><article>One</article><div role="button" tabindex="0">More</div></div>',
+    ),
+    "wai-aria-feed-articles",
+    "fail",
+    { minOccurrences: 1, maxOccurrences: 1 },
+  );
+  // A generic wrapper is looked through.
+  assertRule(
+    run(
+      "wai-aria-feed-articles",
+      '<div role="feed"><div><article>One</article><div role="article">Two</div></div></div>',
+    ),
+    "wai-aria-feed-articles",
+    "pass",
+  );
+  assert.equal(
+    requirement(profile('<div role="feed"></div>'), "owned-elements"),
+    "fail",
+  );
+});
+
+test("wai-aria-caption-context: a caption outside a figure or table is a question", () => {
+  assertRule(
+    run("wai-aria-caption-context", '<div role="caption">Prices</div>'),
+    "wai-aria-caption-context",
+    "cantTell",
+  );
+  assertRule(
+    run(
+      "wai-aria-caption-context",
+      '<div role="figure"><div role="caption">Prices</div><img src="a.png" alt="Chart"></div>',
+    ),
+    "wai-aria-caption-context",
+    "pass",
+  );
+});
+
+test("wai-aria-presentational-attributes: a hidden role with a state of its own is a question", () => {
+  const result = run(
+    "wai-aria-presentational-attributes",
+    '<div role="none" aria-checked="true">x</div>',
+  );
+  assertRule(result, "wai-aria-presentational-attributes", "cantTell");
+  const check = result.checksResults.find(
+    (c) => c.ruleId === "wai-aria-presentational-attributes",
+  );
+  assert.deepEqual(check.occurrences[0].data.details.attributes, [
+    "aria-checked",
+  ]);
+  // A global attribute makes browsers ignore the role: not this rule's.
+  assertRule(
+    run(
+      "wai-aria-presentational-attributes",
+      '<div role="presentation" aria-label="x">x</div>',
+    ),
+    "wai-aria-presentational-attributes",
+    "notApplicable",
+  );
+});
+
+test("core's empty-heading and a heading with no level count under WAI-ARIA", () => {
+  assert.equal(
+    requirement(
+      profile('<div role="heading" aria-level="2"></div>'),
+      "name-required",
+    ),
+    "fail",
+  );
+  const noLevel = profile('<div role="heading">Title</div>');
+  const check = noLevel.checksResults.find(
+    (c) => c.ruleId === "aria-required-attr",
+  );
+  assert.equal(check.outcome, "cantTell");
+  assert.equal(requirement(noLevel, "required-states"), "cantTell");
+});

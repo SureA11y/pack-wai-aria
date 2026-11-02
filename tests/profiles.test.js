@@ -30,7 +30,7 @@ test('the profile runs the rules the map lists, and reports one result per requi
 test('an unnamed grid: a question for WCAG, a failure of WAI-ARIA', () => {
   const grid = '<div role="grid"><div role="row"><div role="gridcell">1</div></div></div>';
   const result = scan(grid);
-  assert.equal(checkOf(result, 'aria-role-name-present').outcome, 'cantTell');
+  assert.equal(checkOf(result, 'wai-aria-role-name-present').outcome, 'cantTell');
   assert.equal(outcomeOf(result, 'name-required'), 'fail');
   const wcag = scan(grid, { profile: 'wcag22-aa' });
   assert.equal(
