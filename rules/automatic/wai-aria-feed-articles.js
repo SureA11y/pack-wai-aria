@@ -60,13 +60,53 @@ function runInPage(ctx) {
     }
   };
   const tagOf = (el) => String(helpers.dom.localName(el) || "").toLowerCase();
+  // HTML elements with no role of their own (generic, or none): a feed is
+  // looked through them. Any other element has a role, an implicit one when
+  // getRoleInfo names none (a heading, a paragraph, a list), and is owned.
+  const GENERIC_TAGS = [
+    "div",
+    "span",
+    "b",
+    "i",
+    "u",
+    "s",
+    "small",
+    "big",
+    "em",
+    "strong",
+    "mark",
+    "font",
+    "center",
+    "bdi",
+    "bdo",
+    "data",
+    "q",
+    "cite",
+    "abbr",
+    "kbd",
+    "samp",
+    "var",
+    "wbr",
+    "br",
+    "slot",
+    "template",
+  ];
   // The elements a feed owns: its children in the flat tree that are in the
   // accessibility tree, looking through those with no role of their own.
   const owned = (el, depth) => {
     const out = [];
     for (const child of helpers.flatChildElements(el)) {
       if (!helpers.isIncludedInAccessibilityTree(child, ctx)) continue;
-      const role = tagOf(child) === "article" ? "article" : roleOf(child);
+      const tag = tagOf(child);
+      let role = tag === "article" ? "article" : roleOf(child);
+      if (
+        (!role || role === "generic") &&
+        !helpers.aria.getExplicitRole(child) &&
+        !GENERIC_TAGS.includes(tag) &&
+        !tag.includes("-")
+      ) {
+        role = tag;
+      }
       if (
         !role ||
         role === "generic" ||
