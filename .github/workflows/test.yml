@@ -22,11 +22,9 @@ jobs:
           cache: npm
       - run: npm ci
       # Until core 1.15 is published: the pack needs its rule map's
-      # outcome 'fail', so the tests run against core's source. CORE_REF is
-      # the branch with it: multi-profile-design until SureA11y/core#347 is
-      # merged, then main.
+      # outcome 'fail', so the tests run against core's main branch.
       - env:
-          CORE_REF: multi-profile-design
+          CORE_REF: main
         run: |
           git clone --depth 1 --branch "$CORE_REF" https://github.com/SureA11y/core.git ../core
           (cd ../core && npm ci --ignore-scripts)
