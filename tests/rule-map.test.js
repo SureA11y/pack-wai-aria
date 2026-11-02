@@ -16,12 +16,23 @@ const coreDir = path.dirname(require.resolve('@surea11y/core/package.json'));
 const { reasonCodes } = require(path.join(coreDir, 'scripts/data/finding-ids.json'));
 const coreRules = new Set(getChecksCatalog().map((r) => r.ruleId));
 
+// The pack's own rules and variants, with the codes each gives: a
+// variant's are its core rule's.
+const pack = require('..');
+const OWN = Object.fromEntries(
+  (pack.rules || []).map((r) => [
+    r.id,
+    r.from ? reasonCodes[r.from] || [] : (r.meta && r.meta.reasonCodes) || []
+  ])
+);
+
 for (const [version, rows] of Object.entries(RULE_REQUIREMENTS)) {
-  test(`${version}: every rule is core's, and every one of its codes is placed`, () => {
+  test(`${version}: every rule is core's or the pack's, and every one of its codes is placed`, () => {
     for (const [ruleId, row] of Object.entries(rows)) {
-      assert.ok(coreRules.has(ruleId), `${ruleId} is a core rule`);
+      const own = Object.prototype.hasOwnProperty.call(OWN, ruleId);
+      assert.ok(own || coreRules.has(ruleId), `${ruleId} is a core rule or the pack's`);
       const placed = Object.keys(row.reasonCodes || {}).sort();
-      assert.deepEqual(placed, [...(reasonCodes[ruleId] || [])].sort(), ruleId);
+      assert.deepEqual(placed, [...((own ? OWN[ruleId] : reasonCodes[ruleId]) || [])].sort(), ruleId);
     }
   });
 

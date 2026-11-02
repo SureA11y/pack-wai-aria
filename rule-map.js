@@ -27,6 +27,56 @@
  */
 
 const ROWS = {
+  // The pack's own rules and its variant of core's name rule
+  // (rules/automatic). The variant checks every name-from-author role
+  // WAI-ARIA requires a name for, core's five and the five no WCAG rule owns,
+  // so it takes the place of aria-role-name-present here.
+  'wai-aria-role-name-present': {
+    requirements: ['name-required'],
+    reasonCodes: {
+      name_missing: { outcome: 'fail' },
+      name_internals: { outcome: 'cantTell' }
+    }
+  },
+  'wai-aria-scrollbar-controls': {
+    requirements: ['required-states'],
+    reasonCodes: { SCROLLBAR_CONTROLS_MISSING: { outcome: 'fail' } }
+  },
+  'wai-aria-feed-articles': {
+    requirements: ['owned-elements'],
+    reasonCodes: {
+      FEED_ARTICLE_MISSING: { outcome: 'fail' },
+      FEED_CHILD_NOT_ARTICLE: { outcome: 'fail' }
+    }
+  },
+  'wai-aria-caption-context': {
+    requirements: ['context-roles'],
+    reasonCodes: { CAPTION_CONTEXT_MISSING: { outcome: 'cantTell' } }
+  },
+  'wai-aria-presentational-attributes': {
+    requirements: ['supported-attributes'],
+    reasonCodes: { PRESENTATIONAL_ATTRIBUTE_UNSUPPORTED: { outcome: 'cantTell' } }
+  },
+  // Core's empty-heading and empty-table-header: a heading, column header or
+  // row header takes its name from its content, so an empty one has none. A
+  // header cell with no visible text may still be named by text only a
+  // screen reader reads, so that stays a question.
+  'empty-heading': {
+    requirements: ['name-required'],
+    reasonCodes: {
+      HEADING_EMPTY: { outcome: 'fail' },
+      name_closedContent: { outcome: 'cantTell' },
+      name_contentTooDeep: { outcome: 'cantTell' },
+      name_internals: { outcome: 'cantTell' }
+    }
+  },
+  'empty-table-header': {
+    requirements: ['name-required'],
+    reasonCodes: {
+      TABLE_HEADER_EMPTY: { outcome: 'cantTell' },
+      TABLE_HEADER_NAME_NOT_VISIBLE_TEXT: { requirements: [] }
+    }
+  },
   'aria-allowed-attr': {
     requirements: ['supported-attributes'],
     reasonCodes: {
@@ -76,7 +126,10 @@ const ROWS = {
     reasonCodes: {
       ARIA_ATTR_REQUIRED_MISSING: { outcome: 'fail' },
       state_internals: { outcome: 'cantTell' },
-      ARIA_ATTR_REQUIRED_MISSING_IMPLICIT: { requirements: [] }
+      // A required state left to its default (a heading's level, a
+      // combobox's expanded state): WAI-ARIA's role table gives none, so it is
+      // a question here, not nothing.
+      ARIA_ATTR_REQUIRED_MISSING_IMPLICIT: { outcome: 'cantTell' }
     }
   },
   'aria-required-children': {
@@ -90,13 +143,6 @@ const ROWS = {
     requirements: ['context-roles'],
     reasonCodes: {
       ARIA_REQUIRED_PARENT_MISSING: { outcome: 'fail' }
-    }
-  },
-  'aria-role-name-present': {
-    requirements: ['name-required'],
-    reasonCodes: {
-      name_missing: { outcome: 'fail' },
-      name_internals: { outcome: 'cantTell' }
     }
   },
   'aria-roles-valid': {

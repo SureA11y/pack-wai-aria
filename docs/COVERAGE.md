@@ -6,62 +6,63 @@ What the `wai-aria-1.2` profile makes of each author requirement a rule can chec
 - **question**: a finding on the element is a question for the requirement, or fails another of the profile's requirements.
 - **wcag only**: only a rule the profile doesn't map reports it.
 - **missed**: nothing reports it.
+- **not required**: nothing reports it, and rightly: the specification gives the state a default, so leaving it out is no author error.
 
 WAI-ARIA 1.2's roles, states and properties are the Recommendation's own tables ([`scripts/data/wai-aria-1.2.json`](../scripts/data/wai-aria-1.2.json)). The DPUB-ARIA and Graphics-ARIA roles come from `aria-query`, and are listed apart: they are modules of their own, not WAI-ARIA 1.2.
 
 ## Summary
 
-| Requirement | Cases | fail | question | wcag only | missed |
-| --- | --- | --- | --- | --- | --- |
-| Roles that require an accessible name have one (`name-required`) | 34 | 26 | 0 | 0 | 8 |
-| Roles are concrete and current (`roles`) | 13 | 12 | 1 | 0 | 0 |
-| Required states and properties are present (`required-states`) | 13 | 9 | 0 | 2 | 2 |
-| States and properties are supported by the role (`supported-attributes`) | 86 | 80 | 4 | 0 | 2 |
-| Prohibited states and properties are absent (`prohibited-attributes`) | 23 | 23 | 0 | 0 | 0 |
-| States and properties have valid values (`attribute-values`) | 55 | 44 | 11 | 0 | 0 |
-| Containers own the elements their role requires, each with one owner (`owned-elements`) | 27 | 25 | 0 | 0 | 2 |
-| Elements are in the context their role requires (`context-roles`) | 14 | 13 | 0 | 0 | 1 |
-| **All** | 265 | 232 | 16 | 2 | 15 |
+| Requirement | Cases | fail | question | wcag only | missed | not required |
+| --- | --- | --- | --- | --- | --- | --- |
+| Roles that require an accessible name have one (`name-required`) | 34 | 32 | 2 | 0 | 0 | 0 |
+| Roles are concrete and current (`roles`) | 13 | 12 | 1 | 0 | 0 | 0 |
+| Required states and properties are present (`required-states`) | 13 | 10 | 2 | 0 | 0 | 1 |
+| States and properties are supported by the role (`supported-attributes`) | 86 | 80 | 6 | 0 | 0 | 0 |
+| Prohibited states and properties are absent (`prohibited-attributes`) | 23 | 23 | 0 | 0 | 0 | 0 |
+| States and properties have valid values (`attribute-values`) | 55 | 44 | 11 | 0 | 0 | 0 |
+| Containers own the elements their role requires, each with one owner (`owned-elements`) | 27 | 27 | 0 | 0 | 0 | 0 |
+| Elements are in the context their role requires (`context-roles`) | 14 | 13 | 1 | 0 | 0 | 0 |
+| **All** | 265 | 241 | 23 | 0 | 0 | 1 |
 
-DPUB-ARIA and Graphics-ARIA roles: 61 cases, 46 fail, 0 question, 0 wcag only, 15 missed.
+DPUB-ARIA and Graphics-ARIA roles: 61 cases, 46 fail, 0 question, 0 wcag only, 15 missed, 0 not required.
 
 ## Roles that require an accessible name have one
 
 | Role | Case | Status | Reported by | Note |
 | --- | --- | --- | --- | --- |
 | `alertdialog` | no accessible name | fail | `dialog-name-present` |  |
-| `application` | no accessible name | missed |  |  |
+| `application` | no accessible name | fail | `wai-aria-role-name-present` |  |
 | `button` | no accessible name | fail | `button-name-present` |  |
 | `checkbox` | no accessible name | fail | `binary-control-name-present` |  |
-| `columnheader` | no accessible name | missed |  |  |
+| `columnheader` | no accessible name | question | `empty-table-header` |  |
 | `combobox` | no accessible name | fail | `combobox-name-present` |  |
 | `dialog` | no accessible name | fail | `dialog-name-present` |  |
-| `grid` | no accessible name | fail | `aria-role-name-present` |  |
-| `heading` | no accessible name | missed |  |  |
+| `grid` | no accessible name | fail | `wai-aria-role-name-present` |  |
+| `heading` | no accessible name | fail | `empty-heading` |  |
 | `img` | no accessible name | fail | `role-img-text-alternative-present` |  |
 | `link` | no accessible name | fail | `link-name-present` |  |
 | `listbox` | no accessible name | fail | `listbox-name-present` |  |
-| `marquee` | no accessible name | missed |  |  |
-| `meter` | no accessible name | fail | `aria-role-name-present`, `meter-name-present` |  |
+| `marquee` | no accessible name | fail | `wai-aria-role-name-present` |  |
+| `meter` | no accessible name | fail | `meter-name-present`, `wai-aria-role-name-present` |  |
 | `menuitem` | no accessible name | fail | `menuitem-name-present` |  |
 | `menuitemcheckbox` | no accessible name | fail | `menuitem-name-present` |  |
 | `menuitemradio` | no accessible name | fail | `aria-required-attr`, `menuitem-name-present` |  |
 | `option` | no accessible name | fail | `option-name-present` |  |
-| `progressbar` | no accessible name | fail | `aria-role-name-present`, `progressbar-name-present` |  |
+| `progressbar` | no accessible name | fail | `progressbar-name-present`, `wai-aria-role-name-present` |  |
 | `radio` | no accessible name | fail | `binary-control-name-present` |  |
-| `radiogroup` | no accessible name | fail | `aria-role-name-present` |  |
+| `radiogroup` | no accessible name | fail | `wai-aria-role-name-present` |  |
 | `region` | no accessible name | fail | `landmark-role-name-present` |  |
-| `rowheader` | no accessible name | missed |  |  |
+| `rowheader` | no accessible name | question | `empty-table-header` |  |
 | `searchbox` | no accessible name | fail | `searchbox-name-present` |  |
 | `slider` | no accessible name | fail | `slider-name-present` |  |
 | `spinbutton` | no accessible name | fail | `spinbutton-name-present` |  |
 | `switch` | no accessible name | fail | `binary-control-name-present` |  |
-| `table` | no accessible name | missed |  |  |
-| `tabpanel` | no accessible name | missed |  |  |
+| `table` | no accessible name | fail | `wai-aria-role-name-present` |  |
+| `tabpanel` | no accessible name | fail | `wai-aria-role-name-present` |  |
 | `textbox` | no accessible name | fail | `textbox-name-present` |  |
 | `tooltip` | no accessible name | fail | `tooltip-name-present` |  |
-| `tree` | no accessible name | fail | `aria-role-name-present` |  |
-| `treegrid` | no accessible name | missed |  |  |
+| `tree` | no accessible name | fail | `wai-aria-role-name-present` |  |
+| `treegrid` | no accessible name | fail | `wai-aria-role-name-present` |  |
 | `treeitem` | no accessible name | fail | `treeitem-name-present` |  |
 | `doc-backlink` | no accessible name | missed |  | DPUB-ARIA 1.1 |
 | `doc-biblioentry` | no accessible name | missed |  | DPUB-ARIA 1.1 |
@@ -97,13 +98,13 @@ DPUB-ARIA and Graphics-ARIA roles: 61 cases, 46 fail, 0 question, 0 wcag only, 1
 | --- | --- | --- | --- | --- |
 | `checkbox` | no aria-checked | fail | `aria-required-attr` |  |
 | `combobox` | no aria-controls | fail | `aria-required-attr` |  |
-| `combobox` | no aria-expanded | wcag only | `aria-required-attr` |  |
-| `heading` | no aria-level | wcag only | `aria-required-attr` |  |
+| `combobox` | no aria-expanded | question | `aria-required-attr` |  |
+| `heading` | no aria-level | question | `aria-required-attr` |  |
 | `meter` | no aria-valuenow | fail | `aria-required-attr` |  |
 | `menuitemcheckbox` | no aria-checked | fail | `aria-required-attr` |  |
-| `option` | no aria-selected | missed |  | 1.2 gives it a default (false): no failure. |
+| `option` | no aria-selected | not required |  | 1.2 gives it a default (false): no failure. |
 | `radio` | no aria-checked | fail | `aria-required-attr` |  |
-| `scrollbar` | no aria-controls | missed |  |  |
+| `scrollbar` | no aria-controls | fail | `wai-aria-scrollbar-controls` |  |
 | `scrollbar` | no aria-valuenow | fail | `aria-required-attr` |  |
 | `separator` | no aria-valuenow (focusable) | fail | `aria-required-attr` |  |
 | `slider` | no aria-valuenow | fail | `aria-required-attr` |  |
@@ -128,7 +129,7 @@ DPUB-ARIA and Graphics-ARIA roles: 61 cases, 46 fail, 0 question, 0 wcag only, 1
 | `cell` | aria-checked not supported | fail | `aria-allowed-attr` |  |
 | `checkbox` | aria-selected not supported | fail | `aria-allowed-attr` |  |
 | `code` | aria-checked not supported | fail | `aria-allowed-attr` |  |
-| `columnheader` | aria-checked not supported | fail | `aria-allowed-attr` |  |
+| `columnheader` | aria-checked not supported | fail | `aria-allowed-attr`, `empty-table-header` |  |
 | `combobox` | aria-checked not supported | fail | `aria-allowed-attr` |  |
 | `complementary` | aria-checked not supported | fail | `aria-allowed-attr` |  |
 | `contentinfo` | aria-checked not supported | fail | `aria-allowed-attr` |  |
@@ -163,18 +164,18 @@ DPUB-ARIA and Graphics-ARIA roles: 61 cases, 46 fail, 0 question, 0 wcag only, 1
 | `menuitemcheckbox` | aria-selected not supported | fail | `aria-allowed-attr` |  |
 | `menuitemradio` | aria-selected not supported | fail | `aria-allowed-attr`, `aria-required-attr` |  |
 | `navigation` | aria-checked not supported | fail | `aria-allowed-attr` |  |
-| `none` | aria-checked not supported | missed |  |  |
+| `none` | aria-checked not supported | question | `wai-aria-presentational-attributes` |  |
 | `note` | aria-checked not supported | fail | `aria-allowed-attr` |  |
 | `option` | aria-expanded not supported | fail | `aria-allowed-attr` |  |
 | `paragraph` | aria-checked not supported | fail | `aria-allowed-attr` |  |
-| `presentation` | aria-checked not supported | missed |  |  |
+| `presentation` | aria-checked not supported | question | `wai-aria-presentational-attributes` |  |
 | `progressbar` | aria-checked not supported | fail | `aria-allowed-attr` |  |
 | `radio` | aria-selected not supported | fail | `aria-allowed-attr` |  |
 | `radiogroup` | aria-checked not supported | fail | `aria-allowed-attr` |  |
 | `region` | aria-checked not supported | fail | `aria-allowed-attr` |  |
 | `row` | aria-checked not supported | fail | `aria-allowed-attr` |  |
 | `rowgroup` | aria-checked not supported | fail | `aria-allowed-attr` |  |
-| `rowheader` | aria-checked not supported | fail | `aria-allowed-attr` |  |
+| `rowheader` | aria-checked not supported | fail | `aria-allowed-attr`, `empty-table-header` |  |
 | `scrollbar` | aria-checked not supported | fail | `aria-allowed-attr` |  |
 | `search` | aria-checked not supported | fail | `aria-allowed-attr` |  |
 | `searchbox` | aria-checked not supported | fail | `aria-allowed-attr` |  |
@@ -313,9 +314,9 @@ DPUB-ARIA and Graphics-ARIA roles: 61 cases, 46 fail, 0 question, 0 wcag only, 1
 | `grid` | aria-rowcount="one" (integer) | fail | `aria-valid-attr-value` |  |
 | `cell` | aria-rowindex="one" (integer) | fail | `aria-valid-attr-value` |  |
 | `cell` | aria-rowspan="one" (integer) | fail | `aria-valid-attr-value` |  |
-| `columnheader` | aria-selected="bogus" (boolean) | fail | `aria-valid-attr-value` |  |
+| `columnheader` | aria-selected="bogus" (boolean) | fail | `aria-valid-attr-value`, `empty-table-header` |  |
 | `article` | aria-setsize="one" (integer) | fail | `aria-valid-attr-value` |  |
-| `columnheader` | aria-sort="bogus" (token) | fail | `aria-valid-attr-value` |  |
+| `columnheader` | aria-sort="bogus" (token) | fail | `aria-valid-attr-value`, `empty-table-header` |  |
 | `meter` | aria-valuemax="one" (number) | fail | `aria-valid-attr-value` |  |
 | `meter` | aria-valuemin="one" (number) | fail | `aria-valid-attr-value` |  |
 | `meter` | aria-valuenow="one" (number) | fail | `aria-valid-attr-value` |  |
@@ -336,8 +337,8 @@ DPUB-ARIA and Graphics-ARIA roles: 61 cases, 46 fail, 0 question, 0 wcag only, 1
 
 | Role | Case | Status | Reported by | Note |
 | --- | --- | --- | --- | --- |
-| `feed` | owns none of its required roles | missed |  |  |
-| `feed` | owns a button | missed |  |  |
+| `feed` | owns none of its required roles | fail | `wai-aria-feed-articles` |  |
+| `feed` | owns a button | fail | `wai-aria-feed-articles` |  |
 | `grid` | owns none of its required roles | fail | `aria-required-children` |  |
 | `grid` | owns a button | fail | `aria-required-children` |  |
 | `list` | owns none of its required roles | fail | `aria-required-children` |  |
@@ -374,9 +375,9 @@ DPUB-ARIA and Graphics-ARIA roles: 61 cases, 46 fail, 0 question, 0 wcag only, 1
 
 | Role | Case | Status | Reported by | Note |
 | --- | --- | --- | --- | --- |
-| `caption` | outside its required context | missed |  |  |
+| `caption` | outside its required context | question | `wai-aria-caption-context` |  |
 | `cell` | outside its required context | fail | `aria-required-parent` |  |
-| `columnheader` | outside its required context | fail | `aria-required-parent` |  |
+| `columnheader` | outside its required context | fail | `aria-required-parent`, `empty-table-header` |  |
 | `gridcell` | outside its required context | fail | `aria-required-parent` |  |
 | `listitem` | outside its required context | fail | `aria-required-parent` |  |
 | `menuitem` | outside its required context | fail | `aria-required-parent` |  |
@@ -385,7 +386,7 @@ DPUB-ARIA and Graphics-ARIA roles: 61 cases, 46 fail, 0 question, 0 wcag only, 1
 | `option` | outside its required context | fail | `aria-required-parent` |  |
 | `row` | outside its required context | fail | `aria-required-parent` |  |
 | `rowgroup` | outside its required context | fail | `aria-required-parent` |  |
-| `rowheader` | outside its required context | fail | `aria-required-parent` |  |
+| `rowheader` | outside its required context | fail | `aria-required-parent`, `empty-table-header` |  |
 | `tab` | outside its required context | fail | `aria-required-parent` |  |
 | `treeitem` | outside its required context | fail | `aria-required-parent` |  |
 | `doc-biblioentry` | outside its required context | missed |  | DPUB-ARIA 1.1 |

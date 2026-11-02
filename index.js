@@ -40,6 +40,15 @@ module.exports = definePack({
   version,
   namespace: NAMESPACE,
   core: '^1.14.2',
+  // The pack's own rules, for the requirements no core rule checks, and a
+  // variant of core's name rule for every role WAI-ARIA requires a name for.
+  rules: [
+    require('./rules/automatic/wai-aria-role-name-present'),
+    require('./rules/automatic/wai-aria-scrollbar-controls'),
+    require('./rules/automatic/wai-aria-feed-articles'),
+    require('./rules/automatic/wai-aria-caption-context'),
+    require('./rules/automatic/wai-aria-presentational-attributes')
+  ],
   standard: {
     key: NAMESPACE,
     standard: STANDARD,

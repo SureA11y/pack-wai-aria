@@ -22,7 +22,8 @@ jobs:
           cache: npm
       - run: npm ci
       # Until core 1.15 is published: the pack needs its rule map's
-      # outcome 'fail', so the tests run against core's main branch.
+      # outcome 'fail' and aria-role-name-present's roles setting, so the
+      # tests run against core's main branch.
       - env:
           CORE_REF: main
         run: |
