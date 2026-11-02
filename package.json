@@ -1,0 +1,57 @@
+{
+  "name": "@surea11y/pack-wai-aria",
+  "version": "0.1.0",
+  "description": "WAI-ARIA 1.2 as a pack for @surea11y/core: one result per author requirement (names, roles, states and properties, owned and context roles), from core's ARIA rules judged by WAI-ARIA's own wording.",
+  "keywords": [
+    "accessibility",
+    "a11y",
+    "accessibility-testing",
+    "aria",
+    "wai-aria",
+    "wai-aria-1.2",
+    "surea11y",
+    "surea11y-pack"
+  ],
+  "license": "MPL-2.0",
+  "author": "Jorge Rumoroso",
+  "homepage": "https://github.com/SureA11y/pack-wai-aria#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SureA11y/pack-wai-aria.git"
+  },
+  "bugs": {
+    "url": "https://github.com/SureA11y/pack-wai-aria/issues"
+  },
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "requirements.js",
+    "rule-map.js",
+    "procedures.js",
+    "i18n/*.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": "^22.13.0 || >=24.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "test": "npm run lint && node --test tests/*.test.js"
+  },
+  "peerDependencies": {
+    "@surea11y/core": "^1.14.2"
+  },
+  "devDependencies": {
+    "@surea11y/core": "^1.14.2",
+    "eslint": "^10.12.0",
+    "jsdom": "^29.1.1"
+  }
+}
