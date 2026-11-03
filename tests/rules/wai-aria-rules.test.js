@@ -191,6 +191,28 @@ test("wai-aria-feed-articles: a native element with a role of its own is owned, 
   );
 });
 
+test("wai-aria-feed-articles: an embedded document, or a <dl>, is the feed's child, not looked into", () => {
+  for (const child of [
+    '<iframe title="ad" src="about:blank"></iframe>',
+    '<embed type="image/svg+xml" src="about:blank">',
+  ]) {
+    const check = feedCheck(`<div role="feed" aria-label="n"><article>a</article>${child}</div>`);
+    assert.equal(check.outcome, "fail", child);
+    assert.deepEqual(
+      check.occurrences.map((o) => o.data.details.reasonCode),
+      ["FEED_CHILD_NOT_ARTICLE"],
+      child,
+    );
+  }
+  // One finding, on the <dl>: its terms and definitions are its own.
+  const dl = feedCheck(
+    '<div role="feed" aria-label="n"><article>a</article><dl><dt>t</dt><dd>d</dd><dt>u</dt><dd>e</dd></dl></div>',
+  );
+  assert.equal(dl.outcome, "fail");
+  assert.equal(dl.occurrences.length, 1);
+  assert.match(dl.occurrences[0].selector, /> dl$/);
+});
+
 test("wai-aria-presentational-attributes: an element hidden from assistive technology is left alone", () => {
   assertRule(
     run(

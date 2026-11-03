@@ -168,9 +168,9 @@ function runInPage(ctx) {
     hasAncestor(el, [...SECTIONING_TAGS, "main"], [...SECTIONING_ROLES, "main"]);
   const inSectioningContent = (el) =>
     hasAncestor(el, SECTIONING_TAGS, SECTIONING_ROLES);
-  // Elements whose content is fallback, not their children in the
-  // accessibility tree: a feed doesn't look into them.
-  const OPAQUE_TAGS = ["audio", "object", "video"];
+  // Elements whose content is fallback, or another document, not their
+  // children in the accessibility tree: a feed doesn't look into them.
+  const OPAQUE_TAGS = ["audio", "embed", "frame", "iframe", "object", "video"];
   // An HTML element's implicit role, by HTML-AAM: "" for one that has none
   // or is generic, "none" for an <img alt="">. parentRole is the role of
   // its parent in the accessibility tree.
@@ -179,9 +179,11 @@ function runInPage(ctx) {
     // A <li> is a listitem only in a list; elsewhere (in a feed, or in a
     // list whose role is none) the accessibility tree looks through it.
     if (tag === "li") return parentRole === "list" ? "listitem" : "";
-    // A <video>, <audio> or <object> has no WAI-ARIA role, but is in the
-    // accessibility tree: it is named by its tag.
-    if (OPAQUE_TAGS.includes(tag)) return tag;
+    // A <video>, <audio>, <object>, <iframe> or <embed> has no WAI-ARIA
+    // role, but is in the accessibility tree: it is named by its tag. So is
+    // a <dl>, whose terms and definitions are its own children, not the
+    // feed's.
+    if (OPAQUE_TAGS.includes(tag) || tag === "dl") return tag;
     if ((tag === "a" || tag === "area") && helpers.dom.hasAttribute(el, "href")) {
       return "link";
     }
