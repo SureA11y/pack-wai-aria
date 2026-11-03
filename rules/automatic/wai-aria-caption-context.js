@@ -7,8 +7,9 @@
  *   Elements whose role attribute resolves to caption and that are in the
  *   accessibility tree.
  * @expectation
- *   The caption is a direct child of an element of role figure, table, grid
- *   or treegrid. WAI-ARIA 1.2 says authors SHOULD ensure it, so a caption
+ *   The caption is a child of an element of role figure, table, grid or
+ *   treegrid in the accessibility tree: through aria-owns, or with only
+ *   generic or presentational wrappers between. WAI-ARIA 1.2 says authors SHOULD ensure it, so a caption
  *   elsewhere is asked about, not failed.
  * @reason-codes
  *   - `CAPTION_CONTEXT_MISSING` (cantTell): a caption's parent is not a
@@ -21,7 +22,7 @@ const id = "wai-aria-caption-context";
 const meta = {
   title: "A caption is in a figure or a table",
   description:
-    "Checks that each element with role caption is a direct child of a figure, table, grid or treegrid.",
+    "Checks that each element with role caption is a child of a figure, table, grid or treegrid in the accessibility tree.",
   i18n: {
     titleKey: "waiAriaCaptionContext_title",
     descriptionKey: "waiAriaCaptionContext_description",
@@ -72,8 +73,33 @@ function runInPage(ctx) {
     }
     return tag === "figure" ? "figure" : tag === "table" ? "table" : "";
   };
+  // Who claims an element with aria-owns, the first that does: its parent
+  // in the accessibility tree.
+  const ownerOf = new Map();
+  for (const owner of helpers.queryAllSmart("[aria-owns]")) {
+    let refs = [];
+    try {
+      refs = helpers.resolveIdRefs(helpers.dom.getAttribute(owner, "aria-owns"), ctx, {}, owner).refs || [];
+    } catch {
+      refs = [];
+    }
+    for (const ref of refs) if (ref && !ownerOf.has(ref)) ownerOf.set(ref, owner);
+  }
+  // A caption's parent in the accessibility tree, as browsers build it: the
+  // element that owns it, or its nearest ancestor with a role, looking
+  // through the generic and presentational wrappers between.
+  const axParent = (el) => {
+    if (ownerOf.has(el)) return ownerOf.get(el);
+    let p = helpers.flatParentElement(el);
+    for (let guard = 0; p && guard < 200; guard++) {
+      const role = roleOf(p);
+      if (role && role !== "generic" && role !== "none" && role !== "presentation") return p;
+      p = helpers.flatParentElement(p);
+    }
+    return null;
+  };
   const occurrences = captions
-    .filter((el) => !CONTEXT.includes(roleOf(helpers.flatParentElement(el))))
+    .filter((el) => !CONTEXT.includes(roleOf(axParent(el))))
     .map((el) =>
       helpers.reportOccurrence(el, {
         summary: "This caption is not in a figure or a table.",

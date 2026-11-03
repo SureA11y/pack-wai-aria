@@ -13,7 +13,7 @@
   "waiAriaFeedArticles_summary_fail_child": "A feed owns this element, which is not an article.",
   "waiAriaFeedArticles_hint_fail_child": "Move it out of the feed, or put it inside one of its articles.",
   "waiAriaCaptionContext_title": "A caption is in a figure or a table",
-  "waiAriaCaptionContext_description": "Checks that each element with role caption is a direct child of a figure, table, grid or treegrid.",
+  "waiAriaCaptionContext_description": "Checks that each element with role caption is a child of a figure, table, grid or treegrid in the accessibility tree.",
   "waiAriaCaptionContext_summary_cantTell": "This caption is not in a figure or a table.",
   "waiAriaCaptionContext_hint_cantTell": "Make it a direct child of the figure or table it describes, and name that element by it with aria-labelledby.",
   "waiAriaPresentationalAttributes_title": "A presentational element carries no state it cannot have",
