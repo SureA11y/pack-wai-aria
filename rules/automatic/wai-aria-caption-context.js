@@ -89,6 +89,7 @@ function runInPage(ctx) {
     "wbr",
     "br",
     "pre",
+    "tt",
     "picture",
     "slot",
     "template",
@@ -106,8 +107,11 @@ function runInPage(ctx) {
   // none: it is focusable, or has a global ARIA attribute.
   const keepsRole = (el) => {
     try {
+      // The globals WAI-ARIA 1.2 deprecates don't count, as browsers don't
+      // count them (core 1.15 reads exceptDeprecated).
       return (
-        (helpers.aria.hasGlobalAriaAttr && helpers.aria.hasGlobalAriaAttr(el)) ||
+        (helpers.aria.hasGlobalAriaAttr &&
+          helpers.aria.hasGlobalAriaAttr(el, { exceptDeprecated: true })) ||
         !!(helpers.getFocusableInfo && helpers.getFocusableInfo(el).focusable)
       );
     } catch {
@@ -130,6 +134,12 @@ function runInPage(ctx) {
     if (tag === "figure") return "figure";
     if (tag === "table") return "table";
     if (tag.includes("-") || GENERIC_TAGS.includes(tag)) return "";
+    // A <li> is a listitem only in a list; in a list whose role is none,
+    // the accessibility tree looks through both.
+    if (tag === "li") {
+      const parent = helpers.flatParentElement(el);
+      return parent && ["ul", "ol", "menu", "list"].includes(roleOf(parent)) ? "li" : "";
+    }
     if (tag === "section" && !hasName(el)) return "";
     if (tag === "a" && !helpers.dom.hasAttribute(el, "href")) return "";
     return tag;
