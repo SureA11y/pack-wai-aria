@@ -509,6 +509,9 @@ test("wai-aria-caption-context: a caption's parent is read in the accessibility 
   for (const body of [
     '<div role="figure" aria-label="f"><div><div role="caption">Cap</div></div><img src="x.png" alt="x"></div>',
     '<figure><span><span role="caption">Cap</span></span><img src="x.png" alt="x"></figure>',
+    // HTML-AAM maps <pre> to generic and gives <picture> no role.
+    '<figure><pre><div role="caption">Cap</div></pre><img src="x.png" alt="x"></figure>',
+    '<figure><picture><div role="caption">Cap</div></picture><img src="x.png" alt="x"></figure>',
     '<div role="figure" aria-label="f" aria-owns="c"><img src="x.png" alt="x"></div><div role="caption" id="c">Cap</div>',
   ]) {
     assertRule(run("wai-aria-caption-context", body), "wai-aria-caption-context", "pass");
