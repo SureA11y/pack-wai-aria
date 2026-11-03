@@ -6,7 +6,7 @@ All notable changes to this package are documented here. This project adheres to
 
 ### Added
 
-- Rules of the pack's own for what no core rule checks: a scrollbar's `aria-controls` (`wai-aria-scrollbar-controls`) and a feed's articles (`wai-aria-feed-articles`), which fail; a caption outside a figure or table (`wai-aria-caption-context`) and a state on a `none` or `presentation` element (`wai-aria-presentational-attributes`), which are questions, as WAI-ARIA only recommends against them.
+- Rules of the pack's own for what no core rule checks: a scrollbar's `aria-controls` (`wai-aria-scrollbar-controls`) and a feed's articles (`wai-aria-feed-articles`, which counts what the feed owns as the accessibility tree does: its `aria-owns`, and HTML-AAM's implicit roles, looking through what is generic or none), which fail; a caption outside a figure or table (`wai-aria-caption-context`) and a state on a rendered `none` or `presentation` element (`wai-aria-presentational-attributes`), which are questions, as WAI-ARIA only recommends against them.
 - Every name-from-author role WAI-ARIA requires a name for is checked: `wai-aria-role-name-present`, a variant of core's `aria-role-name-present` with its setting `roles: 'all'` (core 1.15), adds application, marquee, table, tabpanel and treegrid, and takes core's rule's place in the rule map. An empty heading (`empty-heading`) fails `name-required`, and an empty column or row header (`empty-table-header`) is a question there.
 - A heading with no `aria-level`, or a combobox with no `aria-expanded`, is a question under required states, where it counted for nothing: WAI-ARIA's role tables give neither a default.
 - `docs/COVERAGE.md`: of the 265 WAI-ARIA 1.2 cases, 241 fail, 23 are questions and none is missed.
