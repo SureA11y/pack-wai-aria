@@ -226,6 +226,36 @@ test("wai-aria-feed-articles: an element HTML-AAM makes generic or none is looke
   }
 });
 
+test("wai-aria-feed-articles: an <article>'s explicit role decides, as an element's does", () => {
+  // role="button" makes it a button, which a feed doesn't own.
+  const button = feedCheck(
+    '<div role="feed" aria-label="n"><article>a</article><article role="button" tabindex="0">b</article></div>',
+  );
+  assert.equal(button.outcome, "fail");
+  assert.deepEqual(
+    button.occurrences.map((o) => o.data.details.role),
+    ["button"],
+  );
+  // role="none" takes its article role away: the feed owns no article.
+  const none = feedCheck(
+    '<div role="feed" aria-label="n"><article role="none">a</article></div>',
+  );
+  assert.equal(none.outcome, "fail");
+  assert.equal(none.occurrences[0].data.details.reasonCode, "FEED_ARTICLE_MISSING");
+  // ...unless browsers ignore it, on a focusable article.
+  const ignored = feedCheck(
+    '<div role="feed" aria-label="n"><article role="none" tabindex="0">a</article></div>',
+  );
+  assert.equal(ignored.outcome, "pass");
+  // A plain <article>, and role="article" on a <div>, still count.
+  assert.equal(
+    feedCheck(
+      '<div role="feed" aria-label="n"><article>a</article><div role="article">b</div></div>',
+    ).outcome,
+    "pass",
+  );
+});
+
 test("wai-aria-feed-articles: an owned element is reported by its role, not its tag", () => {
   for (const [child, role] of [
     ["<p>Intro</p>", "paragraph"],
