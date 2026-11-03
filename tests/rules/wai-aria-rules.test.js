@@ -127,6 +127,27 @@ test("wai-aria-caption-context: a caption outside a figure or table is a questio
   );
 });
 
+test("wai-aria-caption-context: a <tt>, or a list and item whose role is none, is looked through", () => {
+  for (const wrap of [
+    (c) => `<tt>${c}</tt>`,
+    (c) => `<ul role="none"><li>${c}</li></ul>`,
+    // A global WAI-ARIA 1.2 deprecates doesn't keep the list's role.
+    (c) => `<ul role="none" aria-invalid="true"><li>${c}</li></ul>`,
+  ]) {
+    const body = `<div role="figure">${wrap('<div role="caption">Prices</div>')}<img src="a.png" alt="Chart"></div>`;
+    assertRule(run("wai-aria-caption-context", body), "wai-aria-caption-context", "pass");
+  }
+  // A list item in a list is the caption's parent.
+  assertRule(
+    run(
+      "wai-aria-caption-context",
+      '<div role="figure"><ul><li><div role="caption">Prices</div></li></ul></div>',
+    ),
+    "wai-aria-caption-context",
+    "cantTell",
+  );
+});
+
 test("wai-aria-presentational-attributes: a hidden role with a state of its own is a question", () => {
   const result = run(
     "wai-aria-presentational-attributes",
@@ -563,6 +584,13 @@ test("wai-aria-feed-articles: an element whose role depends on where it is, as H
     '<div role="feed" aria-label="n"><article>a</article><img src="x.png" alt="" tabindex="0"></div>',
   );
   assert.equal(img.outcome, "fail");
+});
+
+test("wai-aria-feed-articles: an <img alt=\"\"> with only a deprecated global stays none", () => {
+  const img = (attr) =>
+    feedCheck(`<div role="feed" aria-label="n"><article>a</article><img src="x.png" alt="" ${attr}></div>`).outcome;
+  assert.equal(img('aria-invalid="true"'), "pass");
+  assert.equal(img('aria-describedby="ref"'), "fail");
 });
 
 test("wai-aria-feed-articles: what a feed claims with aria-owns is its, and content-visibility:hidden is not", () => {

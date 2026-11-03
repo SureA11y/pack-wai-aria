@@ -227,8 +227,11 @@ function runInPage(ctx) {
   // none: it is focusable, or has a global ARIA attribute.
   const keepsRole = (el) => {
     try {
+      // The globals WAI-ARIA 1.2 deprecates don't count, as browsers don't
+      // count them (core 1.15 reads exceptDeprecated).
       return (
-        (helpers.aria.hasGlobalAriaAttr && helpers.aria.hasGlobalAriaAttr(el)) ||
+        (helpers.aria.hasGlobalAriaAttr &&
+          helpers.aria.hasGlobalAriaAttr(el, { exceptDeprecated: true })) ||
         !!(helpers.getFocusableInfo && helpers.getFocusableInfo(el).focusable)
       );
     } catch {
