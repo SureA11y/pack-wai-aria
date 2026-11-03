@@ -8,7 +8,7 @@
  *   accessibility tree.
  * @expectation
  *   The feed owns at least one article, and every element it owns has the
- *   article role (an <article>, or role="article"). What it owns are its
+ *   article role (an <article> with no other role, or role="article"). What it owns are its
  *   children in the accessibility tree: those in the flat tree that no other
  *   element claims with aria-owns, and those it claims itself. Elements with
  *   no role of their own, generic or none by HTML-AAM (a <div>, an unnamed
@@ -193,8 +193,10 @@ function runInPage(ctx) {
       ? IMPLICIT_ROLES[tag]
       : "";
   };
+  // An explicit role replaces the implicit one, on an <article> as on any
+  // element: <article role="button"> is a button, and <article role="none">
+  // nothing a feed owns, unless browsers ignore that none.
   const roleOfChild = (el) => {
-    if (tagOf(el) === "article") return "article";
     let role = roleOf(el);
     // A role of none that browsers ignore (the element is focusable, or has
     // a global attribute) leaves the element its implicit role.
