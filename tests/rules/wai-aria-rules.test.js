@@ -318,6 +318,117 @@ test("wai-aria-feed-articles: aria-owns adds to a feed's owned elements, and tak
   );
 });
 
+test("wai-aria-feed-articles: a <li> outside a list is looked through", () => {
+  for (const body of [
+    '<ul role="feed" aria-label="n"><li><article>a</article></li><li><article>b</article></li></ul>',
+    '<div role="feed" aria-label="n"><ul role="none"><li><article>a</article></li></ul></div>',
+  ]) {
+    assert.equal(feedCheck(body).outcome, "pass", body);
+  }
+  // In a list, the list is what the feed owns.
+  assert.deepEqual(
+    feedCheck(
+      '<div role="feed" aria-label="n"><article>a</article><div role="list"><li>x</li></div></div>',
+    ).occurrences.map((o) => o.data.details.role),
+    ["list"],
+  );
+});
+
+test("wai-aria-feed-articles: a control whose role of none browsers ignore keeps its implicit role", () => {
+  for (const [child, role] of [
+    ['<button role="none">b</button>', "button"],
+    ['<a href="#" role="none">x</a>', "link"],
+    ['<input role="none" aria-label="x">', "textbox"],
+    ['<input type="checkbox" role="none" aria-label="x">', "checkbox"],
+    ['<select role="none" aria-label="x"><option>1</option></select>', "combobox"],
+    [
+      '<select multiple role="none" aria-label="x"><option>1</option></select>',
+      "listbox",
+    ],
+    ['<textarea role="none" aria-label="x"></textarea>', "textbox"],
+    ['<summary role="none" tabindex="0">s</summary>', "button"],
+  ]) {
+    const check = feedCheck(
+      `<div role="feed" aria-label="n"><article>a</article>${child}</div>`,
+    );
+    assert.deepEqual(
+      check.occurrences.map((o) => o.data.details.role),
+      [role],
+      child,
+    );
+  }
+});
+
+test("wai-aria-feed-articles: an unnamed <aside> in main is complementary, in sectioning content generic", () => {
+  assert.deepEqual(
+    feedCheck(
+      '<main><div role="feed" aria-label="n"><article>a</article><aside>x</aside></div></main>',
+    ).occurrences.map((o) => o.data.details.role),
+    ["complementary"],
+  );
+  assert.equal(
+    feedCheck(
+      '<section><div role="feed" aria-label="n"><article>a</article><aside>x</aside></div></section>',
+    ).outcome,
+    "pass",
+  );
+  // A header in main is still generic.
+  assert.equal(
+    feedCheck(
+      '<main><div role="feed" aria-label="n"><article>a</article><header>x</header></div></main>',
+    ).outcome,
+    "pass",
+  );
+});
+
+test("wai-aria-feed-articles: em, strong and s have roles of their own", () => {
+  for (const [child, role] of [
+    ["<em>new</em>", "emphasis"],
+    ["<strong>new</strong>", "strong"],
+    ["<s>old</s>", "deletion"],
+  ]) {
+    assert.deepEqual(
+      feedCheck(
+        `<div role="feed" aria-label="n"><article>a</article>${child}</div>`,
+      ).occurrences.map((o) => o.data.details.role),
+      [role],
+      child,
+    );
+  }
+  assert.equal(
+    feedCheck(
+      '<div role="feed" aria-label="n"><article>a</article><mark>x</mark></div>',
+    ).outcome,
+    "pass",
+  );
+});
+
+test("wai-aria-feed-articles: a feed doesn't look into media or object fallback content", () => {
+  for (const [child, role] of [
+    ["<video><article>fallback</article></video>", "video"],
+    ["<audio controls><article>fallback</article></audio>", "audio"],
+    ['<object data="a.html"><article>fallback</article></object>', "object"],
+  ]) {
+    const check = feedCheck(`<div role="feed" aria-label="n">${child}</div>`);
+    assert.deepEqual(
+      check.occurrences.map((o) =>
+        o.data.details.role || o.data.details.reasonCode,
+      ),
+      ["FEED_ARTICLE_MISSING", role],
+      child,
+    );
+  }
+});
+
+test("wai-aria-feed-articles: aria-owns naming the owner's ancestor is ignored", () => {
+  assert.equal(
+    feedCheck(
+      '<div id="w"><div role="feed" aria-label="n" aria-owns="w"><article>a</article></div><p>sibling</p></div>',
+    ).outcome,
+    "pass",
+  );
+});
+
 test("wai-aria-presentational-attributes: a shadow host's child that no slot takes is left alone", () => {
   const scan = (slot) => {
     const dom = createDom(
