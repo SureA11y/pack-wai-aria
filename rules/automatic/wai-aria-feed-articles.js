@@ -235,6 +235,32 @@ function runInPage(ctx) {
     if (!role || (role === "generic" && !helpers.aria.getExplicitRole(el))) {
       role = nativeRole(el, tagOf(el), parentRole);
     }
+    // An explicit region or form needs a name to be one (Core-AAM): an
+    // unnamed role="region" or role="form" is exposed with the next role
+    // its role attribute names, or its element's own, a <div>'s generic,
+    // and looked through like it. A <form> keeps its own role, as browsers
+    // expose it.
+    const explicit = helpers.aria.getExplicitRole(el);
+    if (
+      (explicit === "region" || explicit === "form") &&
+      role === explicit &&
+      !hasName(el)
+    ) {
+      const tokens = String(helpers.dom.getAttribute(el, "role") || "")
+        .trim()
+        .toLowerCase()
+        .split(/\s+/);
+      const next = tokens
+        .slice(tokens.indexOf(explicit) + 1)
+        .find(
+          (t) =>
+            t !== "region" &&
+            t !== "form" &&
+            typeof helpers.aria.isValidConcreteRole === "function" &&
+            helpers.aria.isValidConcreteRole(t),
+        );
+      role = next || nativeRole(el, tagOf(el), parentRole);
+    }
     return role;
   };
   // The elements another element claims with aria-owns, each by the first
@@ -280,6 +306,23 @@ function runInPage(ctx) {
     }
     return out;
   };
+  // Whether an element is hidden by visibility alone (hidden or collapse),
+  // which its descendants can override; not by display:none, which they
+  // can't.
+  const isVisibilityHidden = (el) => {
+    try {
+      const cs = helpers.computedStyle(el) || {};
+      const visibility = String(cs.visibility || "");
+      const ariaHidden = String(helpers.dom.getAttribute(el, "aria-hidden") || "");
+      return (
+        (visibility === "hidden" || visibility === "collapse") &&
+        String(cs.display || "") !== "none" &&
+        ariaHidden.trim().toLowerCase() !== "true"
+      );
+    } catch {
+      return false;
+    }
+  };
   // The elements a feed owns: its children in the accessibility tree,
   // looking through those with no role of their own.
   const owned = (el, elRole, depth, seen) => {
@@ -287,7 +330,14 @@ function runInPage(ctx) {
     for (const child of axChildren(el)) {
       if (seen.has(child)) continue;
       seen.add(child);
-      if (!helpers.isIncludedInAccessibilityTree(child, ctx)) continue;
+      if (!helpers.isIncludedInAccessibilityTree(child, ctx)) {
+        // visibility:hidden hides an element and not the descendants that
+        // set visibility:visible: they are the feed's still.
+        if (depth < 200 && isVisibilityHidden(child)) {
+          out.push(...owned(child, elRole, depth + 1, seen));
+        }
+        continue;
+      }
       const role = roleOfChild(child, elRole);
       if (
         !role ||
@@ -295,7 +345,9 @@ function runInPage(ctx) {
         role === "none" ||
         role === "presentation"
       ) {
-        if (depth < 8 && !OPAQUE_TAGS.includes(tagOf(child))) {
+        // Looked through at any depth, as browsers do; the guard only stops
+        // a pathological tree.
+        if (depth < 200 && !OPAQUE_TAGS.includes(tagOf(child))) {
           out.push(...owned(child, role, depth + 1, seen));
         }
       } else out.push({ el: child, role });

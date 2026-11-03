@@ -447,3 +447,60 @@ test("wai-aria-presentational-attributes: a shadow host's child that no slot tak
   assertRule(scan(false), "wai-aria-presentational-attributes", "notApplicable");
   assertRule(scan(true), "wai-aria-presentational-attributes", "cantTell");
 });
+
+test("wai-aria-feed-articles: an unnamed explicit region or form is looked through, as browsers expose it", () => {
+  for (const wrapper of [
+    '<div role="region">',
+    '<div role="form">',
+    '<section role="region">',
+  ]) {
+    const close = wrapper.startsWith("<section") ? "</section>" : "</div>";
+    const check = feedCheck(
+      `<div role="feed" aria-label="n">${wrapper}<article>a</article>${close}</div>`,
+    );
+    assert.equal(check.outcome, "pass", wrapper);
+  }
+  // Named, it is a region, which a feed doesn't own.
+  const named = feedCheck(
+    '<div role="feed" aria-label="n"><div role="region" aria-label="r"><article>a</article></div></div>',
+  );
+  assert.equal(named.outcome, "fail");
+  // The next role it names is taken first.
+  const next = feedCheck(
+    '<div role="feed" aria-label="n"><div role="region article">a</div></div>',
+  );
+  assert.equal(next.outcome, "pass");
+  // A <form> is a form, named or not, as browsers expose it.
+  const form = feedCheck(
+    '<div role="feed" aria-label="n"><article>a</article><form>x</form></div>',
+  );
+  assert.equal(form.outcome, "fail");
+});
+
+test("wai-aria-feed-articles: generic wrappers are looked through at any depth", () => {
+  const deep = (inner, n) => "<div>".repeat(n) + inner + "</div>".repeat(n);
+  assert.equal(
+    feedCheck(
+      `<div role="feed" aria-label="n">${deep("<article>a</article>", 12)}</div>`,
+    ).outcome,
+    "pass",
+  );
+  assert.equal(
+    feedCheck(
+      `<div role="feed" aria-label="n"><article>a</article>${deep("<p>x</p>", 12)}</div>`,
+    ).outcome,
+    "fail",
+  );
+});
+
+test("wai-aria-feed-articles: a child that sets visibility:visible inside a visibility:hidden one is the feed's", () => {
+  const check = feedCheck(
+    '<div role="feed" aria-label="n"><article>a</article><div style="visibility:hidden"><p style="visibility:visible">x</p></div></div>',
+  );
+  assert.equal(check.outcome, "fail");
+  // Under display:none it stays hidden.
+  const none = feedCheck(
+    '<div role="feed" aria-label="n"><article>a</article><div style="display:none"><p style="visibility:visible">x</p></div></div>',
+  );
+  assert.equal(none.outcome, "pass");
+});
