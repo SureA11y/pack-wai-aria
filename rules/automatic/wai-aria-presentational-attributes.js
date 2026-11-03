@@ -106,7 +106,13 @@ function runInPage(ctx) {
   for (const el of nodes) {
     const names = Array.from(dom.getAttributeNames(el) || [])
       .map((n) => String(n).toLowerCase())
-      .filter((n) => n.startsWith("aria-") && !GLOBAL.includes(n));
+      .filter((n) => n.startsWith("aria-") && !GLOBAL.includes(n))
+      // A name WAI-ARIA has no attribute of is aria-valid-attr's to report.
+      .filter(
+        (n) =>
+          typeof helpers.aria.isValidAriaAttrName !== "function" ||
+          helpers.aria.isValidAriaAttrName(n),
+      );
     if (!names.length) continue;
     occurrences.push(
       helpers.reportOccurrence(el, {

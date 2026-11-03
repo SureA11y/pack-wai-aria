@@ -62,16 +62,75 @@ function runInPage(ctx) {
     };
   }
   const CONTEXT = ["figure", "table", "grid", "treegrid"];
+  // HTML elements with no role of their own (generic, or none), as
+  // HTML-AAM gives them: the accessibility tree looks through them. Every
+  // other element has a role, which is the caption's parent if it is the
+  // nearest.
+  const GENERIC_TAGS = [
+    "div",
+    "span",
+    "b",
+    "i",
+    "u",
+    "small",
+    "big",
+    "mark",
+    "font",
+    "center",
+    "bdi",
+    "bdo",
+    "data",
+    "q",
+    "cite",
+    "abbr",
+    "kbd",
+    "samp",
+    "var",
+    "wbr",
+    "br",
+    "slot",
+    "template",
+  ];
+  const tagOf = (el) => String(helpers.dom.localName(el) || "").toLowerCase();
+  const hasName = (el) => {
+    try {
+      const info = helpers.getAccessibleNameInfo(el, ctx);
+      return !!(info && info.present);
+    } catch {
+      return false;
+    }
+  };
+  // Whether browsers keep an element's role where its markup makes it
+  // none: it is focusable, or has a global ARIA attribute.
+  const keepsRole = (el) => {
+    try {
+      return (
+        (helpers.aria.hasGlobalAriaAttr && helpers.aria.hasGlobalAriaAttr(el)) ||
+        !!(helpers.getFocusableInfo && helpers.getFocusableInfo(el).focusable)
+      );
+    } catch {
+      return false;
+    }
+  };
+  // An element's role in the accessibility tree: "" for one it looks
+  // through, the tag for a native role that is no context of a caption.
   const roleOf = (el) => {
     if (!el) return "";
-    const tag = String(helpers.dom.localName(el) || "").toLowerCase();
-    try {
-      const info = helpers.getRoleInfo(el, ctx);
-      if (info && info.role) return info.role;
-    } catch {
-      // read as no role
+    const tag = tagOf(el);
+    const explicit = helpers.aria.getExplicitRole(el);
+    const unnamedLandmark =
+      (explicit === "region" || explicit === "form") && !hasName(el);
+    if (explicit && explicit !== "none" && explicit !== "presentation" && !unnamedLandmark) {
+      return explicit;
     }
-    return tag === "figure" ? "figure" : tag === "table" ? "table" : "";
+    // A role of none that browsers ignore leaves the element its own.
+    if ((explicit === "none" || explicit === "presentation") && !keepsRole(el)) return "";
+    if (tag === "figure") return "figure";
+    if (tag === "table") return "table";
+    if (tag.includes("-") || GENERIC_TAGS.includes(tag)) return "";
+    if (tag === "section" && !hasName(el)) return "";
+    if (tag === "a" && !helpers.dom.hasAttribute(el, "href")) return "";
+    return tag;
   };
   // Who claims an element with aria-owns, the first that does: its parent
   // in the accessibility tree.
@@ -93,7 +152,7 @@ function runInPage(ctx) {
     let p = helpers.flatParentElement(el);
     for (let guard = 0; p && guard < 200; guard++) {
       const role = roleOf(p);
-      if (role && role !== "generic" && role !== "none" && role !== "presentation") return p;
+      if (role && role !== "generic") return p;
       p = helpers.flatParentElement(p);
     }
     return null;
