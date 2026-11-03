@@ -80,11 +80,8 @@ function runInPage(ctx) {
     "b",
     "i",
     "u",
-    "s",
     "small",
     "big",
-    "em",
-    "strong",
     "mark",
     "font",
     "center",
@@ -118,6 +115,7 @@ function runInPage(ctx) {
     dfn: "term",
     dialog: "dialog",
     dt: "term",
+    em: "emphasis",
     fieldset: "group",
     figure: "figure",
     form: "form",
@@ -130,7 +128,6 @@ function runInPage(ctx) {
     hgroup: "group",
     hr: "separator",
     ins: "insertion",
-    li: "listitem",
     main: "main",
     math: "math",
     menu: "list",
@@ -142,37 +139,66 @@ function runInPage(ctx) {
     output: "status",
     p: "paragraph",
     progress: "progressbar",
+    s: "deletion",
     search: "search",
+    strong: "strong",
     sub: "subscript",
     sup: "superscript",
     table: "table",
+    textarea: "textbox",
     time: "time",
     ul: "list",
   };
-  // Whether an element is scoped to sectioning content or main, where
-  // HTML-AAM makes a <header> or <footer> generic, not banner or
-  // contentinfo, and an unnamed <aside> generic, not complementary.
-  const SECTIONING_TAGS = ["article", "aside", "main", "nav", "section"];
-  const SECTIONING_ROLES = [
-    "article",
-    "complementary",
-    "main",
-    "navigation",
-    "region",
-  ];
-  const inSectioning = (el) => {
+  // Whether an element has an ancestor of the given tags or roles. HTML-AAM
+  // makes a <header> or <footer> generic, not banner or contentinfo, inside
+  // sectioning content or main, and an unnamed <aside> generic, not
+  // complementary, inside sectioning content only (in main it stays one).
+  const SECTIONING_TAGS = ["article", "aside", "nav", "section"];
+  const SECTIONING_ROLES = ["article", "complementary", "navigation", "region"];
+  const hasAncestor = (el, tags, roles) => {
     let p = helpers.flatParentElement(el);
     for (let guard = 0; p && guard < 200; guard++) {
-      if (SECTIONING_TAGS.includes(tagOf(p))) return true;
-      if (SECTIONING_ROLES.includes(helpers.aria.getExplicitRole(p))) return true;
+      if (tags.includes(tagOf(p))) return true;
+      if (roles.includes(helpers.aria.getExplicitRole(p))) return true;
       p = helpers.flatParentElement(p);
     }
     return false;
   };
+  const inSectioning = (el) =>
+    hasAncestor(el, [...SECTIONING_TAGS, "main"], [...SECTIONING_ROLES, "main"]);
+  const inSectioningContent = (el) =>
+    hasAncestor(el, SECTIONING_TAGS, SECTIONING_ROLES);
+  // Elements whose content is fallback, not their children in the
+  // accessibility tree: a feed doesn't look into them.
+  const OPAQUE_TAGS = ["audio", "object", "video"];
   // An HTML element's implicit role, by HTML-AAM: "" for one that has none
-  // or is generic, "none" for an <img alt="">.
-  const nativeRole = (el, tag) => {
+  // or is generic, "none" for an <img alt="">. parentRole is the role of
+  // its parent in the accessibility tree.
+  const nativeRole = (el, tag, parentRole) => {
     if (tag === "article") return "article";
+    // A <li> is a listitem only in a list; elsewhere (in a feed, or in a
+    // list whose role is none) the accessibility tree looks through it.
+    if (tag === "li") return parentRole === "list" ? "listitem" : "";
+    // A <video>, <audio> or <object> has no WAI-ARIA role, but is in the
+    // accessibility tree: it is named by its tag.
+    if (OPAQUE_TAGS.includes(tag)) return tag;
+    if ((tag === "a" || tag === "area") && helpers.dom.hasAttribute(el, "href")) {
+      return "link";
+    }
+    if (tag === "button" || tag === "summary") return "button";
+    if (tag === "input") {
+      const type = String(helpers.dom.getAttribute(el, "type") || "");
+      if (type.toLowerCase() === "hidden") return "";
+      // Password, date, color and file inputs have no WAI-ARIA role, but
+      // are in the accessibility tree: they are named by their tag.
+      return (helpers.aria.getInputRole && helpers.aria.getInputRole(el)) || tag;
+    }
+    if (tag === "select") {
+      const size = parseInt(helpers.dom.getAttribute(el, "size") || "", 10);
+      return helpers.dom.hasAttribute(el, "multiple") || size > 1
+        ? "listbox"
+        : "combobox";
+    }
     if (tag.includes("-") || GENERIC_TAGS.includes(tag)) return "";
     if (tag === "img") {
       const alt = helpers.dom.getAttribute(el, "alt");
@@ -185,7 +211,7 @@ function runInPage(ctx) {
     }
     if (tag === "section") return hasName(el) ? "region" : "";
     if (tag === "aside") {
-      return !inSectioning(el) || hasName(el) ? "complementary" : "";
+      return !inSectioningContent(el) || hasName(el) ? "complementary" : "";
     }
     if (tag === "header") return inSectioning(el) ? "" : "banner";
     if (tag === "footer") return inSectioning(el) ? "" : "contentinfo";
@@ -196,7 +222,7 @@ function runInPage(ctx) {
   // An explicit role replaces the implicit one, on an <article> as on any
   // element: <article role="button"> is a button, and <article role="none">
   // nothing a feed owns, unless browsers ignore that none.
-  const roleOfChild = (el) => {
+  const roleOfChild = (el, parentRole) => {
     let role = roleOf(el);
     // A role of none that browsers ignore (the element is focusable, or has
     // a global attribute) leaves the element its implicit role.
@@ -207,7 +233,7 @@ function runInPage(ctx) {
       role = "";
     }
     if (!role || (role === "generic" && !helpers.aria.getExplicitRole(el))) {
-      role = nativeRole(el, tagOf(el));
+      role = nativeRole(el, tagOf(el), parentRole);
     }
     return role;
   };
@@ -215,6 +241,14 @@ function runInPage(ctx) {
   // that does: they are that element's children in the accessibility tree,
   // not their parent's.
   const claimedBy = new Map();
+  const hasAncestorElement = (el, anc) => {
+    let p = el;
+    for (let guard = 0; p && guard < 200; guard++) {
+      if (p === anc) return true;
+      p = helpers.flatParentElement(p);
+    }
+    return false;
+  };
   for (const owner of helpers.queryAllSmart("[aria-owns]")) {
     let refs = [];
     try {
@@ -228,7 +262,10 @@ function runInPage(ctx) {
       refs = [];
     }
     for (const ref of refs || []) {
-      if (ref && ref !== owner && !claimedBy.has(ref)) claimedBy.set(ref, owner);
+      // An element can't own its own ancestor: browsers ignore that claim.
+      if (ref && !claimedBy.has(ref) && !hasAncestorElement(owner, ref)) {
+        claimedBy.set(ref, owner);
+      }
     }
   }
   // An element's children in the accessibility tree: its children in the
@@ -245,27 +282,29 @@ function runInPage(ctx) {
   };
   // The elements a feed owns: its children in the accessibility tree,
   // looking through those with no role of their own.
-  const owned = (el, depth, seen) => {
+  const owned = (el, elRole, depth, seen) => {
     const out = [];
     for (const child of axChildren(el)) {
       if (seen.has(child)) continue;
       seen.add(child);
       if (!helpers.isIncludedInAccessibilityTree(child, ctx)) continue;
-      const role = roleOfChild(child);
+      const role = roleOfChild(child, elRole);
       if (
         !role ||
         role === "generic" ||
         role === "none" ||
         role === "presentation"
       ) {
-        if (depth < 8) out.push(...owned(child, depth + 1, seen));
+        if (depth < 8 && !OPAQUE_TAGS.includes(tagOf(child))) {
+          out.push(...owned(child, role, depth + 1, seen));
+        }
       } else out.push({ el: child, role });
     }
     return out;
   };
   const occurrences = [];
   for (const feed of feeds) {
-    const children = owned(feed, 0, new Set([feed]));
+    const children = owned(feed, "feed", 0, new Set([feed]));
     if (!children.some((c) => c.role === "article")) {
       occurrences.push(
         helpers.reportOccurrence(feed, {
