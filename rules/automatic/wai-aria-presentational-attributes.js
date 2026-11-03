@@ -71,12 +71,27 @@ function runInPage(ctx) {
     "aria-relevant",
     "aria-roledescription",
   ];
+  // Whether an element is in the flat tree: neither it nor any ancestor is
+  // a shadow host's child that no slot takes (flatParentElement gives
+  // undefined for one).
+  const isRendered = (el) => {
+    let p = el;
+    for (let guard = 0; guard < 500; guard++) {
+      p = helpers.flatParentElement(p);
+      if (p === undefined) return false;
+      if (!p) return true;
+    }
+    return true;
+  };
   const nodes = helpers
     .queryAllSmart('[role~="none" i],[role~="presentation" i]')
     .filter((el) =>
       ["none", "presentation"].includes(helpers.aria.getExplicitRole(el)),
     )
     .filter((el) => !helpers.isPresentationalRoleIgnored(el))
+    // A child of a shadow host that no slot takes, or inside one, is not
+    // rendered.
+    .filter((el) => isRendered(el))
     // Hidden from assistive technology, its attributes reach no one.
     .filter((el) => helpers.isIncludedInAccessibilityTree(el, ctx));
   if (!nodes.length) {
