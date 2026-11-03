@@ -88,6 +88,8 @@ function runInPage(ctx) {
     "var",
     "wbr",
     "br",
+    "pre",
+    "picture",
     "slot",
     "template",
   ];
