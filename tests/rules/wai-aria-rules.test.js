@@ -504,3 +504,54 @@ test("wai-aria-feed-articles: a child that sets visibility:visible inside a visi
   );
   assert.equal(none.outcome, "pass");
 });
+
+test("wai-aria-caption-context: a caption's parent is read in the accessibility tree", () => {
+  for (const body of [
+    '<div role="figure" aria-label="f"><div><div role="caption">Cap</div></div><img src="x.png" alt="x"></div>',
+    '<figure><span><span role="caption">Cap</span></span><img src="x.png" alt="x"></figure>',
+    '<div role="figure" aria-label="f" aria-owns="c"><img src="x.png" alt="x"></div><div role="caption" id="c">Cap</div>',
+  ]) {
+    assertRule(run("wai-aria-caption-context", body), "wai-aria-caption-context", "pass");
+  }
+  // A role between them is the caption's parent.
+  assertRule(
+    run(
+      "wai-aria-caption-context",
+      '<div role="figure" aria-label="f"><div role="group" aria-label="g"><div role="caption">Cap</div></div></div>',
+    ),
+    "wai-aria-caption-context",
+    "cantTell",
+  );
+});
+
+test("wai-aria-feed-articles: an element whose role depends on where it is, as HTML-AAM gives it", () => {
+  // A <summary> outside a <details>, and an <area>, are no child of a feed.
+  for (const child of [
+    "<summary>s</summary>",
+    '<map name="m"><area href="#" alt="a"></map>',
+  ]) {
+    const check = feedCheck(`<div role="feed" aria-label="n"><article>a</article>${child}</div>`);
+    assert.equal(check.outcome, "pass", child);
+  }
+  // A focusable <img alt=""> keeps its image role.
+  const img = feedCheck(
+    '<div role="feed" aria-label="n"><article>a</article><img src="x.png" alt="" tabindex="0"></div>',
+  );
+  assert.equal(img.outcome, "fail");
+});
+
+test("wai-aria-feed-articles: what a feed claims with aria-owns is its, and content-visibility:hidden is not", () => {
+  const claimed = (body) => feedCheck(body).outcome;
+  assert.equal(
+    claimed('<div role="group" aria-label="g" aria-owns="x"></div><div role="feed" aria-label="n" aria-owns="x"><article>a</article></div><p id="x">p</p>'),
+    "fail",
+  );
+  assert.equal(
+    claimed('<div role="feed" aria-label="n" aria-owns="y"><article>a</article></div><div aria-hidden="true"><p id="y">p</p></div>'),
+    "fail",
+  );
+  assert.equal(
+    claimed('<div role="feed" aria-label="n"><article>a</article><p style="content-visibility:hidden">x</p></div>'),
+    "pass",
+  );
+});

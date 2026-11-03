@@ -201,8 +201,10 @@ function runInPage(ctx) {
     }
     if (tag.includes("-") || GENERIC_TAGS.includes(tag)) return "";
     if (tag === "img") {
+      // alt="" makes it none, unless browsers ignore that (it is focusable,
+      // or has a global attribute), as they ignore an explicit none.
       const alt = helpers.dom.getAttribute(el, "alt");
-      return alt === "" && !hasName(el) ? "none" : "img";
+      return alt === "" && !hasName(el) && !keepsRole(el) ? "none" : "img";
     }
     if (tag === "svg") {
       return helpers.flatChildElements(el).length || hasName(el)
@@ -219,6 +221,25 @@ function runInPage(ctx) {
       ? IMPLICIT_ROLES[tag]
       : "";
   };
+  // Whether browsers keep an element's role where its markup makes it
+  // none: it is focusable, or has a global ARIA attribute.
+  const keepsRole = (el) => {
+    try {
+      return (
+        (helpers.aria.hasGlobalAriaAttr && helpers.aria.hasGlobalAriaAttr(el)) ||
+        !!(helpers.getFocusableInfo && helpers.getFocusableInfo(el).focusable)
+      );
+    } catch {
+      return false;
+    }
+  };
+  // Whether a <summary> is its <details>'s summary: the first <summary>
+  // child of a <details>.
+  const isDetailsSummary = (el) => {
+    const parent = helpers.flatParentElement(el);
+    if (!parent || tagOf(parent) !== "details") return false;
+    return helpers.flatChildElements(parent).find((c) => tagOf(c) === "summary") === el;
+  };
   // An explicit role replaces the implicit one, on an <article> as on any
   // element: <article role="button"> is a button, and <article role="none">
   // nothing a feed owns, unless browsers ignore that none.
@@ -234,6 +255,20 @@ function runInPage(ctx) {
     }
     if (!role || (role === "generic" && !helpers.aria.getExplicitRole(el))) {
       role = nativeRole(el, tagOf(el), parentRole);
+    }
+    // Where an element's own role depends on its context (HTML-AAM): with
+    // no explicit role, an <area> is a link of the image that uses its map,
+    // in the image's place in the tree, never a child of the map's parent;
+    // a <summary> is a button as its <details>'s summary only; an
+    // <img alt=""> that browsers can't make none (it is focusable, or has
+    // a global attribute) is an image.
+    if (!helpers.aria.getExplicitRole(el)) {
+      const tag = tagOf(el);
+      if (tag === "area") return "none";
+      if (tag === "summary" && !isDetailsSummary(el)) return "";
+      if (tag === "img" && (role === "none" || role === "presentation") && keepsRole(el)) {
+        return "img";
+      }
     }
     // An explicit region or form needs a name to be one (Core-AAM): an
     // unnamed role="region" or role="form" is exposed with the next role
@@ -287,11 +322,14 @@ function runInPage(ctx) {
     } catch {
       refs = [];
     }
+    // A feed's claim is the feed's whoever else claims the element, as
+    // Chromium gives it; between others, the first claim holds.
+    const isFeed = feeds.includes(owner);
     for (const ref of refs || []) {
       // An element can't own its own ancestor: browsers ignore that claim.
-      if (ref && !claimedBy.has(ref) && !hasAncestorElement(owner, ref)) {
-        claimedBy.set(ref, owner);
-      }
+      if (!ref || hasAncestorElement(owner, ref)) continue;
+      const held = claimedBy.get(ref);
+      if (!held || (isFeed && !feeds.includes(held))) claimedBy.set(ref, owner);
     }
   }
   // An element's children in the accessibility tree: its children in the
@@ -323,6 +361,29 @@ function runInPage(ctx) {
       return false;
     }
   };
+  const isContentHidden = (el) => {
+    try {
+      const cs = helpers.computedStyle(el) || {};
+      return String(cs.contentVisibility || cs["content-visibility"] || "") === "hidden";
+    } catch {
+      return false;
+    }
+  };
+  // Whether an element is hidden by itself, not by an element around it.
+  const isSelfHidden = (el) => {
+    try {
+      const cs = helpers.computedStyle(el) || {};
+      const ariaHidden = String(helpers.dom.getAttribute(el, "aria-hidden") || "");
+      return (
+        ariaHidden.trim().toLowerCase() === "true" ||
+        helpers.dom.hasAttribute(el, "hidden") ||
+        String(cs.display || "") === "none" ||
+        String(cs.visibility || "") === "hidden"
+      );
+    } catch {
+      return true;
+    }
+  };
   // The elements a feed owns: its children in the accessibility tree,
   // looking through those with no role of their own.
   const owned = (el, elRole, depth, seen) => {
@@ -330,7 +391,15 @@ function runInPage(ctx) {
     for (const child of axChildren(el)) {
       if (seen.has(child)) continue;
       seen.add(child);
-      if (!helpers.isIncludedInAccessibilityTree(child, ctx)) {
+      // content-visibility:hidden keeps the element's box and hides what
+      // is in it: browsers leave it out of the tree.
+      if (isContentHidden(child)) continue;
+      // An element the feed claims with aria-owns moves into the feed: an
+      // aria-hidden around where it sits in the DOM no longer hides it.
+      const included =
+        helpers.isIncludedInAccessibilityTree(child, ctx) ||
+        (claimedBy.get(child) === el && !isSelfHidden(child));
+      if (!included) {
         // visibility:hidden hides an element and not the descendants that
         // set visibility:visible: they are the feed's still.
         if (depth < 200 && isVisibilityHidden(child)) {
