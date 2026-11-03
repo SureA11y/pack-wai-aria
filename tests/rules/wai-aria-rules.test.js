@@ -555,3 +555,31 @@ test("wai-aria-feed-articles: what a feed claims with aria-owns is its, and cont
     "pass",
   );
 });
+
+test("wai-aria-caption-context: an element with a native role between is the caption's parent", () => {
+  for (const body of [
+    '<figure><ul><li><span role="caption">c</span></li></ul><img src="x.png" alt="x"></figure>',
+    '<figure><p><span role="caption">c</span></p><img src="x.png" alt="x"></figure>',
+    '<figure><blockquote><div role="caption">c</div></blockquote></figure>',
+    '<figure><details open><div role="caption">c</div></details></figure>',
+  ]) {
+    assertRule(run("wai-aria-caption-context", body), "wai-aria-caption-context", "cantTell");
+  }
+  // A role of none browsers ignore leaves the figure its role.
+  assertRule(
+    run(
+      "wai-aria-caption-context",
+      '<figure role="none" tabindex="0"><div role="caption">c</div><img src="x.png" alt="x"></figure>',
+    ),
+    "wai-aria-caption-context",
+    "pass",
+  );
+});
+
+test("wai-aria-presentational-attributes: a name WAI-ARIA has no attribute of is left to aria-valid-attr", () => {
+  assertRule(
+    run("wai-aria-presentational-attributes", '<h1 role="none" aria-foo="x">t</h1>'),
+    "wai-aria-presentational-attributes",
+    "pass",
+  );
+});
