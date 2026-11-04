@@ -3,9 +3,15 @@
 // Every reason code of every core rule the map lists is placed: a code core
 // adds to one of them shows here before it counts toward a requirement by
 // default. And every rule the map lists is one of core's.
+//
+// Core's inventory of reason codes (scripts/data/finding-ids.json) comes with
+// its source, not its package, so the test reads it from a checkout beside
+// this one (../core), at the installed core's version in CI, and is skipped
+// without one.
 
 const test = require('node:test');
 const assert = require('node:assert/strict');
+const fs = require('node:fs');
 const path = require('node:path');
 
 const { getChecksCatalog } = require('@surea11y/core');
@@ -13,7 +19,12 @@ const { RULE_REQUIREMENTS } = require('../rule-map');
 const { REQUIREMENTS } = require('../requirements');
 
 const coreDir = path.dirname(require.resolve('@surea11y/core/package.json'));
-const { reasonCodes } = require(path.join(coreDir, 'scripts/data/finding-ids.json'));
+const INVENTORY = [
+  path.join(coreDir, 'scripts/data/finding-ids.json'),
+  path.join(__dirname, '..', '..', 'core', 'scripts/data/finding-ids.json')
+].find((file) => fs.existsSync(file));
+const skip = !INVENTORY && 'no core checkout beside this one';
+const { reasonCodes } = INVENTORY ? require(INVENTORY) : { reasonCodes: {} };
 const coreRules = new Set(getChecksCatalog().map((r) => r.ruleId));
 
 // The pack's own rules and variants, with the codes each gives: a
@@ -27,7 +38,7 @@ const OWN = Object.fromEntries(
 );
 
 for (const [version, rows] of Object.entries(RULE_REQUIREMENTS)) {
-  test(`${version}: every rule is core's or the pack's, and every one of its codes is placed`, () => {
+  test(`${version}: every rule is core's or the pack's, and every one of its codes is placed`, { skip }, () => {
     for (const [ruleId, row] of Object.entries(rows)) {
       const own = Object.prototype.hasOwnProperty.call(OWN, ruleId);
       assert.ok(own || coreRules.has(ruleId), `${ruleId} is a core rule or the pack's`);

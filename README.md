@@ -2,6 +2,12 @@
 
 [WAI-ARIA 1.2](https://www.w3.org/TR/wai-aria-1.2/) as a standard for [`@surea11y/core`](https://github.com/SureA11y/core): one result per author requirement the rules can check, from core's ARIA rules judged by WAI-ARIA's own wording.
 
+```sh
+npm install @surea11y/core @surea11y/pack-wai-aria
+```
+
+It needs `@surea11y/core` 1.15.0 or later.
+
 ```js
 const waiAria = require('@surea11y/pack-wai-aria');
 
