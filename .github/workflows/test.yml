@@ -21,14 +21,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: npm
       - run: npm ci
-      # Until core 1.15 is published: the pack needs its rule map's
-      # outcome 'fail' and aria-role-name-present's roles setting, so the
-      # tests run against core's main branch.
-      - env:
-          CORE_REF: main
-        run: |
-          git clone --depth 1 --branch "$CORE_REF" https://github.com/SureA11y/core.git ../core
-          (cd ../core && npm ci --ignore-scripts)
-          rm -rf node_modules/@surea11y/core
-          ln -s "$PWD/../core" node_modules/@surea11y/core
+      # core's inventory of reason codes, for tests/rule-map.test.js, at the
+      # version installed
+      - run: git clone --depth 1 --branch "v$(node -p "require('@surea11y/core/package.json').version")" https://github.com/SureA11y/core.git ../core
       - run: npm test

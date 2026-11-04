@@ -1,0 +1,50 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    # A step that hangs fails the run instead of holding it for GitHub's
+    # six-hour default.
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          registry-url: https://registry.npmjs.org
+          cache: npm
+      - run: npm install -g npm@12
+      - run: npm ci
+
+      - name: Verify tag matches package version
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          PKG="$(node -p "require('./package.json').version")"
+          if [ "$TAG" != "$PKG" ]; then
+            echo "::error::tag $GITHUB_REF_NAME does not match package.json version $PKG"
+            exit 1
+          fi
+
+      - run: git clone --depth 1 --branch "v$(node -p "require('@surea11y/core/package.json').version")" https://github.com/SureA11y/core.git ../core
+      - run: npm test
+
+      # Staged, not published: the version goes live once a maintainer
+      # approves it with 2FA (npm stage approve, or on npmjs.com).
+      - name: Stage on npm
+        if: startsWith(github.ref, 'refs/tags/')
+        run: npm stage publish
+
+      - name: Manual run summary
+        if: ${{ !startsWith(github.ref, 'refs/tags/') }}
+        run: echo "Checks passed. Publishing skipped because this was not a tag."
