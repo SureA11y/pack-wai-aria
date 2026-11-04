@@ -37,13 +37,14 @@ const meta = {
   review: {
     PRESENTATIONAL_ATTRIBUTE_UNSUPPORTED: {
       steps: [
-        "Find the element the report names on the page.",
-        "Read the attribute the report names, and what the element is for.",
+        "Find the element the report names: it has role {{role|none or presentation}}, which hides it from assistive technology, and {{attributes|an aria-* attribute}}, which neither role supports.",
+        "Work out what {{attributes|the attribute}} was meant to say: a state such as checked or expanded belongs to a control, such as a checkbox or a button.",
+        "Look at what the element is for on the page: only layout, or a control or content a person uses.",
       ],
       passWhen:
-        "The element is only for layout, and the attribute can be removed with nothing lost.",
+        "The element is only for layout, and {{attributes|the attribute}} can be removed with nothing lost. The only aria-* attributes role none and presentation take are the global ones, such as aria-hidden or aria-describedby.",
       failWhen:
-        "The element stands for a control or a state, which role none or presentation hides: give it the role it means, or remove the attribute (WAI-ARIA 1.2 none and presentation).",
+        "The element stands for a control or a state, which role {{role|none or presentation}} hides: give it the role {{attributes|the attribute}} belongs to, or remove the attribute (WAI-ARIA 1.2 none and presentation).",
     },
   },
 };
@@ -127,6 +128,7 @@ function runInPage(ctx) {
           details: {
             reasonCode: "PRESENTATIONAL_ATTRIBUTE_UNSUPPORTED",
             attributes: names,
+            role: helpers.aria.getExplicitRole(el),
           },
         },
       }),

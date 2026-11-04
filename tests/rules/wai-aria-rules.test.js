@@ -636,3 +636,111 @@ test("wai-aria-presentational-attributes: a name WAI-ARIA has no attribute of is
     "pass",
   );
 });
+
+// The author requirements WAI-ARIA 1.2 states in a role's or an
+// attribute's text: each fails where its MUST is broken, and passes where it
+// holds.
+const RULE_CASES = [
+  {
+    rule: "wai-aria-toolbar-names",
+    requirement: "name-required",
+    fails: [
+      ['<div role="toolbar"><button>Bold</button></div><div role="toolbar" aria-label="Insert"><button>Image</button></div>', "TOOLBAR_NAME_MISSING"],
+    ],
+    passes: [
+      '<div role="toolbar" aria-label="Format"><button>Bold</button></div><div role="toolbar" aria-label="Insert"><button>Image</button></div>',
+    ],
+    notApplicable: ['<div role="toolbar"><button>Bold</button></div>'],
+  },
+  {
+    rule: "wai-aria-combobox-popup",
+    requirement: "attribute-values",
+    fails: [
+      ['<input role="combobox" aria-label="Fruit" aria-expanded="false" aria-controls="p"><div id="p" role="menu"><div role="menuitem">Apple</div></div>', "COMBOBOX_POPUP_ROLE"],
+    ],
+    passes: [
+      '<input role="combobox" aria-label="Fruit" aria-expanded="false" aria-controls="p"><div id="p" role="listbox"><div role="option" aria-selected="false">Apple</div></div>',
+      '<input role="combobox" aria-label="Date" aria-expanded="false" aria-controls="d"><div id="d" role="dialog" aria-label="Pick a date"><button>1</button></div>',
+    ],
+    // An aria-controls that names nothing is aria-valid-attr-value's.
+    notApplicable: ['<input role="combobox" aria-label="Fruit" aria-expanded="false" aria-controls="nowhere">'],
+  },
+  {
+    rule: "wai-aria-spinbutton-owned",
+    requirement: "owned-elements",
+    fails: [
+      ['<div role="spinbutton" aria-label="Count" aria-valuenow="1" tabindex="0"><button>+</button><a href="#">Reset</a></div>', "SPINBUTTON_OWNS_OTHER"],
+      ['<div role="spinbutton" aria-label="Count" aria-valuenow="1" tabindex="0"><button>+</button><button>-</button><button>0</button></div>', "SPINBUTTON_OWNS_TOO_MANY"],
+    ],
+    passes: [
+      '<div role="spinbutton" aria-label="Count" aria-valuenow="1" tabindex="0"><input type="text" aria-label="Value"><div><button>+</button><button>-</button></div></div>',
+    ],
+    notApplicable: ['<div role="spinbutton" aria-label="Count" aria-valuenow="1" tabindex="0">1</div>'],
+  },
+  {
+    rule: "wai-aria-table-indexes",
+    requirement: "attribute-values",
+    fails: [
+      ['<table aria-label="T"><tr><td aria-colindex="2">A</td><td aria-colindex="1">B</td></tr></table>', "COLINDEX_NOT_INCREASING"],
+      ['<table aria-label="T" aria-colcount="2"><tr><td aria-colindex="1">A</td><td aria-colindex="3">B</td></tr></table>', "COLINDEX_ABOVE_COUNT"],
+      ['<div role="grid" aria-label="G"><div role="row" aria-rowindex="3"><div role="gridcell">A</div></div><div role="row" aria-rowindex="2"><div role="gridcell">B</div></div></div>', "ROWINDEX_NOT_INCREASING"],
+      ['<table aria-label="T" aria-rowcount="2"><tr aria-rowindex="5"><td>A</td></tr></table>', "ROWINDEX_ABOVE_COUNT"],
+      ['<table aria-label="T" aria-colcount="1"><tr><td>A</td><td colspan="2">B</td></tr></table>', "COLCOUNT_BELOW_COLUMNS"],
+      ['<table aria-label="T" aria-rowcount="1"><tr><td>A</td></tr><tr><td>B</td></tr></table>', "ROWCOUNT_BELOW_ROWS"],
+    ],
+    passes: [
+      // Part of a larger table: the page shows rows 5 and 6 of 100, columns 3 and 4 of 10.
+      '<table aria-label="T" aria-colcount="10" aria-rowcount="100"><tr aria-rowindex="5"><td aria-colindex="3">A</td><td aria-colindex="4">B</td></tr><tr aria-rowindex="6"><td aria-colindex="3">C</td><td aria-colindex="4">D</td></tr></table>',
+      '<table aria-label="T" aria-colcount="-1" aria-rowcount="-1"><tr><td>A</td><td>B</td></tr></table>',
+    ],
+    notApplicable: ['<table aria-label="T"><tr><td>A</td></tr></table>'],
+  },
+  {
+    rule: "wai-aria-setsize",
+    requirement: "attribute-values",
+    fails: [
+      ['<div role="listbox" aria-label="L"><div role="option" aria-selected="false" aria-setsize="1">A</div><div role="option" aria-selected="false" aria-setsize="1">B</div></div>', "SETSIZE_BELOW_ITEMS"],
+      ['<div role="listbox" aria-label="L"><div role="option" aria-selected="false" aria-setsize="5">A</div><div role="option" aria-selected="false" aria-setsize="6">B</div></div>', "SETSIZE_INCONSISTENT"],
+    ],
+    passes: [
+      // Two of a set of ten, loaded as the list scrolls.
+      '<div role="listbox" aria-label="L"><div role="option" aria-selected="false" aria-setsize="10" aria-posinset="4">A</div><div role="option" aria-selected="false" aria-setsize="10" aria-posinset="5">B</div></div>',
+    ],
+    notApplicable: [
+      '<div role="listbox" aria-label="L"><div role="option" aria-selected="false">A</div></div>',
+      // -1: the size is not known.
+      '<div role="listbox" aria-label="L"><div role="option" aria-selected="false" aria-setsize="-1">A</div><div role="option" aria-selected="false" aria-setsize="-1">B</div></div>',
+    ],
+  },
+  {
+    rule: "wai-aria-keyshortcuts",
+    requirement: "attribute-values",
+    fails: [
+      ['<button aria-keyshortcuts="Ctrl+S">Save</button>', "KEYSHORTCUTS_MODIFIER_NAME"],
+      ['<button aria-keyshortcuts="shift+P">Print</button>', "KEYSHORTCUTS_MODIFIER_NAME"],
+      ['<button aria-keyshortcuts="S+Control">Save</button>', "KEYSHORTCUTS_MODIFIER_ORDER"],
+    ],
+    passes: [
+      '<button aria-keyshortcuts="Control+Shift+S Alt+F">Save</button>',
+      '<button aria-keyshortcuts="Shift++">Zoom in</button>',
+      '<button aria-keyshortcuts="Delete">Remove</button>',
+    ],
+    notApplicable: ['<button>Save</button>'],
+  },
+];
+
+for (const { rule, requirement: req, fails, passes, notApplicable } of RULE_CASES) {
+  test(`${rule}: fails where its MUST is broken, passes where it holds`, () => {
+    for (const [body, code] of fails) {
+      const check = run(rule, body).checksResults.find((c) => c.ruleId === rule);
+      assert.equal(check.outcome, "fail", body);
+      assert.ok(
+        check.occurrences.some((o) => o.data.details.reasonCode === code),
+        `${code}: ${body}`,
+      );
+      assert.equal(requirement(profile(body), req), "fail", `${req}: ${body}`);
+    }
+    for (const body of passes) assertRule(run(rule, body), rule, "pass");
+    for (const body of notApplicable) assertRule(run(rule, body), rule, "notApplicable");
+  });
+}

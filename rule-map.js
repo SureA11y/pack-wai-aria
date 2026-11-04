@@ -57,6 +57,48 @@ const ROWS = {
     requirements: ['supported-attributes'],
     reasonCodes: { PRESENTATIONAL_ATTRIBUTE_UNSUPPORTED: { outcome: 'cantTell' } }
   },
+  // Author requirements WAI-ARIA 1.2 states in a role's or an attribute's
+  // text rather than its tables, each a MUST.
+  'wai-aria-toolbar-names': {
+    requirements: ['name-required'],
+    reasonCodes: { TOOLBAR_NAME_MISSING: { outcome: 'fail' } }
+  },
+  'wai-aria-combobox-popup': {
+    requirements: ['attribute-values'],
+    reasonCodes: { COMBOBOX_POPUP_ROLE: { outcome: 'fail' } }
+  },
+  'wai-aria-spinbutton-owned': {
+    requirements: ['owned-elements'],
+    reasonCodes: {
+      SPINBUTTON_OWNS_OTHER: { outcome: 'fail' },
+      SPINBUTTON_OWNS_TOO_MANY: { outcome: 'fail' }
+    }
+  },
+  'wai-aria-table-indexes': {
+    requirements: ['attribute-values'],
+    reasonCodes: {
+      COLINDEX_NOT_INCREASING: { outcome: 'fail' },
+      COLINDEX_ABOVE_COUNT: { outcome: 'fail' },
+      ROWINDEX_NOT_INCREASING: { outcome: 'fail' },
+      ROWINDEX_ABOVE_COUNT: { outcome: 'fail' },
+      COLCOUNT_BELOW_COLUMNS: { outcome: 'fail' },
+      ROWCOUNT_BELOW_ROWS: { outcome: 'fail' }
+    }
+  },
+  'wai-aria-setsize': {
+    requirements: ['attribute-values'],
+    reasonCodes: {
+      SETSIZE_BELOW_ITEMS: { outcome: 'fail' },
+      SETSIZE_INCONSISTENT: { outcome: 'fail' }
+    }
+  },
+  'wai-aria-keyshortcuts': {
+    requirements: ['attribute-values'],
+    reasonCodes: {
+      KEYSHORTCUTS_MODIFIER_NAME: { outcome: 'fail' },
+      KEYSHORTCUTS_MODIFIER_ORDER: { outcome: 'fail' }
+    }
+  },
   // Core's empty-heading and empty-table-header: a heading, column header or
   // row header takes its name from its content, so an empty one has none. A
   // header cell with no visible text may still be named by text only a
@@ -161,7 +203,9 @@ const ROWS = {
       ARIA_HASPOPUP_ROLE_MISMATCH: { outcome: 'cantTell' },
       ARIA_POSINSET_EXCEEDS_SETSIZE: { outcome: 'fail' },
       ARIA_VALUENOW_OUT_OF_RANGE: { outcome: 'cantTell' },
-      ARIA_VALUE_RANGE_INVERTED: { outcome: 'cantTell' }
+      // "Authors MUST ensure the value of aria-valuemax is greater than or
+      // equal to the value of aria-valuemin" (aria-valuemax, aria-valuemin).
+      ARIA_VALUE_RANGE_INVERTED: { outcome: 'fail' }
     }
   },
   'binary-control-name-present': {
