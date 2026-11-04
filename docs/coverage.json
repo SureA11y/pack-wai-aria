@@ -76,11 +76,13 @@
     "case": "no accessible name",
     "status": "fail",
     "failsUnder": [
+      "attribute-values",
       "name-required"
     ],
     "asksUnder": [],
     "reportedBy": [
-      "combobox-name-present"
+      "combobox-name-present",
+      "wai-aria-combobox-popup"
     ]
   },
   {
@@ -794,12 +796,15 @@
     "role": "combobox",
     "case": "no aria-expanded",
     "status": "question",
-    "failsUnder": [],
+    "failsUnder": [
+      "attribute-values"
+    ],
     "asksUnder": [
       "required-states"
     ],
     "reportedBy": [
-      "aria-required-attr"
+      "aria-required-attr",
+      "wai-aria-combobox-popup"
     ]
   },
   {
@@ -1177,11 +1182,13 @@
     "case": "aria-checked not supported",
     "status": "fail",
     "failsUnder": [
+      "attribute-values",
       "supported-attributes"
     ],
     "asksUnder": [],
     "reportedBy": [
-      "aria-allowed-attr"
+      "aria-allowed-attr",
+      "wai-aria-combobox-popup"
     ]
   },
   {
@@ -3150,7 +3157,8 @@
     ],
     "asksUnder": [],
     "reportedBy": [
-      "aria-valid-attr-value"
+      "aria-valid-attr-value",
+      "wai-aria-combobox-popup"
     ]
   },
   {
@@ -3745,11 +3753,11 @@
     "module": "WAI-ARIA 1.2",
     "role": "slider",
     "case": "aria-valuemin above aria-valuemax",
-    "status": "question",
-    "failsUnder": [],
-    "asksUnder": [
+    "status": "fail",
+    "failsUnder": [
       "attribute-values"
     ],
+    "asksUnder": [],
     "reportedBy": [
       "aria-valid-attr-value"
     ]
@@ -4551,5 +4559,215 @@
     "failsUnder": [],
     "asksUnder": [],
     "reportedBy": []
+  },
+  {
+    "requirement": "name-required",
+    "module": "WAI-ARIA 1.2",
+    "role": "form",
+    "case": "no accessible name (text: \"MUST give each element with role form a brief label\")",
+    "status": "fail",
+    "failsUnder": [
+      "name-required"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "landmark-role-name-present"
+    ]
+  },
+  {
+    "requirement": "name-required",
+    "module": "WAI-ARIA 1.2",
+    "role": "toolbar",
+    "case": "no accessible name, one of two toolbars (text)",
+    "status": "fail",
+    "failsUnder": [
+      "name-required"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "wai-aria-toolbar-names"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "combobox",
+    "case": "popup of role menu (text: listbox, tree, grid or dialog)",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "wai-aria-combobox-popup"
+    ]
+  },
+  {
+    "requirement": "owned-elements",
+    "module": "WAI-ARIA 1.2",
+    "role": "spinbutton",
+    "case": "owns a link (text: a textbox and/or two buttons)",
+    "status": "fail",
+    "failsUnder": [
+      "owned-elements"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "wai-aria-spinbutton-owned"
+    ]
+  },
+  {
+    "requirement": "owned-elements",
+    "module": "WAI-ARIA 1.2",
+    "role": "spinbutton",
+    "case": "owns three buttons (text)",
+    "status": "fail",
+    "failsUnder": [
+      "owned-elements"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "wai-aria-spinbutton-owned"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "cell",
+    "case": "aria-colindex not above the cell before it",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "wai-aria-table-indexes"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "cell",
+    "case": "aria-colindex above aria-colcount",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "wai-aria-table-indexes"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "row",
+    "case": "aria-rowindex not above the row before it",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "wai-aria-table-indexes"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "row",
+    "case": "aria-rowindex above aria-rowcount",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "wai-aria-table-indexes"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "table",
+    "case": "aria-colcount below the columns on the page",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "wai-aria-table-indexes"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "table",
+    "case": "aria-rowcount below the rows on the page",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "wai-aria-table-indexes"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "option",
+    "case": "aria-setsize below the items of its set",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "wai-aria-setsize"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "option",
+    "case": "items of a set give different aria-setsize",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "wai-aria-setsize"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "button",
+    "case": "aria-keyshortcuts names a modifier \"Ctrl\"",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "wai-aria-keyshortcuts"
+    ]
+  },
+  {
+    "requirement": "attribute-values",
+    "module": "WAI-ARIA 1.2",
+    "role": "button",
+    "case": "aria-keyshortcuts puts a modifier last",
+    "status": "fail",
+    "failsUnder": [
+      "attribute-values"
+    ],
+    "asksUnder": [],
+    "reportedBy": [
+      "wai-aria-keyshortcuts"
+    ]
   }
 ]

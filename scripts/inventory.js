@@ -352,6 +352,42 @@ for (const role of concrete.filter((r) => requiredContextOf(r).length)) {
   add('context-roles', role, 'outside its required context', build(role, { omitContext: true }));
 }
 
+// Requirements WAI-ARIA 1.2 states in a role's or an attribute's text, not
+// its tables: each a page of its own, its element id="t".
+const TEXT_CASES = [
+  ['name-required', 'form', 'no accessible name (text: "MUST give each element with role form a brief label")',
+    '<div id="t" role="form"><input aria-label="Query"></div>'],
+  ['name-required', 'toolbar', 'no accessible name, one of two toolbars (text)',
+    '<div id="t" role="toolbar"><button>Bold</button></div><div role="toolbar" aria-label="Insert"><button>Image</button></div>'],
+  ['attribute-values', 'combobox', 'popup of role menu (text: listbox, tree, grid or dialog)',
+    '<input id="t" role="combobox" aria-label="Fruit" aria-expanded="false" aria-controls="p"><div id="p" role="menu"><div role="menuitem">Apple</div></div>'],
+  ['owned-elements', 'spinbutton', 'owns a link (text: a textbox and/or two buttons)',
+    '<div role="spinbutton" aria-label="Count" aria-valuenow="1" tabindex="0"><button>+</button><a id="t" href="#">Reset</a></div>'],
+  ['owned-elements', 'spinbutton', 'owns three buttons (text)',
+    '<div id="t" role="spinbutton" aria-label="Count" aria-valuenow="1" tabindex="0"><button>+</button><button>-</button><button>0</button></div>'],
+  ['attribute-values', 'cell', 'aria-colindex not above the cell before it',
+    '<table aria-label="T"><tr><td aria-colindex="2">A</td><td id="t" aria-colindex="1">B</td></tr></table>'],
+  ['attribute-values', 'cell', 'aria-colindex above aria-colcount',
+    '<table aria-label="T" aria-colcount="2"><tr><td aria-colindex="1">A</td><td id="t" aria-colindex="3">B</td></tr></table>'],
+  ['attribute-values', 'row', 'aria-rowindex not above the row before it',
+    '<table aria-label="T"><tr aria-rowindex="3"><td>A</td></tr><tr id="t" aria-rowindex="2"><td>B</td></tr></table>'],
+  ['attribute-values', 'row', 'aria-rowindex above aria-rowcount',
+    '<table aria-label="T" aria-rowcount="2"><tr aria-rowindex="1"><td>A</td></tr><tr id="t" aria-rowindex="5"><td>B</td></tr></table>'],
+  ['attribute-values', 'table', 'aria-colcount below the columns on the page',
+    '<table id="t" aria-label="T" aria-colcount="1"><tr><td>A</td><td>B</td></tr></table>'],
+  ['attribute-values', 'table', 'aria-rowcount below the rows on the page',
+    '<table id="t" aria-label="T" aria-rowcount="1"><tr><td>A</td></tr><tr><td>B</td></tr></table>'],
+  ['attribute-values', 'option', 'aria-setsize below the items of its set',
+    '<div role="listbox" aria-label="L"><div id="t" role="option" aria-selected="false" aria-setsize="1">A</div><div role="option" aria-selected="false" aria-setsize="1">B</div></div>'],
+  ['attribute-values', 'option', 'items of a set give different aria-setsize',
+    '<div role="listbox" aria-label="L"><div id="t" role="option" aria-selected="false" aria-setsize="5">A</div><div role="option" aria-selected="false" aria-setsize="6">B</div></div>'],
+  ['attribute-values', 'button', 'aria-keyshortcuts names a modifier "Ctrl"',
+    '<button id="t" aria-keyshortcuts="Ctrl+S">Save</button>'],
+  ['attribute-values', 'button', 'aria-keyshortcuts puts a modifier last',
+    '<button id="t" aria-keyshortcuts="S+Control">Save</button>']
+];
+for (const [requirement, role, label, body] of TEXT_CASES) add(requirement, role, label, body);
+
 // The output.
 const order = ['name-required', 'roles', 'required-states', 'supported-attributes', 'prohibited-attributes', 'attribute-values', 'owned-elements', 'context-roles'];
 const { REQUIREMENTS } = require('../requirements');

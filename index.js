@@ -21,6 +21,7 @@ const { name, version } = require('./package.json');
 const { VERSIONS, REQUIREMENTS } = require('./requirements');
 const { RULE_REQUIREMENTS } = require('./rule-map');
 const { PROCEDURES, GROUPS } = require('./procedures');
+const { REVIEW } = require('./review');
 
 const NAMESPACE = 'wai-aria';
 const STANDARD = 'WAI-ARIA';
@@ -47,7 +48,13 @@ module.exports = definePack({
     require('./rules/automatic/wai-aria-scrollbar-controls'),
     require('./rules/automatic/wai-aria-feed-articles'),
     require('./rules/automatic/wai-aria-caption-context'),
-    require('./rules/automatic/wai-aria-presentational-attributes')
+    require('./rules/automatic/wai-aria-presentational-attributes'),
+    require('./rules/automatic/wai-aria-toolbar-names'),
+    require('./rules/automatic/wai-aria-combobox-popup'),
+    require('./rules/automatic/wai-aria-spinbutton-owned'),
+    require('./rules/automatic/wai-aria-table-indexes'),
+    require('./rules/automatic/wai-aria-setsize'),
+    require('./rules/automatic/wai-aria-keyshortcuts')
   ],
   standard: {
     key: NAMESPACE,
@@ -69,6 +76,8 @@ module.exports = definePack({
     validate,
     procedures: PROCEDURES,
     groups: GROUPS,
+    // How a person answers core's questions, in WAI-ARIA's words.
+    review: REVIEW['1.2'],
     report: { noteKey: 'waiAria_report_note' }
   },
   dictionaries: { en: require('./i18n/en.json') }

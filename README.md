@@ -54,9 +54,21 @@ Each is a result, `wai-aria-1.2-<requirement>`:
 - **fail** where a rule found what WAI-ARIA says an author MUST or MUST NOT do;
 - **cantTell** otherwise: a finding WAI-ARIA only recommends against (SHOULD, "not recommended"), or no finding at all, since the rules check what the markup states, not everything the requirement covers (what script changes, what a browser computes). A requirement never passes on the rules alone. `proceduresFor('name-required', { packs: [waiAria], standard: 'wai-aria' })` says how a person checks the rest.
 
+## How a person answers a question
+
+A `cantTell` finding carries `howToCheck`, the steps a person follows to answer it. Under `wai-aria-1.2`, those of core's questions this standard asks are in WAI-ARIA's words ([`review.js`](review.js)) and name what the finding found:
+
+> 1. Open the popup of the element the report names, with the mouse and with the keyboard (Enter, Space or Down Arrow).
+> 2. Open the Accessibility pane of the browser's developer tools, select the popup that appears, and read its role. When the page was scanned, the element it controls had role dialog.
+> 3. Compare it with what aria-haspopup="menu" announces: a menu (true means menu).
+>
+> Fails: The popup has role dialog, not menu, which fails WAI-ARIA 1.2 aria-haspopup: the popup MUST have the role its value names.
+
+A scan that also runs a WCAG profile keeps core's steps, which name the WCAG criterion. `proceduresFor` gives each requirement's checklist, with the roles, states and values that are valid listed in full, from the Recommendation's tables.
+
 ## How the findings are read
 
-`rule-map.js` lists, for each of core's 30 rules that check a WAI-ARIA requirement, what each of its reason codes means under WAI-ARIA, from the specification's wording: `outcome: 'fail'` for a MUST, `outcome: 'cantTell'` for a SHOULD or what script decides, and `requirements: []` for a code WAI-ARIA states no author requirement for. Every code is placed; a test fails when core adds one the map doesn't.
+`rule-map.js` lists, for each of core's rules that check a WAI-ARIA requirement, what each of its reason codes means under WAI-ARIA, from the specification's wording: `outcome: 'fail'` for a MUST, `outcome: 'cantTell'` for a SHOULD or what script decides, and `requirements: []` for a code WAI-ARIA states no author requirement for. Every code is placed; a test fails when core adds one the map doesn't.
 
 ## What it covers
 

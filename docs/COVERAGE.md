@@ -14,15 +14,15 @@ WAI-ARIA 1.2's roles, states and properties are the Recommendation's own tables 
 
 | Requirement | Cases | fail | question | wcag only | missed | not required |
 | --- | --- | --- | --- | --- | --- | --- |
-| Roles that require an accessible name have one (`name-required`) | 34 | 32 | 2 | 0 | 0 | 0 |
+| Roles that require an accessible name have one (`name-required`) | 36 | 34 | 2 | 0 | 0 | 0 |
 | Roles are concrete and current (`roles`) | 13 | 12 | 1 | 0 | 0 | 0 |
 | Required states and properties are present (`required-states`) | 13 | 10 | 2 | 0 | 0 | 1 |
 | States and properties are supported by the role (`supported-attributes`) | 86 | 80 | 6 | 0 | 0 | 0 |
 | Prohibited states and properties are absent (`prohibited-attributes`) | 23 | 23 | 0 | 0 | 0 | 0 |
-| States and properties have valid values (`attribute-values`) | 55 | 44 | 11 | 0 | 0 | 0 |
-| Containers own the elements their role requires, each with one owner (`owned-elements`) | 27 | 27 | 0 | 0 | 0 | 0 |
+| States and properties have valid values (`attribute-values`) | 66 | 56 | 10 | 0 | 0 | 0 |
+| Containers own the elements their role requires, each with one owner (`owned-elements`) | 29 | 29 | 0 | 0 | 0 | 0 |
 | Elements are in the context their role requires (`context-roles`) | 14 | 13 | 1 | 0 | 0 | 0 |
-| **All** | 265 | 241 | 23 | 0 | 0 | 1 |
+| **All** | 280 | 257 | 22 | 0 | 0 | 1 |
 
 DPUB-ARIA and Graphics-ARIA roles: 61 cases, 46 fail, 0 question, 0 wcag only, 15 missed, 0 not required.
 
@@ -35,7 +35,7 @@ DPUB-ARIA and Graphics-ARIA roles: 61 cases, 46 fail, 0 question, 0 wcag only, 1
 | `button` | no accessible name | fail | `button-name-present` |  |
 | `checkbox` | no accessible name | fail | `binary-control-name-present` |  |
 | `columnheader` | no accessible name | question | `empty-table-header` |  |
-| `combobox` | no accessible name | fail | `combobox-name-present` |  |
+| `combobox` | no accessible name | fail | `combobox-name-present`, `wai-aria-combobox-popup` |  |
 | `dialog` | no accessible name | fail | `dialog-name-present` |  |
 | `grid` | no accessible name | fail | `wai-aria-role-name-present` |  |
 | `heading` | no accessible name | fail | `empty-heading` |  |
@@ -73,6 +73,8 @@ DPUB-ARIA and Graphics-ARIA roles: 61 cases, 46 fail, 0 question, 0 wcag only, 1
 | `doc-part` | no accessible name | missed |  | DPUB-ARIA 1.1 |
 | `graphics-document` | no accessible name | fail | `role-img-text-alternative-present` | Graphics-ARIA 1.0 |
 | `graphics-symbol` | no accessible name | fail | `role-img-text-alternative-present` | Graphics-ARIA 1.0 |
+| `form` | no accessible name (text: "MUST give each element with role form a brief label") | fail | `landmark-role-name-present` |  |
+| `toolbar` | no accessible name, one of two toolbars (text) | fail | `wai-aria-toolbar-names` |  |
 
 ## Roles are concrete and current
 
@@ -98,7 +100,7 @@ DPUB-ARIA and Graphics-ARIA roles: 61 cases, 46 fail, 0 question, 0 wcag only, 1
 | --- | --- | --- | --- | --- |
 | `checkbox` | no aria-checked | fail | `aria-required-attr` |  |
 | `combobox` | no aria-controls | fail | `aria-required-attr` |  |
-| `combobox` | no aria-expanded | question | `aria-required-attr` |  |
+| `combobox` | no aria-expanded | question | `aria-required-attr`, `wai-aria-combobox-popup` | fails attribute-values |
 | `heading` | no aria-level | question | `aria-required-attr` |  |
 | `meter` | no aria-valuenow | fail | `aria-required-attr` |  |
 | `menuitemcheckbox` | no aria-checked | fail | `aria-required-attr` |  |
@@ -130,7 +132,7 @@ DPUB-ARIA and Graphics-ARIA roles: 61 cases, 46 fail, 0 question, 0 wcag only, 1
 | `checkbox` | aria-selected not supported | fail | `aria-allowed-attr` |  |
 | `code` | aria-checked not supported | fail | `aria-allowed-attr` |  |
 | `columnheader` | aria-checked not supported | fail | `aria-allowed-attr`, `empty-table-header` |  |
-| `combobox` | aria-checked not supported | fail | `aria-allowed-attr` |  |
+| `combobox` | aria-checked not supported | fail | `aria-allowed-attr`, `wai-aria-combobox-popup` |  |
 | `complementary` | aria-checked not supported | fail | `aria-allowed-attr` |  |
 | `contentinfo` | aria-checked not supported | fail | `aria-allowed-attr` |  |
 | `definition` | aria-checked not supported | fail | `aria-allowed-attr` |  |
@@ -279,7 +281,7 @@ DPUB-ARIA and Graphics-ARIA roles: 61 cases, 46 fail, 0 question, 0 wcag only, 1
 | --- | --- | --- | --- | --- |
 | `application` | aria-activedescendant="nowhere" (id) | fail | `aria-valid-attr-value` |  |
 | `group` | aria-atomic="bogus" (boolean) | fail | `aria-valid-attr-value` |  |
-| `combobox` | aria-autocomplete="bogus" (token) | fail | `aria-valid-attr-value` |  |
+| `combobox` | aria-autocomplete="bogus" (token) | fail | `aria-valid-attr-value`, `wai-aria-combobox-popup` |  |
 | `group` | aria-busy="bogus" (boolean) | fail | `aria-valid-attr-value` |  |
 | `checkbox` | aria-checked="bogus" (tristate) | fail | `aria-valid-attr-value` |  |
 | `grid` | aria-colcount="one" (integer) | fail | `aria-valid-attr-value` |  |
@@ -321,7 +323,7 @@ DPUB-ARIA and Graphics-ARIA roles: 61 cases, 46 fail, 0 question, 0 wcag only, 1
 | `meter` | aria-valuemin="one" (number) | fail | `aria-valid-attr-value` |  |
 | `meter` | aria-valuenow="one" (number) | fail | `aria-valid-attr-value` |  |
 | `slider` | aria-valuenow above aria-valuemax | question | `aria-valid-attr-value` |  |
-| `slider` | aria-valuemin above aria-valuemax | question | `aria-valid-attr-value` |  |
+| `slider` | aria-valuemin above aria-valuemax | fail | `aria-valid-attr-value` |  |
 | `heading` | aria-level 0 | fail | `aria-valid-attr-value` |  |
 | `option` | aria-posinset above aria-setsize | fail | `aria-valid-attr-value` |  |
 | `option` | aria-posinset 0 | fail | `aria-valid-attr-value` |  |
@@ -332,6 +334,17 @@ DPUB-ARIA and Graphics-ARIA roles: 61 cases, 46 fail, 0 question, 0 wcag only, 1
 | `listbox` | aria-activedescendant names an element it does not own | fail | `aria-valid-attr-value` |  |
 | `textbox` | aria-errormessage without aria-invalid | question | `aria-conditional-attr` |  |
 | `group` | aria-labelledby names no element | question | `aria-valid-attr-value` |  |
+| `combobox` | popup of role menu (text: listbox, tree, grid or dialog) | fail | `wai-aria-combobox-popup` |  |
+| `cell` | aria-colindex not above the cell before it | fail | `wai-aria-table-indexes` |  |
+| `cell` | aria-colindex above aria-colcount | fail | `wai-aria-table-indexes` |  |
+| `row` | aria-rowindex not above the row before it | fail | `wai-aria-table-indexes` |  |
+| `row` | aria-rowindex above aria-rowcount | fail | `wai-aria-table-indexes` |  |
+| `table` | aria-colcount below the columns on the page | fail | `wai-aria-table-indexes` |  |
+| `table` | aria-rowcount below the rows on the page | fail | `wai-aria-table-indexes` |  |
+| `option` | aria-setsize below the items of its set | fail | `wai-aria-setsize` |  |
+| `option` | items of a set give different aria-setsize | fail | `wai-aria-setsize` |  |
+| `button` | aria-keyshortcuts names a modifier "Ctrl" | fail | `wai-aria-keyshortcuts` |  |
+| `button` | aria-keyshortcuts puts a modifier last | fail | `wai-aria-keyshortcuts` |  |
 
 ## Containers own the elements their role requires, each with one owner
 
@@ -370,6 +383,8 @@ DPUB-ARIA and Graphics-ARIA roles: 61 cases, 46 fail, 0 question, 0 wcag only, 1
 | `doc-glossary` | owns none of its required roles | missed |  | DPUB-ARIA 1.1 |
 | `doc-glossary` | owns a button | missed |  | DPUB-ARIA 1.1 |
 | `option` | owned twice (aria-owns) | fail | `aria-owns-valid` |  |
+| `spinbutton` | owns a link (text: a textbox and/or two buttons) | fail | `wai-aria-spinbutton-owned` |  |
+| `spinbutton` | owns three buttons (text) | fail | `wai-aria-spinbutton-owned` |  |
 
 ## Elements are in the context their role requires
 

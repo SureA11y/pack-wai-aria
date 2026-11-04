@@ -36,13 +36,14 @@ const meta = {
   review: {
     CAPTION_CONTEXT_MISSING: {
       steps: [
-        "Find the caption the report names on the page.",
-        "Look at what it captions: the figure, table or grid it describes.",
+        "Find the caption the report names on the page. In the accessibility tree its parent is {{parent|not a figure, table, grid or treegrid}}.",
+        "Look at what it captions: the figure, table, grid or treegrid it describes.",
+        "Check that it is a direct child of that element, with only plain containers (div, span) between them, or owned by it through aria-owns.",
       ],
       passWhen:
-        "The caption describes the element it is in, and that element is a figure or a table.",
+        "The caption is a child of the figure, table, grid or treegrid it describes, which names itself by it with aria-labelledby.",
       failWhen:
-        "The caption is outside the figure or table it describes, so it is not tied to it (WAI-ARIA 1.2 caption).",
+        "The caption is outside the figure or table it describes, so it is not tied to it: WAI-ARIA 1.2 says its parent SHOULD be a figure, table, grid or treegrid (caption).",
     },
   },
 };
@@ -169,6 +170,11 @@ function runInPage(ctx) {
     }
     return null;
   };
+  // How a step names the parent a caption has instead.
+  const parentText = (parent) => {
+    const role = parent ? roleOf(parent) : "";
+    return role ? `an element of role ${role}` : "no element with a role";
+  };
   const occurrences = captions
     .filter((el) => !CONTEXT.includes(roleOf(axParent(el))))
     .map((el) =>
@@ -179,7 +185,12 @@ function runInPage(ctx) {
           summaryKey: "waiAriaCaptionContext_summary_cantTell",
           hintKey: "waiAriaCaptionContext_hint_cantTell",
         },
-        data: { details: { reasonCode: "CAPTION_CONTEXT_MISSING" } },
+        data: {
+          details: {
+            reasonCode: "CAPTION_CONTEXT_MISSING",
+            parent: parentText(axParent(el)),
+          },
+        },
       }),
     );
   if (!occurrences.length) {

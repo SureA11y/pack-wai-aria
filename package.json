@@ -32,6 +32,8 @@
     "requirements.js",
     "rule-map.js",
     "procedures.js",
+    "review.js",
+    "scripts/data/wai-aria-1.2.json",
     "i18n/*.json",
     "README.md",
     "LICENSE"
