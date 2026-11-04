@@ -23,9 +23,11 @@ jobs:
       - run: npm ci
       # Until core 1.15 is published: the pack needs its rule map's
       # outcome 'fail' and aria-role-name-present's roles setting, so the
-      # tests run against core's main branch.
+      # tests run against core's source. working-progress until
+      # SureA11y/core#362 (placeholders in steps, standard.review) is on
+      # main; then main again.
       - env:
-          CORE_REF: main
+          CORE_REF: working-progress
         run: |
           git clone --depth 1 --branch "$CORE_REF" https://github.com/SureA11y/core.git ../core
           (cd ../core && npm ci --ignore-scripts)
