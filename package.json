@@ -31,6 +31,7 @@
     "index.js",
     "requirements.js",
     "rule-map.js",
+    "rules/**/*.js",
     "procedures.js",
     "review.js",
     "scripts/data/wai-aria-1.2.json",
