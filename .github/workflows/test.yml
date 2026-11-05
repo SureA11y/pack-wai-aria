@@ -20,6 +20,8 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: npm
+      # The npm release.yml publishes with, so a test can't pass here and fail there
+      - run: npm install -g npm@12
       - run: npm ci
       # core's inventory of reason codes, for tests/rule-map.test.js, at the
       # version installed
