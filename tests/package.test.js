@@ -16,10 +16,9 @@ const root = path.join(__dirname, '..');
 test('the packed package loads with every rule the checkout has', () => {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'pack-wai-aria-'));
   try {
-    const [{ filename }] = JSON.parse(
-      execFileSync('npm', ['pack', '--json', '--pack-destination', dir], { cwd: root, encoding: 'utf8' })
-    );
-    execFileSync('tar', ['xzf', path.join(dir, filename), '-C', dir]);
+    execFileSync('npm', ['pack', '--pack-destination', dir], { cwd: root, stdio: 'ignore' });
+    const [tarball] = fs.readdirSync(dir);
+    execFileSync('tar', ['xzf', path.join(dir, tarball), '-C', dir]);
     const unpacked = path.join(dir, 'package');
     fs.symlinkSync(path.join(root, 'node_modules'), path.join(unpacked, 'node_modules'));
 
