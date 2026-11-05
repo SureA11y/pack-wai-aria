@@ -2,6 +2,10 @@
 
 All notable changes to this package are documented here. This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0] - 2026-11-05
+
+The same pack as 0.1.0, as a first stable version, in line with the other SureA11y packages. Needs `@surea11y/core` 1.15.0.
+
 ## [0.1.0] - 2026-11-05
 
 First release. Needs `@surea11y/core` 1.15.0.
