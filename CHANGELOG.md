@@ -2,6 +2,12 @@
 
 All notable changes to this package are documented here. This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Fixed
+
+- `wai-aria-setsize` and `wai-aria-presentational-attributes` no longer use `Array.from`, which old libraries (Prototype, MooTools) replace. With a core that scans such pages (the release after 1.15.0), a page that replaces it is scanned with the pack too; before, the scan stopped with `PAGE_BUILTINS_BROKEN`.
+
 ## [1.0.1] - 2026-11-07
 
 ### Fixed
