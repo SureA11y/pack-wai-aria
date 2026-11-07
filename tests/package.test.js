@@ -31,3 +31,10 @@ test('the packed package loads with every rule the checkout has', () => {
     fs.rmSync(dir, { recursive: true, force: true });
   }
 });
+
+// Core reads the pack's range, npm reads the peer dependency. Nothing else
+// keeps them together: tests run only on the installed core, which fits both.
+test('the pack supports the core versions package.json asks for', () => {
+  const { peerDependencies } = require('../package.json');
+  assert.equal(pack.core, peerDependencies['@surea11y/core']);
+});
