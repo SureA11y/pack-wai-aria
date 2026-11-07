@@ -81,7 +81,7 @@ function runInPage(ctx) {
   for (const [parent, byRole] of sets) {
     for (const [role, list] of byRole) {
       const siblings = parent
-        ? Array.from(helpers.flatChildNodes(parent) || []).filter(
+        ? [...(helpers.flatChildNodes(parent) || [])].filter(
             (n) =>
               n &&
               n.nodeType === 1 &&

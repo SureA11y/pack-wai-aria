@@ -105,7 +105,7 @@ function runInPage(ctx) {
   }
   const occurrences = [];
   for (const el of nodes) {
-    const names = Array.from(dom.getAttributeNames(el) || [])
+    const names = [...(dom.getAttributeNames(el) || [])]
       .map((n) => String(n).toLowerCase())
       .filter((n) => n.startsWith("aria-") && !GLOBAL.includes(n))
       // A name WAI-ARIA has no attribute of is aria-valid-attr's to report.
