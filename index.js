@@ -40,7 +40,7 @@ module.exports = definePack({
   name,
   version,
   namespace: NAMESPACE,
-  core: '^1.14.2',
+  core: '^1.15.0',
   // The pack's own rules, for the requirements no core rule checks, and a
   // variant of core's name rule for every role WAI-ARIA requires a name for.
   rules: [
