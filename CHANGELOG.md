@@ -2,6 +2,12 @@
 
 All notable changes to this package are documented here. This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.1] - 2026-11-07
+
+### Fixed
+
+- The pack gave core the range `^1.14.2`, and it needs 1.15.0, as `package.json` says. On core 1.14 it fails on load; it now gives `^1.15.0`.
+
 ## [1.0.0] - 2026-11-05
 
 The same pack as 0.1.0, as a first stable version, in line with the other SureA11y packages. Needs `@surea11y/core` 1.15.0.
