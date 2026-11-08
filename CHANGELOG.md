@@ -4,9 +4,11 @@ All notable changes to this package are documented here. This project adheres to
 
 ## [Unreleased]
 
+## [1.0.2] - 2026-11-08
+
 ### Fixed
 
-- `wai-aria-setsize` and `wai-aria-presentational-attributes` no longer use `Array.from`, which old libraries (Prototype, MooTools) replace. With a core that scans such pages (the release after 1.15.0), a page that replaces it is scanned with the pack too; before, the scan stopped with `PAGE_BUILTINS_BROKEN`.
+- `wai-aria-setsize` and `wai-aria-presentational-attributes` no longer use `Array.from`, which old libraries (Prototype, MooTools) replace. With core 1.16.0, which scans such pages, a page that replaces it is scanned with the pack too; before, the scan stopped with `PAGE_BUILTINS_BROKEN`.
 
 ## [1.0.1] - 2026-11-07
 
