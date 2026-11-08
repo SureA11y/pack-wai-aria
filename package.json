@@ -1,6 +1,6 @@
 {
   "name": "@surea11y/pack-wai-aria",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "WAI-ARIA 1.2 as a pack for @surea11y/core: one result per author requirement (names, roles, states and properties, owned and context roles), from core's ARIA rules judged by WAI-ARIA's own wording.",
   "keywords": [
     "accessibility",
@@ -54,7 +54,7 @@
     "@surea11y/core": "^1.15.0"
   },
   "devDependencies": {
-    "@surea11y/core": "^1.15.0",
+    "@surea11y/core": "^1.16.0",
     "aria-query": "^5.3.2",
     "eslint": "^10.12.0",
     "jsdom": "^29.1.1"
