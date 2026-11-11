@@ -428,34 +428,172 @@ function runInPage(ctx) {
     }
     return out;
   };
+  // How a message names an element: its tag, and its id.
+  const describe = (el) => {
+    const elId = String(helpers.dom.getAttribute(el, "id") || "").trim();
+    return `<${tagOf(el)}${elId ? ` id="${elId}"` : ""}>`;
+  };
+  // Edits (insert, delete, replace, or swap two neighbours) from a to b.
+  const editDistance = (a, b) => {
+    const d = [];
+    for (let i = 0; i <= a.length; i++) {
+      d.push([i]);
+      for (let j = 1; j <= b.length; j++) {
+        if (i === 0) {
+          d[0].push(j);
+          continue;
+        }
+        const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+        let v = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + cost);
+        if (i > 1 && j > 1 && a[i - 1] === b[j - 2] && a[i - 2] === b[j - 1]) {
+          v = Math.min(v, d[i - 2][j - 2] + 1);
+        }
+        d[i].push(v);
+      }
+    }
+    return d[a.length][b.length];
+  };
+  // What hides an element by itself, as a message says it, or "".
+  const hiderOf = (el) => {
+    try {
+      if (String(helpers.dom.getAttribute(el, "aria-hidden") || "").trim().toLowerCase() === "true") {
+        return 'aria-hidden="true"';
+      }
+      if (helpers.dom.hasAttribute(el, "hidden")) return "the hidden attribute";
+      const cs = helpers.computedStyle(el) || {};
+      if (String(cs.display || "") === "none") return "display: none";
+      if (String(cs.visibility || "") === "hidden") return "visibility: hidden";
+      if (String(cs.contentVisibility || cs["content-visibility"] || "") === "hidden") {
+        return "content-visibility: hidden";
+      }
+    } catch {
+      return "";
+    }
+    return "";
+  };
+  // Why a feed owns no article, where the markup shows one was meant: an
+  // article in it that something hides, articles inside an element the feed
+  // owns instead, or a role that misspells article.
+  const missingCause = (feed, children) => {
+    let inside = [];
+    try {
+      inside = [...(helpers.dom.querySelectorAll(feed, "article, [role]") || [])];
+    } catch {
+      inside = [];
+    }
+    const articles = inside.filter((x) => {
+      const explicit = helpers.aria.getExplicitRole(x);
+      return explicit ? explicit === "article" : tagOf(x) === "article";
+    });
+    for (const a of articles) {
+      for (let p = a, guard = 0; p && p !== feed && guard < 200; guard++) {
+        const hider = hiderOf(p);
+        if (hider) {
+          return p === a
+            ? { key: "missingHidden", params: { element: describe(a), hider } }
+            : { key: "missingHiddenBy", params: { element: describe(a), ancestor: describe(p), hider } };
+        }
+        p = helpers.flatParentElement(p);
+      }
+    }
+    for (const a of articles) {
+      const wrapper = children.find((c) => c.role !== "article" && hasAncestorElement(a, c.el));
+      if (wrapper) {
+        return { key: "missingNested", params: { element: describe(wrapper.el), role: wrapper.role } };
+      }
+    }
+    for (const x of inside) {
+      const value = String(helpers.dom.getAttribute(x, "role") || "").trim();
+      const token = value.toLowerCase().split(/\s+/)[0];
+      if (!token || token === "article" || helpers.aria.getExplicitRole(x)) continue;
+      if (editDistance(token, "article") <= 2) {
+        return { key: "missingMisspelled", params: { element: describe(x), value } };
+      }
+    }
+    return { key: "missing", params: {} };
+  };
+  const MISSING = {
+    missing: {
+      summary: () => "This feed owns no article.",
+      hint: () => 'Put each item of the feed in an <article>, or give it role="article".',
+    },
+    missingHidden: {
+      summary: (p) => `This feed owns no article: its ${p.element} has ${p.hider}, which hides it from assistive technology.`,
+      hint: () => "Show the feed's articles to assistive technology: remove what hides them, or leave the feed out until they load.",
+    },
+    missingHiddenBy: {
+      summary: (p) => `This feed owns no article: its ${p.element} is inside ${p.ancestor}, which has ${p.hider} and hides it from assistive technology.`,
+      hint: () => "Show the feed's articles to assistive technology: remove what hides them, or leave the feed out until they load.",
+    },
+    missingNested: {
+      summary: (p) => `This feed owns no article: its articles are inside ${p.element}, of role ${p.role}, which the feed owns instead.`,
+      hint: (p) => `Make the articles the feed's own: take them out of ${p.element}, or give it role="none".`,
+    },
+    missingMisspelled: {
+      summary: (p) => `This feed owns no article: the role="${p.value}" of its ${p.element} is not an ARIA role (did you mean "article"?).`,
+      hint: () => 'Correct the role to role="article".',
+    },
+  };
   const occurrences = [];
   for (const feed of feeds) {
     const children = owned(feed, "feed", 0, new Set([feed]));
     if (!children.some((c) => c.role === "article")) {
+      const cause = missingCause(feed, children);
+      const keySuffix = cause.key === "missing" ? "" : cause.key.slice("missing".length);
       occurrences.push(
         helpers.reportOccurrence(feed, {
-          summary: "This feed owns no article.",
-          hint: 'Put each item of the feed in an <article>, or give it role="article".',
+          summary: MISSING[cause.key].summary(cause.params),
+          hint: MISSING[cause.key].hint(cause.params),
           i18n: {
-            summaryKey: "waiAriaFeedArticles_summary_fail_missing",
-            hintKey: "waiAriaFeedArticles_hint_fail_missing",
+            summaryKey: `waiAriaFeedArticles_summary_fail_missing${keySuffix}`,
+            hintKey: `waiAriaFeedArticles_hint_fail_missing${keySuffix}`,
+            params: cause.params,
           },
-          data: { details: { reasonCode: "FEED_ARTICLE_MISSING" } },
+          data: {
+            details: {
+              reasonCode: "FEED_ARTICLE_MISSING",
+              ...(keySuffix ? { cause: cause.key } : {}),
+              // The cause's elements and values; the role of the element
+              // around the articles as wrapperRole, as role names an owned
+              // element's own.
+              ...Object.fromEntries(
+                Object.entries(cause.params).map(([k, v]) => [k === "role" ? "wrapperRole" : k, v]),
+              ),
+            },
+          },
         }),
       );
     }
     for (const c of children.filter((x) => x.role !== "article")) {
+      const element = describe(c.el);
+      // An element the feed owns around articles: the articles are its, not
+      // the feed's.
+      let wraps = false;
+      try {
+        wraps = [...(helpers.dom.querySelectorAll(c.el, 'article, [role~="article" i]') || [])].some(
+          (a) => {
+            const explicit = helpers.aria.getExplicitRole(a);
+            return explicit ? explicit === "article" : tagOf(a) === "article";
+          },
+        );
+      } catch {
+        wraps = false;
+      }
       occurrences.push(
         helpers.reportOccurrence(c.el, {
-          summary: "A feed owns this element, which is not an article.",
-          hint: "Move it out of the feed, or put it inside one of its articles.",
+          summary: `A feed owns this ${element}, of role ${c.role}, which is not an article.`,
+          hint: wraps
+            ? `Its articles are inside it, so they are not the feed's: take them out of ${element}, or give it role="none".`
+            : "Move it out of the feed, or put it inside one of its articles.",
           i18n: {
             summaryKey: "waiAriaFeedArticles_summary_fail_child",
-            hintKey: "waiAriaFeedArticles_hint_fail_child",
-            params: { role: c.role },
+            hintKey: wraps
+              ? "waiAriaFeedArticles_hint_fail_childWrapper"
+              : "waiAriaFeedArticles_hint_fail_child",
+            params: { role: c.role, element },
           },
           data: {
-            details: { reasonCode: "FEED_CHILD_NOT_ARTICLE", role: c.role },
+            details: { reasonCode: "FEED_CHILD_NOT_ARTICLE", role: c.role, element },
           },
         }),
       );

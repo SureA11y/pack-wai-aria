@@ -170,29 +170,57 @@ function runInPage(ctx) {
     }
     return null;
   };
-  // How a step names the parent a caption has instead.
+  // How a message names the parent a caption has instead: its tag, and
+  // its role where an attribute gives it one.
   const parentText = (parent) => {
-    const role = parent ? roleOf(parent) : "";
-    return role ? `an element of role ${role}` : "no element with a role";
+    if (!parent) return "no element with a role";
+    const role = roleOf(parent);
+    const tag = tagOf(parent);
+    if (!role) return "no element with a role";
+    return role === tag ? `the <${tag}> element` : `the <${tag}> element of role ${role}`;
+  };
+  // The figure, table, grid or treegrid further up, which the caption is
+  // in but whose child it is not.
+  const contextAbove = (parent) => {
+    let p = parent ? helpers.flatParentElement(parent) : null;
+    for (let guard = 0; p && guard < 200; guard++) {
+      if (CONTEXT.includes(roleOf(p))) return p;
+      p = helpers.flatParentElement(p);
+    }
+    return null;
   };
   const occurrences = captions
     .filter((el) => !CONTEXT.includes(roleOf(axParent(el))))
-    .map((el) =>
-      helpers.reportOccurrence(el, {
-        summary: "This caption is not in a figure or a table.",
-        hint: "Make it a direct child of the figure or table it describes, and name that element by it with aria-labelledby.",
+    .map((el) => {
+      const parentEl = axParent(el);
+      const parent = parentText(parentEl);
+      const above = parentEl && !ownerOf.has(el) ? contextAbove(parentEl) : null;
+      const context = above ? `the ${roleOf(above)} (<${tagOf(above)}>)` : "";
+      return helpers.reportOccurrence(el, {
+        summary: above
+          ? `This caption is in ${context}, but its parent in the accessibility tree is ${parent}, which comes between them.`
+          : `This caption is not in a figure or a table: its parent in the accessibility tree is ${parent}.`,
+        hint: above
+          ? `Move it out of ${parent}, so it is a direct child of ${context}, and name that element by it with aria-labelledby.`
+          : "Make it a direct child of the figure or table it describes, and name that element by it with aria-labelledby.",
         i18n: {
-          summaryKey: "waiAriaCaptionContext_summary_cantTell",
-          hintKey: "waiAriaCaptionContext_hint_cantTell",
+          summaryKey: above
+            ? "waiAriaCaptionContext_summary_cantTell_between"
+            : "waiAriaCaptionContext_summary_cantTell",
+          hintKey: above
+            ? "waiAriaCaptionContext_hint_cantTell_between"
+            : "waiAriaCaptionContext_hint_cantTell",
+          params: above ? { parent, context } : { parent },
         },
         data: {
           details: {
             reasonCode: "CAPTION_CONTEXT_MISSING",
-            parent: parentText(axParent(el)),
+            parent,
+            ...(above ? { context } : {}),
           },
         },
-      }),
-    );
+      });
+    });
   if (!occurrences.length) {
     return {
       ruleId: rule.ruleId,
