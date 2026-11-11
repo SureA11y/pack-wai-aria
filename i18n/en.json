@@ -75,7 +75,6 @@
   "waiAriaComboboxPopup_summary_fail": "This combobox controls {{element}}, of role {{role}}, not a listbox, tree, grid or dialog.",
   "waiAriaComboboxPopup_hint_fail": "Give the popup the role of what it is (listbox for a list of options), or point aria-controls at the popup.",
   "waiAriaComboboxPopup_summary_fail_native": "This combobox controls {{element}}, whose tag gives it role {{role}}, not a listbox, tree, grid or dialog.",
-  "waiAriaComboboxPopup_summary_fail_unread": "This combobox controls {{element}}, which this rule does not read as a listbox, tree, grid or dialog.",
   "waiAriaComboboxPopup_summary_fail_noRole": "This combobox controls {{element}}, which has no role, so it is not a listbox, tree, grid or dialog.",
   "waiAriaComboboxPopup_summary_fail_invalidRole": "This combobox controls {{element}}, whose role=\"{{value}}\" is not an ARIA role, so it is not a listbox, tree, grid or dialog.",
   "waiAriaComboboxPopup_summary_fail_invalidRoleNear": "This combobox controls {{element}}, whose role=\"{{value}}\" is not an ARIA role (did you mean \"{{suggestion}}\"?), so it is not a listbox, tree, grid or dialog.",
@@ -120,6 +119,8 @@
   "waiAriaKeyshortcuts_description": "Checks that each shortcut in aria-keyshortcuts names its modifier keys as UI Events does (Alt, AltGraph, Control, Meta, Shift), before its other keys.",
   "waiAriaKeyshortcuts_summary_fail_name": "The shortcut {{shortcut}} names a modifier key \"{{key}}\", which UI Events calls \"{{modifier}}\".",
   "waiAriaKeyshortcuts_summary_fail_names": "The shortcut {{shortcut}} names modifier keys {{keys}}, which UI Events calls {{modifiers}}.",
+  "waiAriaKeyshortcuts_summary_fail_nameNear": "The shortcut {{shortcut}} names a modifier key \"{{key}}\", which UI Events does not name (did you mean \"{{modifier}}\"?).",
+  "waiAriaKeyshortcuts_summary_fail_namesNear": "The shortcut {{shortcut}} names modifier keys {{keys}}, which UI Events does not name (did you mean {{modifiers}}?).",
   "waiAriaKeyshortcuts_hint_fail_name": "Write it {{corrected}}: UI Events names modifier keys Alt, AltGraph, Control, Meta, Shift.",
   "waiAriaKeyshortcuts_summary_fail_order": "The shortcut {{shortcut}} puts the modifier key {{key}} after another key.",
   "waiAriaKeyshortcuts_hint_fail_order": "Put modifier keys first and the other keys last: {{ordered}}."

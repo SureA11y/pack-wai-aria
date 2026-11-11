@@ -75,10 +75,12 @@ test("wai-aria-combobox-popup: names the element aria-controls points at, and wh
   o = one("wai-aria-combobox-popup", '<input role="combobox" aria-controls="ref">');
   assert.equal(o.i18n.summaryKey, "waiAriaComboboxPopup_summary_fail_noRole");
   assert.match(o.summary, /<span id="ref">, which has no role/);
-  // A <dialog> isn't said to have no role.
-  o = one("wai-aria-combobox-popup", '<input role="combobox" aria-controls="pop"><dialog id="pop" open>x</dialog>');
-  assert.equal(o.i18n.summaryKey, "waiAriaComboboxPopup_summary_fail_unread");
-  assert.doesNotMatch(o.summary, /no role/);
+  o = one("wai-aria-combobox-popup", '<input role="combobox" aria-controls="pop"><table id="pop"><tr><td>a</td></tr></table>');
+  assert.equal(o.summary, 'This combobox controls <table id="pop">, whose tag gives it role table, not a listbox, tree, grid or dialog.');
+  // A <dialog> inside the element aria-controls names is its popup.
+  o = one("wai-aria-combobox-popup", '<input role="combobox" aria-controls="pop"><div id="pop"><dialog id="dl" open>x</dialog></div>');
+  assert.equal(o.hint, 'Point aria-controls at the dialog itself: aria-controls="dl".');
+  assert.ok(!("waiAriaComboboxPopup_summary_fail_unread" in en));
   o = one("wai-aria-combobox-popup", '<input role="combobox" aria-controls="pop"><ul id="pop" role="foo"><li>a</li></ul>');
   assert.equal(o.i18n.summaryKey, "waiAriaComboboxPopup_summary_fail_invalidRole");
   o = one("wai-aria-combobox-popup", '<input role="combobox" aria-controls="pop"><div id="pop" role="menu"><div role="menuitem">a</div></div>');
@@ -172,6 +174,13 @@ test("wai-aria-keyshortcuts: names every misnamed modifier, and gives the shortc
   assert.equal(o.summary, 'The shortcut s+Ctrl+shift names modifier keys "Ctrl", "shift", which UI Events calls "Control", "Shift".');
   assert.equal(o.data.details.corrected, "Control+Shift+s");
   assert.equal(o.data.details.reasonCode, "KEYSHORTCUTS_MODIFIER_NAME");
+  o = one("wai-aria-keyshortcuts", '<button aria-keyshortcuts="Contol+S">s</button>');
+  assert.equal(o.summary, 'The shortcut Contol+S names a modifier key "Contol", which UI Events does not name (did you mean "Control"?).');
+  assert.equal(o.hint, "Write it Control+S: UI Events names modifier keys Alt, AltGraph, Control, Meta, Shift.");
+  assert.deepEqual(o.data.details.nearMiss, ["Contol"]);
+  o = one("wai-aria-keyshortcuts", '<button aria-keyshortcuts="Shft+Atl+S">s</button>');
+  assert.equal(o.summary, 'The shortcut Shft+Atl+S names modifier keys "Shft", "Atl", which UI Events does not name (did you mean "Shift", "Alt"?).');
+  assert.equal(o.data.details.corrected, "Shift+Alt+S");
 });
 
 test("wai-aria-toolbar-names: says what the other toolbars are called, and every id aria-labelledby misses", () => {
@@ -209,7 +218,9 @@ test("wai-aria-setsize: names the set, the sizes the other items give, and the s
   const usual = list.find((x) => x.data.details.setsize === 3);
   assert.equal(usual.i18n.hintKey, "waiAriaSetsize_hint_fail_inconsistent");
   assert.equal(usual.data.details.reasonCode, "SETSIZE_INCONSISTENT");
-  const o = one("wai-aria-setsize", '<div role="list" id="l"><div role="listitem" aria-setsize="1">a</div><div role="listitem">b</div></div>');
+  let o = one("wai-aria-setsize", '<ul id="l"><li aria-setsize="1">a</li><li>b</li></ul>');
+  assert.equal(o.summary, 'This item\'s aria-setsize (1) is below the 2 items of its set on the page, the elements of role listitem in <ul id="l">.');
+  o = one("wai-aria-setsize", '<div role="list" id="l"><div role="listitem" aria-setsize="1">a</div><div role="listitem">b</div></div>');
   assert.equal(o.summary, 'This item\'s aria-setsize (1) is below the 2 items of its set on the page, the elements of role listitem in <div id="l">.');
   assert.equal(o.hint, "Set aria-setsize to the number of items in the whole set, at least 2, or to -1 if it is not known.");
 });
