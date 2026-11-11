@@ -4,6 +4,20 @@ All notable changes to this package are documented here. This project adheres to
 
 ## [Unreleased]
 
+### Changed
+
+- The pack's rules say what causes a finding where they know it, and the near-right value where one is close:
+  - `wai-aria-combobox-popup` names the element `aria-controls` points at and why it is no popup: a `role` that is not an ARIA role (`role="lisbox"`: did you mean `"listbox"`?), a tag's own role (a `<ul>` is a list), no role at all, or a listbox inside it, which `aria-controls` should name (`aria-controls="lb"`). It no longer calls an element with no role, or a misspelt one, "of role none".
+  - `wai-aria-scrollbar-controls` says when `aria-controls` is empty, or misspelt (`aria-control`).
+  - `wai-aria-toolbar-names` says why a toolbar's `aria-labelledby` or `aria-label` gives no name: an id no element has (and the id it nearly is), an element with no text, an empty `aria-label`, or a misspelt attribute (`aria-labeledby`).
+  - `wai-aria-feed-articles` says why a feed owns no article: an article something hides (the `hidden` attribute, `aria-hidden="true"`, `display: none`, on it or around it), articles inside an element the feed owns instead (a `<ul>`), or a misspelt `role="article"`. The element a feed owns is named with its role (`A feed owns this <h2>, of role heading`).
+  - `wai-aria-caption-context` names the caption's parent in the accessibility tree by its tag (`the <p> element`, not `an element of role p`), and the figure or table above it where an element comes between them.
+  - `wai-aria-presentational-attributes` names the role (`role="none"`) and the roles that take the attribute (`aria-checked`: checkbox, menuitemcheckbox, option, radio, switch).
+  - `wai-aria-spinbutton-owned` names the owned element's tag.
+  - `wai-aria-keyshortcuts` names every misnamed modifier of a shortcut, not only the first, and gives the shortcut as UI Events writes it (`Write it Control+Shift+s`).
+
+  Outcomes and reason codes are unchanged; the new texts are in `i18n/en.json`.
+
 ## [1.0.2] - 2026-11-08
 
 ### Fixed

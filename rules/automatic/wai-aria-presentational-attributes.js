@@ -72,6 +72,41 @@ function runInPage(ctx) {
     "aria-relevant",
     "aria-roledescription",
   ];
+  // The roles WAI-ARIA 1.2 gives each other state and property to, in their
+  // Supported or Required States and Properties (the roles that inherit
+  // one left out): what a hint suggests the attribute belongs to.
+  const ROLES_OF = {
+    "aria-activedescendant": ["combobox", "group", "textbox"],
+    "aria-autocomplete": ["combobox", "textbox"],
+    "aria-checked": ["checkbox", "menuitemcheckbox", "option", "radio", "switch"],
+    "aria-colcount": ["table"],
+    "aria-colindex": ["cell", "row"],
+    "aria-colspan": ["cell"],
+    "aria-disabled": ["button", "gridcell", "group", "link", "menuitem", "scrollbar", "separator", "tab"],
+    "aria-errormessage": ["checkbox", "combobox", "gridcell", "listbox", "radiogroup", "slider", "spinbutton", "textbox", "tree"],
+    "aria-expanded": ["button", "checkbox", "combobox", "gridcell", "link", "listbox", "menuitem", "row", "rowheader", "tab", "treeitem"],
+    "aria-haspopup": ["button", "combobox", "gridcell", "link", "menuitem", "slider", "tab", "textbox", "treeitem"],
+    "aria-invalid": ["checkbox", "combobox", "gridcell", "listbox", "radiogroup", "slider", "spinbutton", "textbox", "tree"],
+    "aria-level": ["heading", "listitem", "row"],
+    "aria-multiline": ["textbox"],
+    "aria-multiselectable": ["grid", "listbox", "tablist", "tree"],
+    "aria-orientation": ["scrollbar", "separator", "slider", "tablist", "toolbar"],
+    "aria-placeholder": ["textbox"],
+    "aria-posinset": ["article", "listitem", "menuitem", "option", "radio", "row", "tab"],
+    "aria-pressed": ["button"],
+    "aria-readonly": ["checkbox", "combobox", "grid", "gridcell", "listbox", "radiogroup", "slider", "spinbutton", "textbox"],
+    "aria-required": ["checkbox", "combobox", "gridcell", "listbox", "radiogroup", "spinbutton", "textbox", "tree"],
+    "aria-rowcount": ["table"],
+    "aria-rowindex": ["cell", "row"],
+    "aria-rowspan": ["cell"],
+    "aria-selected": ["gridcell", "option", "row", "tab"],
+    "aria-setsize": ["article", "listitem", "menuitem", "option", "radio", "row", "tab"],
+    "aria-sort": ["columnheader", "rowheader"],
+    "aria-valuemax": ["scrollbar", "separator", "slider", "spinbutton"],
+    "aria-valuemin": ["scrollbar", "separator", "slider", "spinbutton"],
+    "aria-valuenow": ["meter", "scrollbar", "separator", "slider", "spinbutton"],
+    "aria-valuetext": ["separator", "spinbutton"],
+  };
   // Whether an element is in the flat tree: neither it nor any ancestor is
   // a shadow host's child that no slot takes (flatParentElement gives
   // undefined for one).
@@ -115,20 +150,32 @@ function runInPage(ctx) {
           helpers.aria.isValidAriaAttrName(n),
       );
     if (!names.length) continue;
+    const role = helpers.aria.getExplicitRole(el);
+    const attributes = names.join(", ");
+    // The roles that take every one of the attributes, as a hint names them.
+    const roles = names
+      .map((n) => ROLES_OF[n] || [])
+      .reduce((acc, list) => acc.filter((r) => list.includes(r)));
+    const shown = roles.slice(0, 6).join(", ");
     occurrences.push(
       helpers.reportOccurrence(el, {
-        summary: `This element's role hides it, but it has ${names.join(", ")}.`,
-        hint: "Give it the role the attribute belongs to, or remove the attribute.",
+        summary: `This element's role="${role}" hides it from assistive technology, but it has ${attributes}, which role ${role} does not support.`,
+        hint: shown
+          ? `Give it a role that takes ${attributes} (${shown}), or remove the attribute.`
+          : "Give it the role the attribute belongs to, or remove the attribute.",
         i18n: {
           summaryKey: "waiAriaPresentationalAttributes_summary_cantTell",
-          hintKey: "waiAriaPresentationalAttributes_hint_cantTell",
-          params: { attributes: names.join(", ") },
+          hintKey: shown
+            ? "waiAriaPresentationalAttributes_hint_cantTell_roles"
+            : "waiAriaPresentationalAttributes_hint_cantTell",
+          params: shown ? { attributes, role, roles: shown } : { attributes, role },
         },
         data: {
           details: {
             reasonCode: "PRESENTATIONAL_ATTRIBUTE_UNSUPPORTED",
             attributes: names,
-            role: helpers.aria.getExplicitRole(el),
+            role,
+            ...(roles.length ? { roles } : {}),
           },
         },
       }),

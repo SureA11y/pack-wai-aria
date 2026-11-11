@@ -93,7 +93,7 @@ test("the pack's own rules name what they found", () => {
     'wai-aria-caption-context',
     'CAPTION_CONTEXT_MISSING'
   );
-  assert.match(caption.steps[0], /its parent is an element of role group\./);
+  assert.match(caption.steps[0], /its parent is the <div> element of role group\./);
 });
 
 test('every step reads without a finding, and core takes them all', () => {

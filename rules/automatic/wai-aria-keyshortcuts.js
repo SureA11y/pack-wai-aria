@@ -89,22 +89,48 @@ function runInPage(ctx) {
     const value = String(helpers.dom.getAttribute(el, "aria-keyshortcuts")).trim();
     for (const shortcut of value.split(/\s+/)) {
       const keys = keysOf(shortcut);
-      const misnamed = keys.find(
+      const misnamedKeys = keys.filter(
         (k) => !MODIFIERS.includes(k) && Object.prototype.hasOwnProperty.call(ALIASES, k.toLowerCase()),
       );
-      if (misnamed) {
+      if (misnamedKeys.length) {
+        const misnamed = misnamedKeys[0];
         const modifier = ALIASES[misnamed.toLowerCase()];
+        // The shortcut as UI Events writes it: each modifier by its name,
+        // and the modifiers first.
+        const renamed = keys.map((k) =>
+          misnamedKeys.includes(k) ? ALIASES[k.toLowerCase()] : k,
+        );
+        const corrected = [
+          ...renamed.filter((k) => MODIFIERS.includes(k)),
+          ...renamed.filter((k) => !MODIFIERS.includes(k)),
+        ].join("+");
+        const many = misnamedKeys.length > 1;
+        const keyList = misnamedKeys.map((k) => `"${k}"`).join(", ");
+        const modifierList = misnamedKeys.map((k) => `"${ALIASES[k.toLowerCase()]}"`).join(", ");
         occurrences.push(
           helpers.reportOccurrence(el, {
-            summary: `The shortcut ${shortcut} names a modifier key "${misnamed}", which UI Events calls "${modifier}".`,
-            hint: "Name modifier keys exactly as UI Events does: Alt, AltGraph, Control, Meta, Shift.",
+            summary: many
+              ? `The shortcut ${shortcut} names modifier keys ${keyList}, which UI Events calls ${modifierList}.`
+              : `The shortcut ${shortcut} names a modifier key "${misnamed}", which UI Events calls "${modifier}".`,
+            hint: `Write it ${corrected}: UI Events names modifier keys Alt, AltGraph, Control, Meta, Shift.`,
             i18n: {
-              summaryKey: "waiAriaKeyshortcuts_summary_fail_name",
+              summaryKey: many
+                ? "waiAriaKeyshortcuts_summary_fail_names"
+                : "waiAriaKeyshortcuts_summary_fail_name",
               hintKey: "waiAriaKeyshortcuts_hint_fail_name",
-              params: { shortcut, key: misnamed, modifier },
+              params: many
+                ? { shortcut, keys: keyList, modifiers: modifierList, corrected }
+                : { shortcut, key: misnamed, modifier, corrected },
             },
             data: {
-              details: { reasonCode: "KEYSHORTCUTS_MODIFIER_NAME", shortcut, key: misnamed, modifier },
+              details: {
+                reasonCode: "KEYSHORTCUTS_MODIFIER_NAME",
+                shortcut,
+                key: misnamed,
+                modifier,
+                corrected,
+                ...(many ? { keys: misnamedKeys } : {}),
+              },
             },
           }),
         );

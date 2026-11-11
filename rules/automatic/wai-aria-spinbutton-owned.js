@@ -106,16 +106,17 @@ function runInPage(ctx) {
     for (const child of children) {
       const role = roleOf(child);
       if (role === "textbox" || role === "button") continue;
+      const element = `<${String(helpers.dom.localName(child) || "").toLowerCase()}>`;
       occurrences.push(
         helpers.reportOccurrence(child, {
-          summary: `A spinbutton owns this element, of role ${role}, though it may own only a textbox and buttons.`,
+          summary: `A spinbutton owns this ${element}, of role ${role}, though it may own only a textbox and buttons.`,
           hint: "Move it out of the spinbutton, or make it the spinbutton's text box or one of its two buttons.",
           i18n: {
             summaryKey: "waiAriaSpinbuttonOwned_summary_fail_other",
             hintKey: "waiAriaSpinbuttonOwned_hint_fail_other",
-            params: { role },
+            params: { role, element },
           },
-          data: { details: { reasonCode: "SPINBUTTON_OWNS_OTHER", role } },
+          data: { details: { reasonCode: "SPINBUTTON_OWNS_OTHER", role, element } },
         }),
       );
     }
