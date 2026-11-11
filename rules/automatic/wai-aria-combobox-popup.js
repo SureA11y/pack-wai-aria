@@ -155,11 +155,15 @@ function runInPage(ctx) {
       native = "";
     }
     if (native) return { key: "native", hintKey: "fail", popup: ref, params: { role: native } };
+    // A <dialog> has a role of its own, which this rule doesn't read: the
+    // message doesn't say it has none.
+    if (tagOf(ref) === "dialog") return { key: "unread", hintKey: "fail", popup: ref, params: {} };
     return { key: "noRole", hintKey: "fail", popup: ref, params: {} };
   };
   const SUMMARIES = {
     fail: (p) => `This combobox controls ${p.element}, of role ${p.role}, not a listbox, tree, grid or dialog.`,
     native: (p) => `This combobox controls ${p.element}, whose tag gives it role ${p.role}, not a listbox, tree, grid or dialog.`,
+    unread: (p) => `This combobox controls ${p.element}, which this rule does not read as a listbox, tree, grid or dialog.`,
     noRole: (p) => `This combobox controls ${p.element}, which has no role, so it is not a listbox, tree, grid or dialog.`,
     invalidRole: (p) => `This combobox controls ${p.element}, whose role="${p.value}" is not an ARIA role, so it is not a listbox, tree, grid or dialog.`,
     invalidRoleNear: (p) => `This combobox controls ${p.element}, whose role="${p.value}" is not an ARIA role (did you mean "${p.suggestion}"?), so it is not a listbox, tree, grid or dialog.`,

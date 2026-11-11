@@ -55,6 +55,7 @@
   "waiAriaComboboxPopup_summary_fail": "This combobox controls {{element}}, of role {{role}}, not a listbox, tree, grid or dialog.",
   "waiAriaComboboxPopup_hint_fail": "Give the popup the role of what it is (listbox for a list of options), or point aria-controls at the popup.",
   "waiAriaComboboxPopup_summary_fail_native": "This combobox controls {{element}}, whose tag gives it role {{role}}, not a listbox, tree, grid or dialog.",
+  "waiAriaComboboxPopup_summary_fail_unread": "This combobox controls {{element}}, which this rule does not read as a listbox, tree, grid or dialog.",
   "waiAriaComboboxPopup_summary_fail_noRole": "This combobox controls {{element}}, which has no role, so it is not a listbox, tree, grid or dialog.",
   "waiAriaComboboxPopup_summary_fail_invalidRole": "This combobox controls {{element}}, whose role=\"{{value}}\" is not an ARIA role, so it is not a listbox, tree, grid or dialog.",
   "waiAriaComboboxPopup_summary_fail_invalidRoleNear": "This combobox controls {{element}}, whose role=\"{{value}}\" is not an ARIA role (did you mean \"{{suggestion}}\"?), so it is not a listbox, tree, grid or dialog.",
