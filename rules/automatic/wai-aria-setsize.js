@@ -77,8 +77,15 @@ function runInPage(ctx) {
     if (!byRole.has(item.role)) byRole.set(item.role, []);
     byRole.get(item.role).push(item);
   }
+  // How a message names an element: its tag, and its id.
+  const describe = (el) => {
+    const elId = String(dom.getAttribute(el, "id") || "").trim();
+    return `<${String(dom.localName(el) || "").toLowerCase()}${elId ? ` id="${elId}"` : ""}>`;
+  };
   const occurrences = [];
   for (const [parent, byRole] of sets) {
+    // The set, as a message names it: its role and its parent element.
+    const where = parent ? describe(parent) : "the page";
     for (const [role, list] of byRole) {
       const siblings = parent
         ? [...(helpers.flatChildNodes(parent) || [])].filter(
@@ -91,34 +98,63 @@ function runInPage(ctx) {
         : list.length;
       const count = Math.max(siblings, list.length);
       const sizes = [...new Set(list.map((i) => i.size))];
+      // The size most of the set's items give, where more than half give
+      // one and it is not below the items on the page: the near-right
+      // value for the others.
+      let usual = null;
+      for (const size of sizes) {
+        if (size >= count && list.filter((i) => i.size === size).length * 2 > list.length) usual = size;
+      }
       for (const item of list) {
         if (item.size < count) {
+          const params = { setsize: String(item.size), count: String(count), role, parent: where };
           occurrences.push(
             helpers.reportOccurrence(item.el, {
-              summary: `This item's aria-setsize (${item.size}) is below the ${count} items of its set on the page.`,
-              hint: "Set aria-setsize to the number of items in the whole set, or to -1 if it is not known.",
+              summary: `This item's aria-setsize (${item.size}) is below the ${count} items of its set on the page, the elements of role ${role} in ${where}.`,
+              hint: `Set aria-setsize to the number of items in the whole set, at least ${count}, or to -1 if it is not known.`,
               i18n: {
                 summaryKey: "waiAriaSetsize_summary_fail_below",
                 hintKey: "waiAriaSetsize_hint_fail_below",
-                params: { setsize: String(item.size), count: String(count) },
+                params,
               },
               data: {
-                details: { reasonCode: "SETSIZE_BELOW_ITEMS", setsize: item.size, count, role },
+                details: { reasonCode: "SETSIZE_BELOW_ITEMS", setsize: item.size, count, role, parent: where },
               },
             }),
           );
         } else if (sizes.length > 1) {
+          const others = sizes.filter((x) => x !== item.size).join(", ");
+          const suggest = usual !== null && usual !== item.size;
+          const params = {
+            setsize: String(item.size),
+            others,
+            sizes: sizes.join(", "),
+            role,
+            parent: where,
+            ...(suggest ? { suggestion: String(usual) } : {}),
+          };
           occurrences.push(
             helpers.reportOccurrence(item.el, {
-              summary: `The items of this set give different sizes: ${sizes.join(", ")}.`,
-              hint: "Give every item of the set the same aria-setsize, the number of items in the whole set.",
+              summary: `This item's aria-setsize is ${item.size}, and other items of its set, the elements of role ${role} in ${where}, give ${others}.`,
+              hint: suggest
+                ? `Set it to ${usual}, as most items of its set do, if the whole set has ${usual} items: every item gives the same aria-setsize.`
+                : "Give every item of the set the same aria-setsize, the number of items in the whole set.",
               i18n: {
                 summaryKey: "waiAriaSetsize_summary_fail_inconsistent",
-                hintKey: "waiAriaSetsize_hint_fail_inconsistent",
-                params: { sizes: sizes.join(", ") },
+                hintKey: suggest
+                  ? "waiAriaSetsize_hint_fail_inconsistentUsual"
+                  : "waiAriaSetsize_hint_fail_inconsistent",
+                params,
               },
               data: {
-                details: { reasonCode: "SETSIZE_INCONSISTENT", setsize: item.size, sizes, role },
+                details: {
+                  reasonCode: "SETSIZE_INCONSISTENT",
+                  setsize: item.size,
+                  sizes,
+                  role,
+                  parent: where,
+                  ...(suggest ? { suggestion: usual } : {}),
+                },
               },
             }),
           );

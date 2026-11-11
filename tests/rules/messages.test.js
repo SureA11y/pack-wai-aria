@@ -173,3 +173,118 @@ test("wai-aria-keyshortcuts: names every misnamed modifier, and gives the shortc
   assert.equal(o.data.details.corrected, "Control+Shift+s");
   assert.equal(o.data.details.reasonCode, "KEYSHORTCUTS_MODIFIER_NAME");
 });
+
+test("wai-aria-toolbar-names: says what the other toolbars are called, and every id aria-labelledby misses", () => {
+  const named = '<div role="toolbar" aria-label="Formatting"><button>a</button></div><div role="toolbar" aria-label="Insert"><button>a</button></div>';
+  let o = one("wai-aria-toolbar-names", `${named}<div role="toolbar"><button>b</button></div>`);
+  assert.equal(o.summary, 'This toolbar has no name, and the page has 3 toolbars: the others are called "Formatting", "Insert".');
+  assert.equal(o.hint, "Name it as the others are named, with aria-label or aria-labelledby, so the toolbars can be told apart.");
+  assert.equal(o.data.details.cause, undefined);
+  let list = messages(
+    "wai-aria-toolbar-names",
+    '<div role="toolbar" aria-label="Formatting"><button>a</button></div><div role="toolbar"><button>b</button></div><div role="toolbar"><button>c</button></div>',
+  );
+  assert.equal(list.length, 2);
+  assert.equal(list[0].summary, 'This toolbar has no name, and the page has 3 toolbars: 2 have no name, and the others are called "Formatting".');
+  list = messages("wai-aria-toolbar-names", '<div role="toolbar"><button>a</button></div><div role="toolbar"><button>b</button></div>');
+  assert.equal(list[0].summary, "This toolbar has no name, and none of the page's 2 toolbars has one.");
+  o = messages(
+    "wai-aria-toolbar-names",
+    '<div role="toolbar" aria-label="Formatting"><button>a</button></div><div id="empty"></div><div role="toolbar" aria-labelledby="empty gone"><button>b</button></div>',
+  ).find((x) => x.data.details.cause);
+  assert.equal(o.data.details.cause, "labelledbyEmptyMissing");
+  assert.match(o.summary, /points at <div id="empty">, which has no text, and names the id "gone", which no element on the page has\.$/);
+});
+
+test("wai-aria-setsize: names the set, the sizes the other items give, and the size most give", () => {
+  let list = messages(
+    "wai-aria-setsize",
+    '<div role="list" id="l"><div role="listitem" aria-setsize="3">a</div><div role="listitem" aria-setsize="3">b</div><div role="listitem" aria-setsize="4">c</div></div>',
+  );
+  assert.equal(list.length, 3);
+  const odd = list.find((x) => x.data.details.setsize === 4);
+  assert.equal(odd.summary, 'This item\'s aria-setsize is 4, and other items of its set, the elements of role listitem in <div id="l">, give 3.');
+  assert.equal(odd.hint, "Set it to 3, as most items of its set do, if the whole set has 3 items: every item gives the same aria-setsize.");
+  assert.equal(odd.data.details.suggestion, 3);
+  const usual = list.find((x) => x.data.details.setsize === 3);
+  assert.equal(usual.i18n.hintKey, "waiAriaSetsize_hint_fail_inconsistent");
+  assert.equal(usual.data.details.reasonCode, "SETSIZE_INCONSISTENT");
+  const o = one("wai-aria-setsize", '<div role="list" id="l"><div role="listitem" aria-setsize="1">a</div><div role="listitem">b</div></div>');
+  assert.equal(o.summary, 'This item\'s aria-setsize (1) is below the 2 items of its set on the page, the elements of role listitem in <div id="l">.');
+  assert.equal(o.hint, "Set aria-setsize to the number of items in the whole set, at least 2, or to -1 if it is not known.");
+});
+
+test("wai-aria-table-indexes: names the earlier cell or row, the widest row and the cell that spans it", () => {
+  let o = one("wai-aria-table-indexes", '<table><tr><td aria-colindex="1">Name</td><td aria-colindex="1">Price</td></tr></table>');
+  assert.equal(o.summary, 'This cell\'s aria-colindex (1) is the same as that of the cell before it in its row, <td> "Name".');
+  assert.equal(o.hint, 'Give each cell its own column: if this one comes right after <td> "Name", its aria-colindex is 2.');
+  assert.equal(o.data.details.reasonCode, "COLINDEX_NOT_INCREASING");
+  o = one("wai-aria-table-indexes", '<table><tr><td aria-colindex="2" colspan="2">Name</td><td aria-colindex="1">Price</td></tr></table>');
+  assert.equal(o.summary, 'This cell\'s aria-colindex (1) is below that of an earlier cell in its row, <td> "Name" (2).');
+  assert.equal(o.data.details.suggestion, 4);
+  o = one("wai-aria-table-indexes", '<table aria-colcount="2"><tr><td>a</td></tr><tr><td>b</td><td colspan="2">Wide</td></tr></table>');
+  assert.equal(
+    o.summary,
+    'This table\'s aria-colcount (2) is below the 3 columns that row 2 of it on the page spans, where <td> "Wide" spans 2 columns.',
+  );
+  assert.match(o.hint, /at least 3, counting the columns a colspan spans/);
+  o = one("wai-aria-table-indexes", '<table aria-colcount="1"><tr><td>a</td><td>b</td></tr></table>');
+  assert.equal(o.summary, "This table's aria-colcount (1) is below the 2 columns that row 1 of it on the page spans.");
+  o = one("wai-aria-table-indexes", '<table><tr aria-rowindex="2"><td>a</td></tr><tr aria-rowindex="2"><td>b</td></tr></table>');
+  assert.equal(o.summary, "This row's aria-rowindex (2) is not greater than 2, which row 1 of the table on the page gives, before it.");
+  assert.equal(o.hint, "Number the rows from top to bottom, each above the one before: if this row comes right after row 1, its aria-rowindex is 3.");
+});
+
+test("wai-aria-spinbutton-owned: names the extra elements, and says when aria-owns owns them", () => {
+  let o = one(
+    "wai-aria-spinbutton-owned",
+    '<div role="spinbutton" aria-valuenow="1" aria-owns="x3"><input type="text"><button>+</button><button>-</button></div><button id="x3">x</button>',
+  );
+  assert.equal(
+    o.summary,
+    'This spinbutton owns more than one text box and two buttons (text boxes: 1, buttons: 3): past the first text box and two buttons, it owns <button id="x3"> (through aria-owns).',
+  );
+  assert.deepEqual(o.data.details.extra, ['<button id="x3"> (through aria-owns)']);
+  o = one("wai-aria-spinbutton-owned", '<div role="spinbutton" aria-valuenow="1" aria-owns="lk"><input type="text"></div><a id="lk" href="#">x</a>');
+  assert.equal(o.summary, "A spinbutton owns this <a>, of role link, through its aria-owns, though it may own only a textbox and buttons.");
+  assert.equal(o.hint, "Take its id out of the spinbutton's aria-owns, or make it the spinbutton's text box or one of its two buttons.");
+  assert.equal(o.data.details.reasonCode, "SPINBUTTON_OWNS_OTHER");
+});
+
+test("wai-aria-feed-articles: an article another element owns, one whose role replaces article, and fallback content", () => {
+  let o = one("wai-aria-feed-articles", '<div role="feed"><article id="a1">a</article></div><div role="list" id="l" aria-owns="a1"></div>');
+  assert.equal(
+    o.summary,
+    'This feed owns no article: its <article id="a1"> is in it in the markup, but <div id="l"> claims it with aria-owns, so it is that element\'s child in the accessibility tree, not the feed\'s.',
+  );
+  assert.equal(o.hint, 'Take its id out of the aria-owns of <div id="l">, so the feed owns it.');
+  let list = messages("wai-aria-feed-articles", '<div role="feed"><article role="button">a</article></div>');
+  assert.equal(list[0].summary, 'This feed owns no article: its <article> has role="button", which replaces the article role.');
+  assert.equal(list[1].summary, "A feed owns this <article>, of role button, which is not an article.");
+  assert.equal(list[1].hint, 'Its role="button" replaces the article role: remove it, so it is an article, and put what it is inside it.');
+  list = messages("wai-aria-feed-articles", '<div role="feed"><video><article>a</article></video></div>');
+  assert.equal(
+    list[0].summary,
+    "This feed owns no article: its articles are inside <video>, as fallback content, which is shown only where the video can't be, so the feed owns the video instead.",
+  );
+  assert.equal(list[1].i18n.hintKey, "waiAriaFeedArticles_hint_fail_childFallback");
+  assert.equal(list[1].hint, "Its articles are inside it as fallback content, shown only where the video can't be: take them out of <video>.");
+});
+
+test("wai-aria-caption-context: says when the caption's parent comes from aria-owns", () => {
+  let o = one(
+    "wai-aria-caption-context",
+    '<div role="figure"><div role="caption" id="c">c</div><img alt="x" src="x.png"></div><div role="region" id="r" aria-label="r" aria-owns="c"></div>',
+  );
+  assert.equal(
+    o.summary,
+    'This caption is in the figure (<div>) in the markup, but its parent in the accessibility tree is the <div id="r"> element of role region, which claims it with aria-owns.',
+  );
+  assert.equal(o.hint, 'Take its id out of the aria-owns of <div id="r">, so it stays a child of the figure (<div>), and name that element by it with aria-labelledby.');
+  assert.equal(o.data.details.throughAriaOwns, true);
+  o = one("wai-aria-caption-context", '<div role="caption" id="c">c</div><p id="o" aria-owns="c"></p>');
+  assert.equal(
+    o.summary,
+    'This caption is not in a figure or a table: its parent in the accessibility tree is the <p id="o"> element, which claims it with aria-owns.',
+  );
+});

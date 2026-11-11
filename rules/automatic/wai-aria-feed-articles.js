@@ -496,10 +496,42 @@ function runInPage(ctx) {
         p = helpers.flatParentElement(p);
       }
     }
+    // An article, or an element around it, that another element claims
+    // with aria-owns: it is that element's child, not the feed's.
+    for (const a of articles) {
+      for (let p = a, guard = 0; p && p !== feed && guard < 200; guard++) {
+        const owner = claimedBy.get(p);
+        if (owner && owner !== feed) {
+          return {
+            key: "missingOwned",
+            params: { element: describe(p), owner: describe(owner) },
+          };
+        }
+        p = helpers.flatParentElement(p);
+      }
+    }
     for (const a of articles) {
       const wrapper = children.find((c) => c.role !== "article" && hasAncestorElement(a, c.el));
       if (wrapper) {
+        // Inside a <video>, <audio> or <object>, an article is fallback
+        // content, shown only where the element itself can't be.
+        const tag = tagOf(wrapper.el);
+        if (OPAQUE_TAGS.includes(tag)) {
+          return { key: "missingFallback", params: { element: describe(wrapper.el), tag } };
+        }
         return { key: "missingNested", params: { element: describe(wrapper.el), role: wrapper.role } };
+      }
+    }
+    // An <article> whose role attribute gives it another role, which
+    // replaces article.
+    for (const x of inside) {
+      if (tagOf(x) !== "article") continue;
+      const explicit = helpers.aria.getExplicitRole(x);
+      if (explicit && explicit !== "article") {
+        return {
+          key: "missingReplaced",
+          params: { element: describe(x), value: String(helpers.dom.getAttribute(x, "role") || "").trim() },
+        };
       }
     }
     for (const x of inside) {
@@ -528,6 +560,18 @@ function runInPage(ctx) {
     missingNested: {
       summary: (p) => `This feed owns no article: its articles are inside ${p.element}, of role ${p.role}, which the feed owns instead.`,
       hint: (p) => `Make the articles the feed's own: take them out of ${p.element}, or give it role="none".`,
+    },
+    missingOwned: {
+      summary: (p) => `This feed owns no article: its ${p.element} is in it in the markup, but ${p.owner} claims it with aria-owns, so it is that element's child in the accessibility tree, not the feed's.`,
+      hint: (p) => `Take its id out of the aria-owns of ${p.owner}, so the feed owns it.`,
+    },
+    missingFallback: {
+      summary: (p) => `This feed owns no article: its articles are inside ${p.element}, as fallback content, which is shown only where the ${p.tag} can't be, so the feed owns the ${p.tag} instead.`,
+      hint: (p) => `Take the articles out of ${p.element}, so they are the feed's own.`,
+    },
+    missingReplaced: {
+      summary: (p) => `This feed owns no article: its ${p.element} has role="${p.value}", which replaces the article role.`,
+      hint: (p) => `Remove role="${p.value}" from the <article>, so it is an article, and put what it is inside it.`,
     },
     missingMisspelled: {
       summary: (p) => `This feed owns no article: the role="${p.value}" of its ${p.element} is not an ARIA role (did you mean "article"?).`,
@@ -579,18 +623,38 @@ function runInPage(ctx) {
       } catch {
         wraps = false;
       }
+      // An <article> whose role attribute replaces article, and fallback
+      // content around articles, have hints of their own.
+      const tag = tagOf(c.el);
+      const explicit = helpers.aria.getExplicitRole(c.el);
+      const value = String(helpers.dom.getAttribute(c.el, "role") || "").trim();
+      const replaced = tag === "article" && !!explicit && explicit !== "article";
+      const fallback = wraps && OPAQUE_TAGS.includes(tag);
+      let hintKey = "child";
+      let hint = "Move it out of the feed, or put it inside one of its articles.";
+      if (replaced) {
+        hintKey = "childReplaced";
+        hint = `Its role="${value}" replaces the article role: remove it, so it is an article, and put what it is inside it.`;
+      } else if (fallback) {
+        hintKey = "childFallback";
+        hint = `Its articles are inside it as fallback content, shown only where the ${tag} can't be: take them out of ${element}.`;
+      } else if (wraps) {
+        hintKey = "childWrapper";
+        hint = `Its articles are inside it, so they are not the feed's: take them out of ${element}, or give it role="none".`;
+      }
       occurrences.push(
         helpers.reportOccurrence(c.el, {
           summary: `A feed owns this ${element}, of role ${c.role}, which is not an article.`,
-          hint: wraps
-            ? `Its articles are inside it, so they are not the feed's: take them out of ${element}, or give it role="none".`
-            : "Move it out of the feed, or put it inside one of its articles.",
+          hint,
           i18n: {
             summaryKey: "waiAriaFeedArticles_summary_fail_child",
-            hintKey: wraps
-              ? "waiAriaFeedArticles_hint_fail_childWrapper"
-              : "waiAriaFeedArticles_hint_fail_child",
-            params: { role: c.role, element },
+            hintKey: `waiAriaFeedArticles_hint_fail_${hintKey}`,
+            params: {
+              role: c.role,
+              element,
+              ...(replaced ? { value } : {}),
+              ...(fallback ? { tag } : {}),
+            },
           },
           data: {
             details: { reasonCode: "FEED_CHILD_NOT_ARTICLE", role: c.role, element },

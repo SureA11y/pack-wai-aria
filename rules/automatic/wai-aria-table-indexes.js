@@ -157,24 +157,59 @@ function runInPage(ctx) {
         data: { details: { reasonCode: code, ...values } },
       }),
     );
+  // How a message names a cell: its tag, and the start of its text.
+  const describeCell = (cell) => {
+    const tag = `<${String(dom.localName(cell) || "").toLowerCase()}>`;
+    let text = "";
+    try {
+      text = String((typeof dom.textContent === "function" ? dom.textContent(cell) : cell.textContent) || "").replace(/\s+/g, " ").trim();
+    } catch {
+      text = "";
+    }
+    if (text.length > 30) text = `${text.slice(0, 30)}…`;
+    return text ? `${tag} "${text}"` : tag;
+  };
   for (const table of applicable) {
     const rows = rowsOf.get(table);
     const colcount = intOf(table, "aria-colcount");
     const rowcount = intOf(table, "aria-rowcount");
     let widest = 0;
+    // The widest row: its place among the table's rows on the page, and
+    // the cell that spans most columns in it.
+    let widestRow = 0;
+    let widestCell = null;
+    let widestCellSpan = 1;
     let previousRow = 0;
-    for (const { row, cells } of rows) {
+    let previousRowAt = 0;
+    rows.forEach(({ row, cells }, rowAt) => {
       let previousCol = 0;
+      let previousCell = null;
+      let previousSpan = 1;
       let span = 0;
+      let spanning = null;
+      let spanningSpan = 1;
       for (const cell of cells) {
         const colspan = Math.max(1, intOf(cell, "aria-colspan") || intOf(cell, "colspan") || 1);
+        if (colspan > spanningSpan) {
+          spanning = cell;
+          spanningSpan = colspan;
+        }
         const colindex = intOf(cell, "aria-colindex");
         if (colindex !== null && colindex >= 1) {
           if (colindex <= previousCol) {
-            report(cell, "COLINDEX_NOT_INCREASING", "colindexOrder",
-              `This cell's aria-colindex (${colindex}) is not greater than an earlier cell's in its row (${previousCol}).`,
-              "Number the cells of each row from left to right, each above the one before.",
-              { colindex, previous: previousCol });
+            const earlier = describeCell(previousCell);
+            const suggestion = previousCol + previousSpan;
+            if (colindex === previousCol) {
+              report(cell, "COLINDEX_NOT_INCREASING", "colindexSame",
+                `This cell's aria-colindex (${colindex}) is the same as that of the cell before it in its row, ${earlier}.`,
+                `Give each cell its own column: if this one comes right after ${earlier}, its aria-colindex is ${suggestion}.`,
+                { colindex, previous: previousCol, earlier, suggestion });
+            } else {
+              report(cell, "COLINDEX_NOT_INCREASING", "colindexBelow",
+                `This cell's aria-colindex (${colindex}) is below that of an earlier cell in its row, ${earlier} (${previousCol}).`,
+                `Number the cells of each row from left to right, each above the one before: if this one comes right after ${earlier}, its aria-colindex is ${suggestion}.`,
+                { colindex, previous: previousCol, earlier, suggestion });
+            }
           }
           if (colcount !== null && colcount >= 1 && colindex > colcount) {
             report(cell, "COLINDEX_ABOVE_COUNT", "colindexCount",
@@ -183,6 +218,8 @@ function runInPage(ctx) {
               { colindex, colcount });
           }
           previousCol = colindex;
+          previousCell = cell;
+          previousSpan = colspan;
           span = Math.max(span, colindex + colspan - 1);
         } else {
           // A cell without an index compares with none: only the indexes
@@ -190,14 +227,19 @@ function runInPage(ctx) {
           span += colspan;
         }
       }
-      widest = Math.max(widest, span);
+      if (span > widest) {
+        widest = span;
+        widestRow = rowAt + 1;
+        widestCell = spanning;
+        widestCellSpan = spanningSpan;
+      }
       const rowindex = intOf(row, "aria-rowindex");
       if (rowindex !== null && rowindex >= 1) {
         if (rowindex <= previousRow) {
           report(row, "ROWINDEX_NOT_INCREASING", "rowindexOrder",
-            `This row's aria-rowindex (${rowindex}) is not greater than an earlier row's (${previousRow}).`,
-            "Number the rows from top to bottom, each above the one before.",
-            { rowindex, previous: previousRow });
+            `This row's aria-rowindex (${rowindex}) is not greater than ${previousRow}, which row ${previousRowAt} of the table on the page gives, before it.`,
+            `Number the rows from top to bottom, each above the one before: if this row comes right after row ${previousRowAt}, its aria-rowindex is ${previousRow + 1}.`,
+            { rowindex, previous: previousRow, previousPosition: previousRowAt, suggestion: previousRow + 1 });
         }
         if (rowcount !== null && rowcount >= 1 && rowindex > rowcount) {
           report(row, "ROWINDEX_ABOVE_COUNT", "rowindexCount",
@@ -206,18 +248,27 @@ function runInPage(ctx) {
             { rowindex, rowcount });
         }
         previousRow = rowindex;
+        previousRowAt = rowAt + 1;
       }
-    }
+    });
     if (colcount !== null && colcount >= 1 && widest > colcount) {
-      report(table, "COLCOUNT_BELOW_COLUMNS", "colcount",
-        `This table's aria-colcount (${colcount}) is below the ${widest} columns a row of it spans.`,
-        "Set aria-colcount to the number of columns in the full table, or to -1 if it is not known.",
-        { colcount, columns: widest });
+      if (widestCell) {
+        const cell = describeCell(widestCell);
+        report(table, "COLCOUNT_BELOW_COLUMNS", "colcountSpan",
+          `This table's aria-colcount (${colcount}) is below the ${widest} columns that row ${widestRow} of it on the page spans, where ${cell} spans ${widestCellSpan} columns.`,
+          `Set aria-colcount to the number of columns in the full table, at least ${widest}, counting the columns a colspan spans, or to -1 if it is not known.`,
+          { colcount, columns: widest, row: widestRow, cell, span: widestCellSpan });
+      } else {
+        report(table, "COLCOUNT_BELOW_COLUMNS", "colcount",
+          `This table's aria-colcount (${colcount}) is below the ${widest} columns that row ${widestRow} of it on the page spans.`,
+          `Set aria-colcount to the number of columns in the full table, at least ${widest}, or to -1 if it is not known.`,
+          { colcount, columns: widest, row: widestRow });
+      }
     }
     if (rowcount !== null && rowcount >= 1 && rows.length > rowcount) {
       report(table, "ROWCOUNT_BELOW_ROWS", "rowcount",
         `This table's aria-rowcount (${rowcount}) is below the ${rows.length} rows it has on the page.`,
-        "Set aria-rowcount to the number of rows in the full table, or to -1 if it is not known.",
+        `Set aria-rowcount to the number of rows in the full table, at least ${rows.length}, or to -1 if it is not known.`,
         { rowcount, rows: rows.length });
     }
   }

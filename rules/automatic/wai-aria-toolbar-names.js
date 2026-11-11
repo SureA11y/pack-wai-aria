@@ -46,6 +46,15 @@ function runInPage(ctx) {
       return true;
     }
   };
+  // A named toolbar's name, as a message quotes it, or "".
+  const nameOf = (el) => {
+    try {
+      const info = helpers.getAccessibleNameInfo(el, ctx);
+      return info && info.present ? String(info.value || "").trim() : "";
+    } catch {
+      return "";
+    }
+  };
   const toolbars = helpers
     .queryAllSmart('[role~="toolbar" i]')
     .filter((el) => helpers.aria.getExplicitRole(el) === "toolbar")
@@ -118,6 +127,12 @@ function runInPage(ctx) {
           ? { key: "labelledbyNear", params: { ids: missing.join(" "), suggestion } }
           : { key: "labelledbyMissing", params: { ids: missing.join(" ") } };
       }
+      if (refs.length && missing.length) {
+        return {
+          key: "labelledbyEmptyMissing",
+          params: { element: refs.map(describe).join(", "), ids: missing.join(" ") },
+        };
+      }
       if (refs.length) {
         return { key: "labelledbyEmpty", params: { element: refs.map(describe).join(", ") } };
       }
@@ -139,24 +154,47 @@ function runInPage(ctx) {
   };
   const SUMMARIES = {
     "": (p) => `This toolbar has no name, and the page has ${p.count} toolbars.`,
+    noneNamed: (p) => `This toolbar has no name, and none of the page's ${p.count} toolbars has one.`,
+    othersNamed: (p) => `This toolbar has no name, and the page has ${p.count} toolbars: the others are called ${p.names}.`,
+    someNamed: (p) => `This toolbar has no name, and the page has ${p.count} toolbars: ${p.unnamed} have no name, and the others are called ${p.names}.`,
     labelledbyMissing: (p) => `This toolbar has no name, and the page has ${p.count} toolbars: its aria-labelledby names the id "${p.ids}", which no element on the page has.`,
     labelledbyNear: (p) => `This toolbar has no name, and the page has ${p.count} toolbars: its aria-labelledby names the id "${p.ids}", which no element on the page has (did you mean "${p.suggestion}"?).`,
     labelledbyEmpty: (p) => `This toolbar has no name, and the page has ${p.count} toolbars: its aria-labelledby points at ${p.element}, which has no text.`,
+    labelledbyEmptyMissing: (p) => `This toolbar has no name, and the page has ${p.count} toolbars: its aria-labelledby points at ${p.element}, which has no text, and names the id "${p.ids}", which no element on the page has.`,
     labelEmpty: (p) => `This toolbar has no name, and the page has ${p.count} toolbars: its aria-label is empty.`,
     misspelled: (p) => `This toolbar has no name, and the page has ${p.count} toolbars: it has ${p.attribute}, which is not an ARIA attribute (did you mean ${p.suggestion}?).`,
   };
   const HINTS = {
     "": () => "Name each toolbar, with aria-label or aria-labelledby, so they can be told apart.",
+    noneNamed: () => "Name each toolbar, with aria-label or aria-labelledby, so they can be told apart.",
+    othersNamed: () => "Name it as the others are named, with aria-label or aria-labelledby, so the toolbars can be told apart.",
+    someNamed: () => "Name it as the others are named, with aria-label or aria-labelledby, so the toolbars can be told apart.",
     labelledbyMissing: () => "Point aria-labelledby at the id of the element whose text names the toolbar, or name it with aria-label.",
     labelledbyNear: (p) => `Correct the id in aria-labelledby to "${p.suggestion}".`,
     labelledbyEmpty: () => "Put the toolbar's name in the element aria-labelledby points at, or name it with aria-label.",
+    labelledbyEmptyMissing: () => "Put the toolbar's name in the element aria-labelledby points at, and remove the ids no element has, or name it with aria-label.",
     labelEmpty: () => "Put the toolbar's name in aria-label, so the toolbars can be told apart.",
     misspelled: (p) => `Rename ${p.attribute} to ${p.suggestion}.`,
   };
-  const occurrences = toolbars
-    .filter((t) => !hasName(t))
+  // The names of the named toolbars, quoted, and how many have none: an
+  // unnamed toolbar's message, where its markup shows no cause, says what
+  // the others are called.
+  const unnamed = toolbars.filter((t) => !hasName(t));
+  const names = toolbars
+    .filter((t) => !unnamed.includes(t))
+    .map(nameOf)
+    .filter(Boolean)
+    .map((n) => `"${n.length > 40 ? `${n.slice(0, 40)}…` : n}"`);
+  const othersOf = () => {
+    if (!names.length) return unnamed.length === toolbars.length ? { key: "noneNamed", params: {} } : { key: "", params: {} };
+    return unnamed.length > 1
+      ? { key: "someNamed", params: { unnamed: String(unnamed.length), names: names.join(", ") } }
+      : { key: "othersNamed", params: { names: names.join(", ") } };
+  };
+  const occurrences = unnamed
     .map((el) => {
-      const cause = causeOf(el);
+      let cause = causeOf(el);
+      if (!cause.key) cause = { ...othersOf(), others: true };
       const params = { count, ...cause.params };
       const suffix = cause.key ? `_${cause.key}` : "";
       return helpers.reportOccurrence(el, {
@@ -171,7 +209,7 @@ function runInPage(ctx) {
           details: {
             reasonCode: "TOOLBAR_NAME_MISSING",
             count,
-            ...(cause.key ? { cause: cause.key } : {}),
+            ...(cause.key && !cause.others ? { cause: cause.key } : {}),
             ...cause.params,
           },
         },
