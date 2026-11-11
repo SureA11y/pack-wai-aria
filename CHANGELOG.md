@@ -18,7 +18,13 @@ All notable changes to this package are documented here. This project adheres to
   - `wai-aria-table-indexes` names the earlier cell an `aria-colindex` doesn't exceed, by its text (`the cell before it in its row, <td> "Name"`), and the index that would follow it; the earlier row an `aria-rowindex` doesn't exceed; and, for an `aria-colcount` below the page's columns, the row that spans them and the cell whose `colspan` widens it.
   - `wai-aria-keyshortcuts` names every misnamed modifier of a shortcut, not only the first, and gives the shortcut as UI Events writes it (`Write it Control+Shift+s`).
 
-  Outcomes and reason codes are unchanged; the new texts are in `i18n/en.json`.
+  Outcomes and reason codes are unchanged by these texts; the new texts are in `i18n/en.json`.
+
+### Fixed
+
+- `wai-aria-combobox-popup` reads the role a popup's tag gives it, not only its `role` attribute: a combobox whose `aria-controls` names a `<dialog>` (role dialog) now passes, where it failed. A `<ul>` (role list) or a `<table>` (role table, not grid) still fails, and the message names the role its tag gives it (`whose tag gives it role list`). The message that said the rule "does not read" an element as a popup is gone, with its key.
+- `wai-aria-setsize` counts an item's role by its tag too, where that role takes `aria-setsize` (`<li>` listitem, `<option>` option, `<article>` article, `<tr>` row): `<ul><li aria-setsize="5">a</li><li aria-setsize="3">b</li></ul>` now fails as inconsistent, where it was not applicable. Items with a `role` attribute are checked as before; this only adds findings.
+- `wai-aria-keyshortcuts` reads a near-miss of a modifier's name as a misspelt modifier: a key that is not a shortcut's last, of three letters or more, and one or two edits from Alt, AltGraph, Control, Meta or Shift, in any case, fails with `KEYSHORTCUTS_MODIFIER_NAME`, and the message asks whether it means that modifier (`Contol+S`: did you mean "Control"?). `Contol+S`, `Shft+S` and `Atl+S` now fail, where they passed; `A+S` and `S` still pass.
 
 ## [1.0.2] - 2026-11-08
 

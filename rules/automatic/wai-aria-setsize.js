@@ -5,13 +5,17 @@
  * @summary aria-setsize is the number of items in the set
  * @applicability
  *   Elements in the accessibility tree with an integer aria-setsize other
- *   than -1 (unknown), grouped into sets: the elements of the same role
- *   with the same parent element.
+ *   than -1 (unknown) and a role, grouped into sets: the elements of the
+ *   same role with the same parent element. An element's role is the one
+ *   its role attribute gives, or else the one its tag gives (HTML-AAM)
+ *   where that role supports aria-setsize: an <li> is a listitem, an
+ *   <option> an option, an <article> an article, a <tr> a row.
  * @expectation
  *   "Authors MUST set the value of aria-setsize to an integer equal to the
  *   number of items in the set": every item of a set gives the same size,
- *   and no size is below the number of items the set has on the page. A
- *   value that is no integer is aria-valid-attr-value's to report.
+ *   and no size is below the number of items the set has on the page, its
+ *   items counted by their role attribute or their tag. A value that is no
+ *   integer is aria-valid-attr-value's to report.
  * @reason-codes
  *   - `SETSIZE_BELOW_ITEMS` (fail): an item's aria-setsize is below the
  *     number of items its set has on the page.
@@ -41,13 +45,65 @@ const meta = {
 function runInPage(ctx) {
   const { helpers, rule } = ctx;
   const { dom } = helpers;
+  // The roles WAI-ARIA 1.2 gives aria-setsize to: a role an element's tag
+  // gives it makes it an item only if it is one of these.
+  const SET_ROLES = [
+    "article",
+    "comment",
+    "listitem",
+    "menuitem",
+    "menuitemcheckbox",
+    "menuitemradio",
+    "option",
+    "radio",
+    "row",
+    "tab",
+    "treeitem",
+  ];
+  // The role an element's tag gives it (HTML-AAM): core's lookup, and for
+  // the tags it leaves out, or an older core without it, the ones an item
+  // of a set most often is.
+  const tagRoleOf = (el) => {
+    let role = "";
+    try {
+      if (typeof helpers.aria.getNativeRoleForElement === "function") {
+        role = helpers.aria.getNativeRoleForElement(el) || "";
+      }
+    } catch {
+      role = "";
+    }
+    if (role) return role;
+    const tag = String(dom.localName(el) || "").toLowerCase();
+    if (tag === "select") {
+      const size = parseInt(String(dom.getAttribute(el, "size") || ""), 10);
+      const multiple = dom.getAttribute(el, "multiple") != null;
+      return multiple || size > 1 ? "listbox" : "combobox";
+    }
+    const BY_TAG = {
+      article: "article",
+      datalist: "listbox",
+      dialog: "dialog",
+      li: "listitem",
+      menu: "list",
+      ol: "list",
+      option: "option",
+      table: "table",
+      tr: "row",
+      ul: "list",
+    };
+    return Object.prototype.hasOwnProperty.call(BY_TAG, tag) ? BY_TAG[tag] : "";
+  };
+  // An element's role: the one core reads (its role attribute, or a
+  // control's tag), or else the one its tag gives, if items of a set take it.
   const roleOf = (el) => {
     try {
       const info = helpers.getRoleInfo(el, ctx);
-      return (info && info.role) || "";
+      if (info && info.role) return info.role;
     } catch {
-      return "";
+      // Read the tag's role below.
     }
+    const role = tagRoleOf(el);
+    return SET_ROLES.includes(role) ? role : "";
   };
   const sizeOf = (el) => {
     const v = String(dom.getAttribute(el, "aria-setsize") || "").trim();

@@ -657,10 +657,16 @@ const RULE_CASES = [
     requirement: "attribute-values",
     fails: [
       ['<input role="combobox" aria-label="Fruit" aria-expanded="false" aria-controls="p"><div id="p" role="menu"><div role="menuitem">Apple</div></div>', "COMBOBOX_POPUP_ROLE"],
+      // A popup's tag gives it a role, which is no popup's: a list, a table.
+      ['<input role="combobox" aria-label="Fruit" aria-expanded="true" aria-controls="p"><ul id="p"><li>Apple</li></ul>', "COMBOBOX_POPUP_ROLE"],
+      ['<input role="combobox" aria-label="Fruit" aria-expanded="true" aria-controls="p"><table id="p"><tr><td>Apple</td></tr></table>', "COMBOBOX_POPUP_ROLE"],
     ],
     passes: [
       '<input role="combobox" aria-label="Fruit" aria-expanded="false" aria-controls="p"><div id="p" role="listbox"><div role="option" aria-selected="false">Apple</div></div>',
       '<input role="combobox" aria-label="Date" aria-expanded="false" aria-controls="d"><div id="d" role="dialog" aria-label="Pick a date"><button>1</button></div>',
+      // A <dialog> is a dialog by its tag, a <select multiple> a listbox.
+      '<input role="combobox" aria-label="Date" aria-expanded="true" aria-controls="d"><dialog id="d" open aria-label="Pick a date"><button>1</button></dialog>',
+      '<input role="combobox" aria-label="Fruit" aria-expanded="true" aria-controls="s"><select id="s" multiple aria-label="Fruits"><option>Apple</option></select>',
     ],
     // An aria-controls that names nothing is aria-valid-attr-value's.
     notApplicable: ['<input role="combobox" aria-label="Fruit" aria-expanded="false" aria-controls="nowhere">'],
@@ -701,8 +707,15 @@ const RULE_CASES = [
     fails: [
       ['<div role="listbox" aria-label="L"><div role="option" aria-selected="false" aria-setsize="1">A</div><div role="option" aria-selected="false" aria-setsize="1">B</div></div>', "SETSIZE_BELOW_ITEMS"],
       ['<div role="listbox" aria-label="L"><div role="option" aria-selected="false" aria-setsize="5">A</div><div role="option" aria-selected="false" aria-setsize="6">B</div></div>', "SETSIZE_INCONSISTENT"],
+      // Items by their tag: an <li> is a listitem, an <option> an option.
+      ['<ul><li aria-setsize="5">a</li><li aria-setsize="3">b</li></ul>', "SETSIZE_INCONSISTENT"],
+      ['<ul><li aria-setsize="1">a</li><li>b</li></ul>', "SETSIZE_BELOW_ITEMS"],
+      ['<select aria-label="S" size="3"><option aria-setsize="1">a</option><option>b</option></select>', "SETSIZE_BELOW_ITEMS"],
+      ['<div role="feed" aria-label="F"><article aria-label="A" aria-setsize="1">a</article><article aria-label="B" aria-setsize="2">b</article></div>', "SETSIZE_INCONSISTENT"],
     ],
     passes: [
+      '<ul><li aria-setsize="10" aria-posinset="1">a</li><li aria-setsize="10" aria-posinset="2">b</li></ul>',
+      '<table aria-label="T"><tr aria-setsize="2"><td>a</td></tr><tr aria-setsize="2"><td>b</td></tr></table>',
       // Two of a set of ten, loaded as the list scrolls.
       '<div role="listbox" aria-label="L"><div role="option" aria-selected="false" aria-setsize="10" aria-posinset="4">A</div><div role="option" aria-selected="false" aria-setsize="10" aria-posinset="5">B</div></div>',
     ],
@@ -719,8 +732,16 @@ const RULE_CASES = [
       ['<button aria-keyshortcuts="Ctrl+S">Save</button>', "KEYSHORTCUTS_MODIFIER_NAME"],
       ['<button aria-keyshortcuts="shift+P">Print</button>', "KEYSHORTCUTS_MODIFIER_NAME"],
       ['<button aria-keyshortcuts="S+Control">Save</button>', "KEYSHORTCUTS_MODIFIER_ORDER"],
+      // A near-miss of a modifier's name, before the last key.
+      ['<button aria-keyshortcuts="Contol+S">Save</button>', "KEYSHORTCUTS_MODIFIER_NAME"],
+      ['<button aria-keyshortcuts="Shft+S">Save</button>', "KEYSHORTCUTS_MODIFIER_NAME"],
+      ['<button aria-keyshortcuts="Atl+S">Save</button>', "KEYSHORTCUTS_MODIFIER_NAME"],
     ],
     passes: [
+      // A one-letter key is never a near-miss, nor is a last key.
+      '<button aria-keyshortcuts="A+S">Save</button>',
+      '<button aria-keyshortcuts="S">Save</button>',
+      '<button aria-keyshortcuts="Shift+Tab Control+End">Back</button>',
       '<button aria-keyshortcuts="Control+Shift+S Alt+F">Save</button>',
       '<button aria-keyshortcuts="Shift++">Zoom in</button>',
       '<button aria-keyshortcuts="Delete">Remove</button>',

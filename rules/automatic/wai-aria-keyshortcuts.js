@@ -12,10 +12,16 @@
  *   according to the UI Events KeyboardEvent key Values spec", "MUST ensure
  *   modifier keys come first", and "MUST ensure that required non-modifier
  *   keys come last". A key read as a misspelt modifier is one that, but for
- *   its case or a common short name (Ctrl, Cmd, Option, Win), would be one.
+ *   its case or a common short name (Ctrl, Cmd, Option, Win), would be one,
+ *   or one that is not the shortcut's last key, has three letters or more,
+ *   and is one or two edits (letters added, removed or replaced, in any
+ *   case) from a modifier's name: Contol, Shft and Atl are misspelt
+ *   Control, Shift and Alt, while A in A+S, and any last key, is not.
  * @reason-codes
  *   - `KEYSHORTCUTS_MODIFIER_NAME` (fail): a shortcut names a modifier
- *     key another way than UI Events does.
+ *     key another way than UI Events does: by another case, a short name,
+ *     or a near-miss of its name (Contol+S), which the message names with
+ *     the modifier it nearly is.
  *   - `KEYSHORTCUTS_MODIFIER_ORDER` (fail): a shortcut puts a modifier key
  *     after a key that is not one.
  *     Basis for both: WAI-ARIA 1.2 aria-keyshortcuts (MUST).
@@ -61,6 +67,36 @@ function runInPage(ctx) {
     super: "Meta",
     shift: "Shift",
   };
+  // Edits (insert, delete or replace a letter) from a to b.
+  const editDistance = (a, b) => {
+    let prev = [];
+    for (let j = 0; j <= b.length; j++) prev.push(j);
+    for (let i = 1; i <= a.length; i++) {
+      const row = [i];
+      for (let j = 1; j <= b.length; j++) {
+        const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+        row.push(Math.min(prev[j] + 1, row[j - 1] + 1, prev[j - 1] + cost));
+      }
+      prev = row;
+    }
+    return prev[b.length];
+  };
+  // The modifier a key that is not a shortcut's last nearly names: one or
+  // two edits from it, in any case, for a key of three letters or more.
+  const nearModifier = (key) => {
+    if (key.length < 3) return "";
+    const lower = key.toLowerCase();
+    let best = "";
+    let bestDistance = 3;
+    for (const m of MODIFIERS) {
+      const d = editDistance(lower, m.toLowerCase());
+      if (d < bestDistance) {
+        best = m;
+        bestDistance = d;
+      }
+    }
+    return best;
+  };
   // A shortcut's keys: "+" joins them, and "+" is a key of its own where it
   // stands last ("Shift++").
   const keysOf = (shortcut) => {
@@ -89,34 +125,53 @@ function runInPage(ctx) {
     const value = String(helpers.dom.getAttribute(el, "aria-keyshortcuts")).trim();
     for (const shortcut of value.split(/\s+/)) {
       const keys = keysOf(shortcut);
-      const misnamedKeys = keys.filter(
-        (k) => !MODIFIERS.includes(k) && Object.prototype.hasOwnProperty.call(ALIASES, k.toLowerCase()),
-      );
+      // Each misnamed modifier key: by another case or a short name
+      // anywhere, or by a near-miss of its name where it is not the last key.
+      const nameOf = new Map();
+      const nearKeys = [];
+      keys.forEach((k, i) => {
+        if (MODIFIERS.includes(k) || nameOf.has(k)) return;
+        if (Object.prototype.hasOwnProperty.call(ALIASES, k.toLowerCase())) {
+          nameOf.set(k, ALIASES[k.toLowerCase()]);
+        } else if (i < keys.length - 1) {
+          const near = nearModifier(k);
+          if (near) {
+            nameOf.set(k, near);
+            nearKeys.push(k);
+          }
+        }
+      });
+      const misnamedKeys = [...nameOf.keys()];
       if (misnamedKeys.length) {
         const misnamed = misnamedKeys[0];
-        const modifier = ALIASES[misnamed.toLowerCase()];
+        const modifier = nameOf.get(misnamed);
+        const near = nearKeys.length > 0;
         // The shortcut as UI Events writes it: each modifier by its name,
         // and the modifiers first.
-        const renamed = keys.map((k) =>
-          misnamedKeys.includes(k) ? ALIASES[k.toLowerCase()] : k,
-        );
+        const renamed = keys.map((k) => (nameOf.has(k) ? nameOf.get(k) : k));
         const corrected = [
           ...renamed.filter((k) => MODIFIERS.includes(k)),
           ...renamed.filter((k) => !MODIFIERS.includes(k)),
         ].join("+");
         const many = misnamedKeys.length > 1;
         const keyList = misnamedKeys.map((k) => `"${k}"`).join(", ");
-        const modifierList = misnamedKeys.map((k) => `"${ALIASES[k.toLowerCase()]}"`).join(", ");
+        const modifierList = misnamedKeys.map((k) => `"${nameOf.get(k)}"`).join(", ");
+        let summary;
+        if (near) {
+          summary = many
+            ? `The shortcut ${shortcut} names modifier keys ${keyList}, which UI Events does not name (did you mean ${modifierList}?).`
+            : `The shortcut ${shortcut} names a modifier key "${misnamed}", which UI Events does not name (did you mean "${modifier}"?).`;
+        } else {
+          summary = many
+            ? `The shortcut ${shortcut} names modifier keys ${keyList}, which UI Events calls ${modifierList}.`
+            : `The shortcut ${shortcut} names a modifier key "${misnamed}", which UI Events calls "${modifier}".`;
+        }
         occurrences.push(
           helpers.reportOccurrence(el, {
-            summary: many
-              ? `The shortcut ${shortcut} names modifier keys ${keyList}, which UI Events calls ${modifierList}.`
-              : `The shortcut ${shortcut} names a modifier key "${misnamed}", which UI Events calls "${modifier}".`,
+            summary,
             hint: `Write it ${corrected}: UI Events names modifier keys Alt, AltGraph, Control, Meta, Shift.`,
             i18n: {
-              summaryKey: many
-                ? "waiAriaKeyshortcuts_summary_fail_names"
-                : "waiAriaKeyshortcuts_summary_fail_name",
+              summaryKey: `waiAriaKeyshortcuts_summary_fail_${many ? "names" : "name"}${near ? "Near" : ""}`,
               hintKey: "waiAriaKeyshortcuts_hint_fail_name",
               params: many
                 ? { shortcut, keys: keyList, modifiers: modifierList, corrected }
@@ -130,6 +185,7 @@ function runInPage(ctx) {
                 modifier,
                 corrected,
                 ...(many ? { keys: misnamedKeys } : {}),
+                ...(near ? { nearMiss: nearKeys } : {}),
               },
             },
           }),

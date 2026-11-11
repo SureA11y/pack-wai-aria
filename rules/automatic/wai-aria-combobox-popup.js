@@ -11,11 +11,15 @@
  *   grid or dialog: "Authors MUST ensure the popup element associated with a
  *   combobox has a role of listbox, tree, grid, or dialog", and "MUST set
  *   aria-controls on a combobox element to a value that refers to the
- *   combobox popup element". An aria-controls that names no element is
- *   aria-valid-attr-value's to report.
+ *   combobox popup element". A popup's role is the one its role attribute
+ *   gives, or else the one its tag gives (HTML-AAM): a <dialog> is a
+ *   dialog, a <select multiple> or <datalist> a listbox, while a <ul> is a
+ *   list and a <table> a table, not a grid. An aria-controls that names no
+ *   element is aria-valid-attr-value's to report.
  * @reason-codes
  *   - `COMBOBOX_POPUP_ROLE` (fail): no element a combobox's aria-controls
- *     names has role listbox, tree, grid or dialog.
+ *     names has role listbox, tree, grid or dialog, by its role attribute
+ *     or its tag.
  *     Basis: WAI-ARIA 1.2 combobox (MUST).
  */
 
@@ -40,14 +44,51 @@ const meta = {
 function runInPage(ctx) {
   const { helpers, rule } = ctx;
   const POPUP_ROLES = ["listbox", "tree", "grid", "dialog"];
-  const roleOf = (el) => {
+  // The role an element's tag gives it (HTML-AAM): core's lookup, and for
+  // the tags it leaves out, or an older core without it, the ones a popup
+  // or an item of a set most often is.
+  const tagRoleOf = (el) => {
+    let role = "";
+    try {
+      if (typeof helpers.aria.getNativeRoleForElement === "function") {
+        role = helpers.aria.getNativeRoleForElement(el) || "";
+      }
+    } catch {
+      role = "";
+    }
+    if (role) return role;
+    const tag = String(helpers.dom.localName(el) || "").toLowerCase();
+    if (tag === "select") {
+      const size = parseInt(String(helpers.dom.getAttribute(el, "size") || ""), 10);
+      const multiple = helpers.dom.getAttribute(el, "multiple") != null;
+      return multiple || size > 1 ? "listbox" : "combobox";
+    }
+    const BY_TAG = {
+      article: "article",
+      datalist: "listbox",
+      dialog: "dialog",
+      li: "listitem",
+      menu: "list",
+      ol: "list",
+      option: "option",
+      table: "table",
+      tr: "row",
+      ul: "list",
+    };
+    return Object.prototype.hasOwnProperty.call(BY_TAG, tag) ? BY_TAG[tag] : "";
+  };
+  // An element's role, and whether its tag, not its role attribute, gives it.
+  const roleInfoOf = (el) => {
     try {
       const info = helpers.getRoleInfo(el, ctx);
-      return (info && info.role) || "";
+      if (info && info.role) return { role: info.role, byTag: info.source === "implicit" };
     } catch {
-      return "";
+      // Read the tag's role below.
     }
+    const role = tagRoleOf(el);
+    return { role, byTag: !!role };
   };
+  const roleOf = (el) => roleInfoOf(el).role;
   const refsOf = (el) => {
     try {
       const value = helpers.dom.getAttribute(el, "aria-controls") || "";
@@ -109,7 +150,7 @@ function runInPage(ctx) {
   const popupInside = (ref) => {
     let found = null;
     try {
-      const all = [...(helpers.dom.querySelectorAll(ref, "[role], select") || [])];
+      const all = [...(helpers.dom.querySelectorAll(ref, "[role], select, datalist, dialog") || [])];
       found = all.find(
         (d) => POPUP_ROLES.includes(roleOf(d)) && helpers.isIncludedInAccessibilityTree(d, ctx),
       );
@@ -136,7 +177,7 @@ function runInPage(ctx) {
     const ref = refs[0];
     const roleAttr = String(helpers.dom.getAttribute(ref, "role") || "").trim();
     const explicit = helpers.aria.getExplicitRole(ref);
-    const role = roleOf(ref);
+    const { role, byTag } = roleInfoOf(ref);
     if (roleAttr && !explicit) {
       const token = roleAttr.toLowerCase().split(/\s+/)[0];
       const suggestion = nearPopupRole(token);
@@ -144,26 +185,12 @@ function runInPage(ctx) {
         ? { key: "invalidRoleNear", hintKey: "invalidRoleNear", popup: ref, params: { value: roleAttr, suggestion } }
         : { key: "invalidRole", hintKey: "fail", popup: ref, params: { value: roleAttr } };
     }
-    if (role) return { key: "fail", hintKey: "fail", popup: ref, params: { role } };
-    let native = "";
-    try {
-      native =
-        typeof helpers.aria.getNativeRoleForElement === "function"
-          ? helpers.aria.getNativeRoleForElement(ref) || ""
-          : "";
-    } catch {
-      native = "";
-    }
-    if (native) return { key: "native", hintKey: "fail", popup: ref, params: { role: native } };
-    // A <dialog> has a role of its own, which this rule doesn't read: the
-    // message doesn't say it has none.
-    if (tagOf(ref) === "dialog") return { key: "unread", hintKey: "fail", popup: ref, params: {} };
+    if (role) return { key: byTag ? "native" : "fail", hintKey: "fail", popup: ref, params: { role } };
     return { key: "noRole", hintKey: "fail", popup: ref, params: {} };
   };
   const SUMMARIES = {
     fail: (p) => `This combobox controls ${p.element}, of role ${p.role}, not a listbox, tree, grid or dialog.`,
     native: (p) => `This combobox controls ${p.element}, whose tag gives it role ${p.role}, not a listbox, tree, grid or dialog.`,
-    unread: (p) => `This combobox controls ${p.element}, which this rule does not read as a listbox, tree, grid or dialog.`,
     noRole: (p) => `This combobox controls ${p.element}, which has no role, so it is not a listbox, tree, grid or dialog.`,
     invalidRole: (p) => `This combobox controls ${p.element}, whose role="${p.value}" is not an ARIA role, so it is not a listbox, tree, grid or dialog.`,
     invalidRoleNear: (p) => `This combobox controls ${p.element}, whose role="${p.value}" is not an ARIA role (did you mean "${p.suggestion}"?), so it is not a listbox, tree, grid or dialog.`,
