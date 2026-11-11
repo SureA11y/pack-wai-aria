@@ -75,6 +75,10 @@ test("wai-aria-combobox-popup: names the element aria-controls points at, and wh
   o = one("wai-aria-combobox-popup", '<input role="combobox" aria-controls="ref">');
   assert.equal(o.i18n.summaryKey, "waiAriaComboboxPopup_summary_fail_noRole");
   assert.match(o.summary, /<span id="ref">, which has no role/);
+  // A <dialog> isn't said to have no role.
+  o = one("wai-aria-combobox-popup", '<input role="combobox" aria-controls="pop"><dialog id="pop" open>x</dialog>');
+  assert.equal(o.i18n.summaryKey, "waiAriaComboboxPopup_summary_fail_unread");
+  assert.doesNotMatch(o.summary, /no role/);
   o = one("wai-aria-combobox-popup", '<input role="combobox" aria-controls="pop"><ul id="pop" role="foo"><li>a</li></ul>');
   assert.equal(o.i18n.summaryKey, "waiAriaComboboxPopup_summary_fail_invalidRole");
   o = one("wai-aria-combobox-popup", '<input role="combobox" aria-controls="pop"><div id="pop" role="menu"><div role="menuitem">a</div></div>');
