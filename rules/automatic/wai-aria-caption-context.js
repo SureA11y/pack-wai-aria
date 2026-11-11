@@ -189,12 +189,59 @@ function runInPage(ctx) {
     }
     return null;
   };
+  // How a message names an element: its tag, and its id.
+  const describe = (el) => {
+    const elId = String(helpers.dom.getAttribute(el, "id") || "").trim();
+    return `<${tagOf(el)}${elId ? ` id="${elId}"` : ""}>`;
+  };
+  // The figure, table, grid or treegrid around an element in the markup.
+  const contextAround = (el) => {
+    let p = helpers.flatParentElement(el);
+    for (let guard = 0; p && guard < 200; guard++) {
+      if (CONTEXT.includes(roleOf(p))) return p;
+      p = helpers.flatParentElement(p);
+    }
+    return null;
+  };
   const occurrences = captions
     .filter((el) => !CONTEXT.includes(roleOf(axParent(el))))
     .map((el) => {
       const parentEl = axParent(el);
+      if (ownerOf.has(el)) {
+        // Its parent comes from another element's aria-owns, which its
+        // nesting in the markup doesn't show.
+        const owner = describe(parentEl);
+        const ownerRole = roleOf(parentEl);
+        const parent =
+          ownerRole && ownerRole !== tagOf(parentEl)
+            ? `the ${owner} element of role ${ownerRole}`
+            : `the ${owner} element`;
+        const around = contextAround(el);
+        const context = around ? `the ${roleOf(around)} (<${tagOf(around)}>)` : "";
+        const params = around ? { parent, owner, context } : { parent, owner };
+        return helpers.reportOccurrence(el, {
+          summary: around
+            ? `This caption is in ${context} in the markup, but its parent in the accessibility tree is ${parent}, which claims it with aria-owns.`
+            : `This caption is not in a figure or a table: its parent in the accessibility tree is ${parent}, which claims it with aria-owns.`,
+          hint: around
+            ? `Take its id out of the aria-owns of ${owner}, so it stays a child of ${context}, and name that element by it with aria-labelledby.`
+            : `Take its id out of the aria-owns of ${owner}, make it a direct child of the figure or table it describes, and name that element by it with aria-labelledby.`,
+          i18n: {
+            summaryKey: around
+              ? "waiAriaCaptionContext_summary_cantTell_ownedFrom"
+              : "waiAriaCaptionContext_summary_cantTell_owned",
+            hintKey: around
+              ? "waiAriaCaptionContext_hint_cantTell_ownedFrom"
+              : "waiAriaCaptionContext_hint_cantTell_owned",
+            params,
+          },
+          data: {
+            details: { reasonCode: "CAPTION_CONTEXT_MISSING", throughAriaOwns: true, ...params },
+          },
+        });
+      }
       const parent = parentText(parentEl);
-      const above = parentEl && !ownerOf.has(el) ? contextAbove(parentEl) : null;
+      const above = parentEl ? contextAbove(parentEl) : null;
       const context = above ? `the ${roleOf(above)} (<${tagOf(above)}>)` : "";
       return helpers.reportOccurrence(el, {
         summary: above

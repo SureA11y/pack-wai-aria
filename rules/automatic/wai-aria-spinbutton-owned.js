@@ -65,6 +65,9 @@ function runInPage(ctx) {
   // An element's children in the accessibility tree: those it owns through
   // aria-owns, and its descendants with a role, looked for through elements
   // with none; an element another owns is that owner's.
+  // The elements a spinbutton owns through its aria-owns, not by nesting:
+  // a message says so, as they may sit anywhere on the page.
+  const throughOwns = new Set();
   const childrenOf = (el) => {
     const out = [];
     const walk = (node, depth) => {
@@ -81,7 +84,12 @@ function runInPage(ctx) {
       const refs =
         helpers.resolveIdRefs(helpers.dom.getAttribute(el, "aria-owns") || "", ctx, {}, el)
           .refs || [];
-      for (const ref of refs) if (isElement(ref) && !out.includes(ref)) out.push(ref);
+      for (const ref of refs) {
+        if (isElement(ref) && !out.includes(ref)) {
+          out.push(ref);
+          throughOwns.add(ref);
+        }
+      }
     } catch {
       // No aria-owns, or one that can't be read.
     }
@@ -101,39 +109,69 @@ function runInPage(ctx) {
       occurrences: [],
     };
   }
+  // How a message names an owned element: its tag and id, and how the
+  // spinbutton owns it where that is through aria-owns.
+  const describe = (el) => {
+    const elId = String(helpers.dom.getAttribute(el, "id") || "").trim();
+    return `<${String(helpers.dom.localName(el) || "").toLowerCase()}${elId ? ` id="${elId}"` : ""}>`;
+  };
   const occurrences = [];
   for (const { el, children } of spinbuttons) {
     for (const child of children) {
       const role = roleOf(child);
       if (role === "textbox" || role === "button") continue;
       const element = `<${String(helpers.dom.localName(child) || "").toLowerCase()}>`;
+      const owns = throughOwns.has(child);
       occurrences.push(
         helpers.reportOccurrence(child, {
-          summary: `A spinbutton owns this ${element}, of role ${role}, though it may own only a textbox and buttons.`,
-          hint: "Move it out of the spinbutton, or make it the spinbutton's text box or one of its two buttons.",
+          summary: owns
+            ? `A spinbutton owns this ${element}, of role ${role}, through its aria-owns, though it may own only a textbox and buttons.`
+            : `A spinbutton owns this ${element}, of role ${role}, though it may own only a textbox and buttons.`,
+          hint: owns
+            ? "Take its id out of the spinbutton's aria-owns, or make it the spinbutton's text box or one of its two buttons."
+            : "Move it out of the spinbutton, or make it the spinbutton's text box or one of its two buttons.",
           i18n: {
-            summaryKey: "waiAriaSpinbuttonOwned_summary_fail_other",
-            hintKey: "waiAriaSpinbuttonOwned_hint_fail_other",
+            summaryKey: owns
+              ? "waiAriaSpinbuttonOwned_summary_fail_otherOwns"
+              : "waiAriaSpinbuttonOwned_summary_fail_other",
+            hintKey: owns
+              ? "waiAriaSpinbuttonOwned_hint_fail_otherOwns"
+              : "waiAriaSpinbuttonOwned_hint_fail_other",
             params: { role, element },
           },
-          data: { details: { reasonCode: "SPINBUTTON_OWNS_OTHER", role, element } },
+          data: {
+            details: {
+              reasonCode: "SPINBUTTON_OWNS_OTHER",
+              role,
+              element,
+              ...(owns ? { throughAriaOwns: true } : {}),
+            },
+          },
         }),
       );
     }
-    const textboxes = children.filter((c) => roleOf(c) === "textbox").length;
-    const buttons = children.filter((c) => roleOf(c) === "button").length;
+    const textboxList = children.filter((c) => roleOf(c) === "textbox");
+    const buttonList = children.filter((c) => roleOf(c) === "button");
+    const textboxes = textboxList.length;
+    const buttons = buttonList.length;
     if (textboxes > 1 || buttons > 2) {
+      // The ones past the first text box and the first two buttons, in the
+      // order the spinbutton owns them: its descendants, then aria-owns.
+      const extras = [...textboxList.slice(1), ...buttonList.slice(2)].map((c) =>
+        throughOwns.has(c) ? `${describe(c)} (through aria-owns)` : describe(c),
+      );
+      const extra = extras.join(", ");
       occurrences.push(
         helpers.reportOccurrence(el, {
-          summary: `This spinbutton owns ${textboxes} text boxes and ${buttons} buttons, more than one text box and two buttons.`,
+          summary: `This spinbutton owns more than one text box and two buttons (text boxes: ${textboxes}, buttons: ${buttons}): past the first text box and two buttons, it owns ${extra}.`,
           hint: "Keep one text box and the increment and decrement buttons in it, and move the rest out.",
           i18n: {
             summaryKey: "waiAriaSpinbuttonOwned_summary_fail_tooMany",
             hintKey: "waiAriaSpinbuttonOwned_hint_fail_tooMany",
-            params: { textboxes: String(textboxes), buttons: String(buttons) },
+            params: { textboxes: String(textboxes), buttons: String(buttons), extra },
           },
           data: {
-            details: { reasonCode: "SPINBUTTON_OWNS_TOO_MANY", textboxes, buttons },
+            details: { reasonCode: "SPINBUTTON_OWNS_TOO_MANY", textboxes, buttons, extra: extras },
           },
         }),
       );
