@@ -2,7 +2,9 @@
 
 All notable changes to this package are documented here. This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.1.0] - 2026-11-14
+
+Works with `@surea11y/core` 1.15 and later, as 1.0 does; tested with core 1.17.0, with which `docs/COVERAGE.md` is unchanged.
 
 ### Changed
 

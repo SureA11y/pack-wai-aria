@@ -1,6 +1,6 @@
 {
   "name": "@surea11y/pack-wai-aria",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "WAI-ARIA 1.2 as a pack for @surea11y/core: one result per author requirement (names, roles, states and properties, owned and context roles), from core's ARIA rules judged by WAI-ARIA's own wording.",
   "keywords": [
     "accessibility",
