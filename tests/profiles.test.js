@@ -30,7 +30,9 @@ test('the profile runs the rules the map lists, and reports one result per requi
 test('an unnamed grid: a question for WCAG, a failure of WAI-ARIA', () => {
   const grid = '<div role="grid"><div role="row"><div role="gridcell">1</div></div></div>';
   const result = scan(grid);
-  assert.equal(checkOf(result, 'wai-aria-role-name-present').outcome, 'cantTell');
+  // Under WAI-ARIA's profile the check fails, as the requirement does: since
+  // core 1.18 a profile gives a check the outcome its own standard gives.
+  assert.equal(checkOf(result, 'wai-aria-role-name-present').outcome, 'fail');
   assert.equal(outcomeOf(result, 'name-required'), 'fail');
   const wcag = scan(grid, { profile: 'wcag22-aa' });
   assert.equal(

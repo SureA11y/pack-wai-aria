@@ -2,6 +2,14 @@
 
 All notable changes to this package are documented here. This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+Needs `@surea11y/core` 1.18 or later (`^1.18.0`). For core 1.15 to 1.17, use 1.1.
+
+### Changed
+
+- The pack's `core` range is `^1.18.0`. In a scan of the `wai-aria-1.2` profile, a check the standard fails now fails too, as core 1.18 gives each profile the outcome its own standard gives: an unnamed grid fails `wai-aria-role-name-present`, where with core 1.17 the check was `cantTell` and only the requirement (`name-required`) failed. Under WCAG the same grid is still a question for 4.1.2. The pack uses no experimental API of core. Tested with core 1.18.0, with which `docs/COVERAGE.md` is unchanged.
+
 ## [1.1.0] - 2026-11-14
 
 Works with `@surea11y/core` 1.15 and later, as 1.0 does; tested with core 1.17.0, with which `docs/COVERAGE.md` is unchanged.
