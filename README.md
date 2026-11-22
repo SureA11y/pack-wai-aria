@@ -6,7 +6,7 @@
 npm install @surea11y/core @surea11y/pack-wai-aria
 ```
 
-It needs `@surea11y/core` 1.18.0 or later. For core 1.15 to 1.17, use the pack's 1.1 releases (see the [changelog](./CHANGELOG.md)).
+It needs `@surea11y/core` 1.15.0 or later.
 
 ```js
 const waiAria = require('@surea11y/pack-wai-aria');

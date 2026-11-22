@@ -4,11 +4,11 @@ All notable changes to this package are documented here. This project adheres to
 
 ## [Unreleased]
 
-Needs `@surea11y/core` 1.18 or later (`^1.18.0`). For core 1.15 to 1.17, use 1.1.
+Works with `@surea11y/core` 1.15 and later, as 1.1 does (`^1.15.0`); tested with core 1.17.0 and 1.18.0, with which `docs/COVERAGE.md` is unchanged. The pack uses no experimental API of core.
 
 ### Changed
 
-- The pack's `core` range is `^1.18.0`. In a scan of the `wai-aria-1.2` profile, a check the standard fails now fails too, as core 1.18 gives each profile the outcome its own standard gives: an unnamed grid fails `wai-aria-role-name-present`, where with core 1.17 the check was `cantTell` and only the requirement (`name-required`) failed. Under WCAG the same grid is still a question for 4.1.2. The pack uses no experimental API of core. Tested with core 1.18.0, with which `docs/COVERAGE.md` is unchanged.
+- With core 1.18, in a scan of the `wai-aria-1.2` profile, a check the standard fails now fails too, as core 1.18 gives each profile the outcome its own standard gives: an unnamed grid fails `wai-aria-role-name-present`, where with core 1.17 the check was `cantTell` and only the requirement (`name-required`) failed. The requirement fails with either core, and under WCAG the same grid is still a question for 4.1.2. The pack itself is unchanged: this comes from core.
 
 ## [1.1.0] - 2026-11-14
 
