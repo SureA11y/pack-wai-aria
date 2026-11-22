@@ -51,7 +51,7 @@
     "inventory": "node scripts/inventory.js"
   },
   "peerDependencies": {
-    "@surea11y/core": "^1.18.0"
+    "@surea11y/core": "^1.15.0"
   },
   "devDependencies": {
     "@surea11y/core": "^1.18.0",
