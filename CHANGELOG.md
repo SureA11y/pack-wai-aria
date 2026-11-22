@@ -4,6 +4,8 @@ All notable changes to this package are documented here. This project adheres to
 
 ## [Unreleased]
 
+## [1.1.1] - 2026-11-22
+
 Works with `@surea11y/core` 1.15 and later, as 1.1 does (`^1.15.0`); tested with core 1.17.0 and 1.18.0, with which `docs/COVERAGE.md` is unchanged. The pack uses no experimental API of core.
 
 ### Changed
